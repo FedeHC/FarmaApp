@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}
+	{{ super() }} Usuario {{ session['user'] }}
+{% endblock title %}
+
+{% block page_content %}
+<div class="row">
+	<div class="col-sm-5 col-sm-offset-1 caja">
+		{% if session['user']: %}
+			{% if session['user'] == 'admin': %}
+			<h4><span class="label label-warning">Admin logueado</span> <span class="label label-info">{{ fecha_actual }}</span></h4>
+			{% else: %}
+			<h4><span class="label label-success">Usuario logueado</span> <span class="label label-info">{{ fecha_actual }}</span></h4>
+			{% endif %}
+		{% endif %}
+
+		<h1 id='titulo'>¡Bienvenido {{ usuario }}!</h1>
+		<br>
+		<p><i>[Mensaje de bienvenida acá]</i></p>
+		<p>{{ mensaje_bienvenida }}</p>
+	</div>
+</div>
+{% endblock page_content%}

@@ -1,0 +1,52 @@
+/* Hoja de estilos para los templates de Login: */
+
+body  { background-color: #FFFFFF;
+		font-family: Arial, Sans-serif;
+		font-size: 16px; }
+
+.navbar { background-color: #C35F52; }
+
+.navbar a { color: white; }
+
+.navbar a:hover { color: #333333; }
+
+.caja {
+	background-color: #F3F3F3;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 40px;
+}
+
+.titulo {
+	font-size: 30px !important;
+	font-weight: bold !important;
+}
+
+.subtitulo {
+	margin-top: -5px;
+	font-size: 16px !important;
+	font-weight: lighter !important;
+	font-style: italic;
+}
+
+
+b {	color: #242424; }
+
+#logo {
+	display: inline;
+	clear: both;
+	margin-right: 5px;
+	margin-top: -2px;
+}
+
+.logo-user {
+	display: inline-block;
+	background-size: cover;
+}
+
+.resaltado {
+	font-weight: bolder;
+	color: snow;
+	background-color: #242424;;
+}

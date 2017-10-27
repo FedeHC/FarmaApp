@@ -10,7 +10,6 @@ from flask_bootstrap import Bootstrap
 from flask_script import Manager
 from csv_db import DB
 from formulario import Login
-import validar
 
 
 # Creando objetos flask:
@@ -26,11 +25,10 @@ app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios co
 
 
 # Funciones:
-
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def inicio():
-	""" Función que redirige a inicio.html o usuario.html según condiciones. """
+	""" Función que lleva a inicio.html o usuario.html según condiciones. """
 	
 	log = Login()					# Objeto de formulario Login.
 
@@ -53,52 +51,65 @@ def inicio():
 	return render_template("inicio.html", login=log)
 
 
-@app.route("/usuario")
+@app.route("/Usuario")
 def usuario():
-	""" Función que redirige a usuario.html """
+	""" Función que lleva a usuario.html o inicio.html según condición. """
 
-	# En caso de ingresar por primera vez:
-	return render_template("usuario.html")
+	if session.get("user"):						# Si existe algún 'user' en session...
+		return render_template("usuario.html")
+	else:										# En caso contrario...
+		return redirect(url_for("inicio"))
 
 
 @app.route("/ProductosXCliente")
 def pxc():
-	""" Función que redirige a pxc.html """
+	""" Función que lleva a pxc.html o inicio.html según condición. """
 
-	# En caso de ingresar por primera vez:
-	return render_template("pxc.html")
+	if session.get("user"):						# Si existe algún 'user' en session...
+		return render_template("pxc.html")
+	else:										# En caso contrario se vuelve a inicio.
+		return redirect(url_for("inicio"))
 
 
 @app.route("/ClientesXProducto")
 def cxp():
-	""" Función que redirige a cxp.html """
+	""" Función que lleva a cxp.html o inicio.html según condición. """
 
-	# En caso de ingresar por primera vez:
-	return render_template("cxp.html")
+	if session.get("user"):						# Si existe algún 'user' en session...
+		return render_template("cxp.html")
+	else:										# En caso contrario se vuelve a inicio.
+		return redirect(url_for("inicio"))
 
 
 @app.route("/ProductosMasVendidos")
 def pmv():
-	""" Función que redirige a pmv.html """
+	""" Función que lleva a pmv.html o inicio.html según condición. """
 
-	# En caso de ingresar por primera vez:
-	return render_template("pmv.html")
+	if session.get("user"):						# Si existe algún 'user' en session...
+		return render_template("pmv.html")
+	else:										# En caso contrario se vuelve a inicio.
+		return redirect(url_for("inicio"))
 
 
 @app.route("/ClientesMasGastaron")
 def cmg():
-	""" Función que redirige a cmg.html """
+	""" Función que lleva a cmg.html o inicio.html según condición. """
 
-	# En caso de ingresar por primera vez:
-	return render_template("cmg.html")
+	if session.get("user"):						# Si existe algún 'user' en session...
+		return render_template("cmg.html")
+	else:										# En caso contrario...
+		return redirect(url_for("inicio"))
 
 
 @app.route("/salir")
 def salir():
-	""" Función que desloguea usuario actual y redirige a inicio. """
-	session.pop("user", None)
-	flash("Usuario deslogueado")
-	return redirect(url_for("inicio"))
+	""" Función que desloguea al usuario actual y redirige a inicio. """
+
+	if session.get("user"):						# Si existe algún 'user' en session...
+		session.pop("user", None)
+		flash("Usuario deslogueado")
+
+	return redirect(url_for("inicio"))			# En cualquier caso se redirige a inicio.html.
 
 
 @app.errorhandler(404)
@@ -116,5 +127,6 @@ def error_servidor(e):
 # Iniciando:
 if __name__ == "__main__":
 	manager.run()
+
 
 # FIN

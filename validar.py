@@ -5,70 +5,80 @@
 # -	Profesor: Leandro E. Colombo Viña
 # -----------------------------------------------------------------------------
 
-# Constantes:
-LOG = "error.log"
-ARCHIVO = "archivo.csv"
-
 # Clases:
-
-class MiExcepcion(Exception):
-	""" Clase de excepcion personalizada para cuando se busca lanzar un error a partir de
-	un archivo CSV leido (según ejercicio). """
-
-	# Constructor:
-	def __init__(self, mensajes_error):
-		self.mensajes_error = mensajes_error
-
-
 class Csv():
 	""" La clase que contendrá todos los métodos para validar el CSV (según ejercicio). """
 	
-	def __init__(self, archivo_csv=ARCHIVO):
-		""" Constructor de la clase. """
+	def __init__(self, archivo, log):
+		""" Constructor de la clase Csv. """
 
-		self.mensajes_error = []		# Lista de errores que contendrá 3 campos:
-										# 1) El tipo de campo en el que surgió el error.
-										# 2) El N° de linea con el error.
-										# 3) El mensaje de error en cuestión.
+		self.ok = None					# Variable de estado que constata la correcta
+										# ejecución de todas las validaciones.
+										# - Si todo resulta OK, su valor pasará a 'True'.
+										# - Caso contrario, su valor pasará a 'False'.
 
-		# El método que realizará todos los pasos para la verificación del CSV:
-		self.programa(archivo_csv)
+		self.mensajes_error = []		# Lista de errores que contendrá una lista de 3 campos:
+										# El tipo de campo, el n° de linea con el error y el mensaje.
+		
+		# Diccionario que contendrá las pos. de los campos:
+		self.campos = {"CODIGO": 0, "CLIENTE": 0, "PRODUCTO": 0, "CANTIDAD": 0, "PRECIO": 0}
+
+		try:			
+			# Creando un error.log desde cero:
+			with open(log, "w") as archivo_log:
+				archivo_log.write("")
+
+			# Llamando al método que ejecutará todas las validaciones:
+			self.validando(archivo)
+
+		# En caso de surgir una 'MiExcepción'...
+		except MiExcepcion as e:
+			with open(log, "w") as archivo_log:
+				for linea in e.mensajes_error:
+					archivo_log.write("[Linea " + str(linea[0]) + "] " + linea[1] + "\n")
 
 
-	def programa(self, archivo_csv):
-		""" Método que inicia la verificación de un CSV pasado como argumento. """
+	def validando(self, nombre_archivo):
+		""" Método que realizará las validaciones solicitadas en un CSV, una por una.
+		Recibe como parámetros el nombre del archivo CSV y del archivo log. """
 
-		# Creando error.log desde cero (en caso de que exista contenido previo):
-		with open("error.log", "w") as log:
-			log.write("")
+		# Abriendo archivo y objeto CSV:
+		archivo, csv = self.abrir_csv(nombre_archivo)
+		
+		# Si no hubo problemas en el paso anterior...
+		if archivo:
 
-		self.nombre = archivo_csv
-		archivo, csv = self.abrir_csv()
+			# Asumimos que la 1ra fila del CSV contiene los campos correctamente...
+			self.obtener_ubicacion_campos(archivo, csv)
 
-		if archivo:				# Si no hubo problemas al abrir...
-			primera_fila = self.obtener_primera_fila(csv, archivo)
+			# Realizamos las validaciones:
+			self.cant_campos(archivo, csv, len(self.campos))
+			self.codigos(archivo, csv, self.campos["CODIGO"])
+			self.cantidades(archivo, csv, self.campos["CANTIDAD"])
+			self.precios(archivo, csv, self.campos["PRECIO"])
 
-			self.chequear(self.campos, primera_fila)
-			self.chequear(self.codigos, primera_fila["codigo"])
-			self.chequear(self.cantidades, primera_fila["cantidad"])
-			self.chequear(self.precios, primera_fila["precio"])
+			# Si no hubo mensajes de error:
+			if len(self.mensajes_error) == 0:
+				self.ok = True
+			
+			# En caso contrario levantamos excepción:
+			else:
+				self.ok = False
+				raise MiExcepcion(self.mensajes_error)
 
 		return 0
 
 
-	def abrir_csv(self):
-		""" Método que abre un CSV a partir de un nombre pasado como argumento.
-		
+	def abrir_csv(self, archivo):
+		""" Método que abre un archivo CSV, con su nombre pasado como parámetro.		
 			- Devuelve los objetos "open()" y "csv.reader()" si hay éxito.
 			- Devuelve dos "None" en caso contrario. """
 
-		import csv
-
 		try:
-			archivo = open(self.nombre, newline="")
-			csv_abierto = csv.reader(archivo, delimiter=",", quoting=csv.QUOTE_NONE)
-			
-			return archivo, csv_abierto
+			import csv
+			archivo_abierto = open(archivo, newline="")
+			csv_abierto = csv.reader(archivo_abierto, delimiter=",")
+			return archivo_abierto, csv_abierto
 
 		except FileNotFoundError:
 			self.mensajes.append("ERROR: No se encontró el archivo \"{}\".".format(self.nombre))
@@ -78,93 +88,56 @@ class Csv():
 			self.mensajes.append("ERROR: No hay permisos para abrir el archivo \"{}\".".format(self.nombre))
 			return None, None
 
-
-	def obtener_primera_fila(self, csv_abierto, archivo):
-		""" Método que obtiene la 1ra fila de un archivo CSV previamente abierto.
-			
-			- Devuelve un diccionario con los campos y sus valores numéricos corresp. """
-
-		# Diccionario donde se guardará la ubicación de cada campo:
-		campos = {"codigo": 0, "cliente": 0, "producto": 0, "cantidad": 0, "precio": 0}
-
-		for c, fila in enumerate(csv_abierto):
-			if c == 0:  										# Si es la 1ra fila...
-				for valor, registro in enumerate(fila):
-					if registro.upper().strip() == "CODIGO":
-						campos["codigo"] = valor
-					if registro.upper().strip() == "CLIENTE":
-						campos["cliente"] = valor
-					if registro.upper().strip() == "PRODUCTO":
-						campos["producto"] = valor
-					if registro.upper().strip() == "CANTIDAD":
-						campos["cantidad"] = valor
-					if registro.upper().strip() == "PRECIO":
-						campos["precio"] = valor
-			else:  												# Si son las otras filas...
-				break
-
-		# Cerramos el archivo y retornamos los campos obtenidos:
-		archivo.close()
-		return campos
+		except ImportError:
+			self.mensajes.append("ERROR: no se pudo importar módulo CSV.")
+			return None, None
 
 
-	def chequear(self, funcion, nro_campo):
-		""" Método que ejecuta otra función a partir de un campo y objeto CSV recibidos
-		como parámetros.
+	def obtener_ubicacion_campos(self, archivo, csv):
+		""" Método que obtiene la 1ra fila de un archivo CSV. Este y el CSV son recibidos como
+		parámetros.
+			- Se retorna un diccionario con los campos y sus valores numéricos corresp. """
 
-			- Devuelve True si NO hubo errores.
-			- Devuelve False SI en cambio hubo errores."""
-
-		try:
-			# Abrimos el archivo y el csv:
-			archivo, csv_abierto = self.abrir_csv()
-
-			# Se llama a la función recibida como parámetro:
-			errores = funcion(csv_abierto, nro_campo)
-			
-			# Si recibimos mensajes de error, levantamos "MiExcepción":
-			if errores:
-				raise MiExcepcion(self.mensajes_error)
-			
-			archivo.close()
-			return True
-
-		except MiExcepcion as e:
-			with open("error.log", "w") as log:
-				for linea in e.mensajes_error:
-					log.write("[Linea " + str(linea[1]) + "] " + linea[2] + "\n")
-
-			return False
-
-
-	def campos(self, csv_abierto, primera_fila):
-		""" Método que chequea la cantidad de campos de todas las filas de un archivo CSV."""
-	
-		cant_campos = len(primera_fila)
-		for c, fila in enumerate(csv_abierto):
-			if c > 0:								# Si es filas de datos...
-				if len(fila) != cant_campos:		# Si el largo de fila coincide con cant. campos...
-					self.mensajes_error.append([c+1, "Se encontró distinta cantidad de campos.","Campos",])
-
+		for c, fila in enumerate(csv):
+			if c == 0:  									# Si es la 1ra fila...
+				for posicion, campo in enumerate(fila):
+					campo = campo.upper().strip()			# Sacando espacios, convirtiendo a may.
+					self.campos[campo] = posicion			# Asignando pos. del campo.
+		
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
 		return 0
 
 
-	def codigos(self, csv_abierto, codigo):
+	def cant_campos(self, archivo, csv, cant_campos):
+		""" Método que chequea la cantidad de campos de todas las filas de un archivo CSV."""
+	
+		for c, fila in enumerate(csv):
+			if c > 0:							# Si es filas de datos...
+				if len(fila) != cant_campos:	# Si el largo de la fila coincide con la 1ra...
+					self.mensajes_error.append([c+1, "Se encontró distinta cantidad de campos.", "Campos"])
+					estado = False
+
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		return 0
+
+
+	def codigos(self, archivo, csv, codigo):
 		""" Método que chequea que no haya codigos vacios en un archivo CSV ya abierto."""
 
-		for c, fila in enumerate(csv_abierto):
+		for c, fila in enumerate(csv):
 			if c > 0:											# Si es filas de datos...
 				if fila[codigo] == "" or fila[codigo] == " ":  	# Si el código está vacío...
 					self.mensajes_error.append([c+1, "Se encontró un código vacío.","Códigos"])
 
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
 		return 0
 
 
-	def cantidades(self, csv_abierto, cantidad):
+	def cantidades(self, archivo, csv, cantidad):
 		""" Método que chequea que haya cantidades enteras en el campo "cantidad" de un
 		archivo CSV	abierto."""
 
-		for c, fila in enumerate(csv_abierto):
+		for c, fila in enumerate(csv):
 			if c > 0:								# Si es filas de datos...
 				parte_entera = 0
 				parte_fraccion = 0
@@ -183,16 +156,17 @@ class Csv():
 					error = True
 
 				if error or parte_fraccion > 0:
-					self.mensajes_error.append([c+1, "No contiene un valor entero.","Cantidades"])
+					self.mensajes_error.append([c+1, "El campo cantidad no contiene un valor entero.", "Cantidades"])
 
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
 		return 0
 
 
-	def precios(self, csv_abierto, precio):
+	def precios(self, archivo, csv, precio):
 		""" Método que chequea que los campos "precio" de un archivo CSV contenga
 			valores decimales. """
 
-		for c, fila in enumerate(csv_abierto):
+		for c, fila in enumerate(csv):
 			if c > 0:							# Si es filas de datos...
 				parte_entera = 0
 				parte_fraccion = 0
@@ -210,9 +184,19 @@ class Csv():
 					error = True
 
 				if error:
-					self.mensajes_error.append([c+1, "No contiene un valor decimal.","Precios"])
+					self.mensajes_error.append([c+1, "El campo precio no contiene un un valor decimal.","Precios"])
 
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
 		return 0
+
+
+class MiExcepcion(Exception):
+	""" Clase de excepcion personalizada para cuando se busca lanzar un error a partir de
+	un archivo CSV leido (según ejercicio). """
+
+	# Constructor:
+	def __init__(self, mensajes_error):
+		self.mensajes_error = mensajes_error
 
 
 # FIN

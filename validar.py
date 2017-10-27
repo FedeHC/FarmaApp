@@ -7,7 +7,7 @@
 
 # Constantes:
 LOG = "error.log"
-ARCHIVO = 'archivo.csv'
+ARCHIVO = "archivo.csv"
 
 # Clases:
 
@@ -39,8 +39,8 @@ class Csv():
 		""" Método que inicia la verificación de un CSV pasado como argumento. """
 
 		# Creando error.log desde cero (en caso de que exista contenido previo):
-		with open("error.log", 'w') as log:
-			log.write('')
+		with open("error.log", "w") as log:
+			log.write("")
 
 		self.nombre = archivo_csv
 		archivo, csv = self.abrir_csv()
@@ -49,9 +49,9 @@ class Csv():
 			primera_fila = self.obtener_primera_fila(csv, archivo)
 
 			self.chequear(self.campos, primera_fila)
-			self.chequear(self.codigos, primera_fila['codigo'])
-			self.chequear(self.cantidades, primera_fila['cantidad'])
-			self.chequear(self.precios, primera_fila['precio'])
+			self.chequear(self.codigos, primera_fila["codigo"])
+			self.chequear(self.cantidades, primera_fila["cantidad"])
+			self.chequear(self.precios, primera_fila["precio"])
 
 		return 0
 
@@ -59,23 +59,23 @@ class Csv():
 	def abrir_csv(self):
 		""" Método que abre un CSV a partir de un nombre pasado como argumento.
 		
-			- Devuelve los objetos 'open()' y 'csv.reader()' si hay éxito.
-			- Devuelve dos 'None' en caso contrario. """
+			- Devuelve los objetos "open()" y "csv.reader()" si hay éxito.
+			- Devuelve dos "None" en caso contrario. """
 
 		import csv
 
 		try:
-			archivo = open(self.nombre, newline='')
-			csv_abierto = csv.reader(archivo, delimiter=',', quoting=csv.QUOTE_NONE)
+			archivo = open(self.nombre, newline="")
+			csv_abierto = csv.reader(archivo, delimiter=",", quoting=csv.QUOTE_NONE)
 			
 			return archivo, csv_abierto
 
 		except FileNotFoundError:
-			self.mensajes.append("ERROR: No se encontró el archivo '{}'.".format(self.nombre))
+			self.mensajes.append("ERROR: No se encontró el archivo \"{}\".".format(self.nombre))
 			return None, None
 
 		except PermissionError:
-			self.mensajes.append("ERROR: No hay permisos para abrir el archivo '{}'.".format(self.nombre))
+			self.mensajes.append("ERROR: No hay permisos para abrir el archivo \"{}\".".format(self.nombre))
 			return None, None
 
 
@@ -85,21 +85,21 @@ class Csv():
 			- Devuelve un diccionario con los campos y sus valores numéricos corresp. """
 
 		# Diccionario donde se guardará la ubicación de cada campo:
-		campos = {'codigo': 0, 'cliente': 0, 'producto': 0, 'cantidad': 0, 'precio': 0}
+		campos = {"codigo": 0, "cliente": 0, "producto": 0, "cantidad": 0, "precio": 0}
 
 		for c, fila in enumerate(csv_abierto):
 			if c == 0:  										# Si es la 1ra fila...
 				for valor, registro in enumerate(fila):
-					if registro.upper().strip() == 'CODIGO':
-						campos['codigo'] = valor
-					if registro.upper().strip() == 'CLIENTE':
-						campos['cliente'] = valor
-					if registro.upper().strip() == 'PRODUCTO':
-						campos['producto'] = valor
-					if registro.upper().strip() == 'CANTIDAD':
-						campos['cantidad'] = valor
-					if registro.upper().strip() == 'PRECIO':
-						campos['precio'] = valor
+					if registro.upper().strip() == "CODIGO":
+						campos["codigo"] = valor
+					if registro.upper().strip() == "CLIENTE":
+						campos["cliente"] = valor
+					if registro.upper().strip() == "PRODUCTO":
+						campos["producto"] = valor
+					if registro.upper().strip() == "CANTIDAD":
+						campos["cantidad"] = valor
+					if registro.upper().strip() == "PRECIO":
+						campos["precio"] = valor
 			else:  												# Si son las otras filas...
 				break
 
@@ -122,7 +122,7 @@ class Csv():
 			# Se llama a la función recibida como parámetro:
 			errores = funcion(csv_abierto, nro_campo)
 			
-			# Si recibimos mensajes de error, levantamos 'MiExcepción':
+			# Si recibimos mensajes de error, levantamos "MiExcepción":
 			if errores:
 				raise MiExcepcion(self.mensajes_error)
 			
@@ -130,9 +130,9 @@ class Csv():
 			return True
 
 		except MiExcepcion as e:
-			with open("error.log", 'w') as log:
+			with open("error.log", "w") as log:
 				for linea in e.mensajes_error:
-					log.write('[Linea ' + str(linea[1]) + '] ' + linea[2] + '\n')
+					log.write("[Linea " + str(linea[1]) + "] " + linea[2] + "\n")
 
 			return False
 
@@ -161,7 +161,7 @@ class Csv():
 
 
 	def cantidades(self, csv_abierto, cantidad):
-		""" Método que chequea que haya cantidades enteras en el campo 'cantidad' de un
+		""" Método que chequea que haya cantidades enteras en el campo "cantidad" de un
 		archivo CSV	abierto."""
 
 		for c, fila in enumerate(csv_abierto):
@@ -172,14 +172,14 @@ class Csv():
 
 				try:
 					valor = fila[cantidad]				# Obtenemos el string.
-					p = valor.index('.')				# Obtenemos el punto decimal.
+					p = valor.index(".")				# Obtenemos el punto decimal.
 					parte_entera = int(valor[:p])		# Sacamos parte entera.
 					parte_fraccion = int(valor[p + 1:]) # Y sacamos parte fracionaria.
 
 				except ValueError:				# En caso de no poder castear...
 					error = True
 
-				except IndexError:				# En caso de encontrar un 'fuera de índice'...
+				except IndexError:				# En caso de encontrar un "fuera de índice"...
 					error = True
 
 				if error or parte_fraccion > 0:
@@ -189,7 +189,7 @@ class Csv():
 
 
 	def precios(self, csv_abierto, precio):
-		""" Método que chequea que los campos 'precio' de un archivo CSV contenga
+		""" Método que chequea que los campos "precio" de un archivo CSV contenga
 			valores decimales. """
 
 		for c, fila in enumerate(csv_abierto):
@@ -206,7 +206,7 @@ class Csv():
 				except ValueError:				# En caso de no poder castear...
 					error = True
 
-				except IndexError:				# En caso de encontrar un 'fuera de índice'...
+				except IndexError:				# En caso de encontrar un "fuera de índice"...
 					error = True
 
 				if error:

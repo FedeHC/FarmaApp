@@ -17,11 +17,11 @@ import validar
 app = Flask(__name__)
 manager = Manager(app)
 bs = Bootstrap(app)
-db = DB('usuario_clave.csv')
+db = DB("usuario_clave.csv")
 
 
 # App:
-app.config['BOOTSTRAP_SERVE_LOCAL'] = True 			# Para activar versión local de Bootstrap.
+app.config["BOOTSTRAP_SERVE_LOCAL"] = True 			# Para activar versión local de Bootstrap.
 app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios con Flask-WTF.
 
 
@@ -38,7 +38,7 @@ def inicio():
 		user, clave = db.chequear(log.usuario.data, log.clave.data)
 		if user:
 			if clave:
-				session['user'] = log.usuario.data
+				session["user"] = log.usuario.data
 				return redirect(url_for("usuario"))
 
 			else:					# Si la clave no corresponde con ese usuario...
@@ -61,10 +61,42 @@ def usuario():
 	return render_template("usuario.html")
 
 
+@app.route("/ProductosXCliente")
+def pxc():
+	""" Función que redirige a pxc.html """
+
+	# En caso de ingresar por primera vez:
+	return render_template("pxc.html")
+
+
+@app.route("/ClientesXProducto")
+def cxp():
+	""" Función que redirige a cxp.html """
+
+	# En caso de ingresar por primera vez:
+	return render_template("cxp.html")
+
+
+@app.route("/ProductosMasVendidos")
+def pmv():
+	""" Función que redirige a pmv.html """
+
+	# En caso de ingresar por primera vez:
+	return render_template("pmv.html")
+
+
+@app.route("/ClientesMasGastaron")
+def cmg():
+	""" Función que redirige a cmg.html """
+
+	# En caso de ingresar por primera vez:
+	return render_template("cmg.html")
+
+
 @app.route("/salir")
 def salir():
 	""" Función que desloguea usuario actual y redirige a inicio. """
-	session.pop('user', None)
+	session.pop("user", None)
 	flash("Usuario deslogueado")
 	return redirect(url_for("inicio"))
 

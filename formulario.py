@@ -1,3 +1,10 @@
+# -----------------------------------------------------------------------------
+# Parcial de Estructura de Datos (2° Cuatr. 2017)
+#
+# -	Alumno: Federico H. Cacace
+# -	Profesor: Leandro E. Colombo Viña
+# -----------------------------------------------------------------------------
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
@@ -9,6 +16,5 @@ class Login(FlaskForm):
 	usuario = StringField("Usuario", validators=[DataRequired()])
 	clave = PasswordField("Clave", validators=[DataRequired()])
 	submit = SubmitField("Enviar")
-
 
 # FIN

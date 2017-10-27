@@ -6,9 +6,19 @@ body  { background-color: #FFFFFF;
 
 .navbar { background-color: #C35F52; }
 
-.navbar a { color: white; }
+.navbar-brand, ul.nav li a { color: white !important; }
 
-.navbar a:hover { color: #333333; }
+.navbar-brand:hover, ul.nav li a:hover {
+	background-color: #333333 !important;
+	color: white;
+}
+
+/* Fondo del boton de usuario al estar activo: */
+.navbar-default .navbar-nav>.open>a:focus {	background-color: #333333; }
+
+/* Color de fondo del menu que sale al presionar el boton de usuario: */
+.navbar-nav > li > .dropdown-menu { background-color: #C35F52; }
+
 
 .caja {
 	background-color: #F3F3F3;
@@ -24,10 +34,10 @@ body  { background-color: #FFFFFF;
 }
 
 .subtitulo {
-	margin-top: -5px;
+	margin-top: 0;
 	font-size: 16px !important;
 	font-weight: lighter !important;
-	font-style: italic;
+	padding-bottom: 10px;
 }
 
 

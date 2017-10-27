@@ -1,4 +1,11 @@
-import csv, random, locale
+# -----------------------------------------------------------------------------
+# Parcial de Estructura de Datos (2° Cuatr. 2017)
+#
+# -	Alumno: Federico H. Cacace
+# -	Profesor: Leandro E. Colombo Viña
+# -----------------------------------------------------------------------------
+
+import csv
 
 
 class DB():
@@ -71,6 +78,5 @@ class DB():
 				lista_users.append(fila[0])
 
 		return lista_users
-
 
 # FIN

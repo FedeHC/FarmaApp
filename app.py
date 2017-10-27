@@ -1,17 +1,31 @@
+# -----------------------------------------------------------------------------
+# Parcial de Estructura de Datos (2° Cuatr. 2017)
+#
+# -	Alumno: Federico H. Cacace
+# -	Profesor: Leandro E. Colombo Viña
+# -----------------------------------------------------------------------------
+
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap
 from flask_script import Manager
 from csv_db import DB
 from formulario import Login
+import validar
 
 
-# Iniciando:
+# Creando objetos flask:
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "UnaClaveSecreta"
 manager = Manager(app)
 bs = Bootstrap(app)
 db = DB('usuario_clave.csv')
 
+
+# App:
+app.config['BOOTSTRAP_SERVE_LOCAL'] = True 			# Para activar versión local de Bootstrap.
+app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios con Flask-WTF.
+
+
+# Funciones:
 
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
@@ -25,7 +39,7 @@ def inicio():
 		if user:
 			if clave:
 				session['user'] = log.usuario.data
-				return render_template("usuario.html")
+				return redirect(url_for("usuario"))
 
 			else:					# Si la clave no corresponde con ese usuario...
 				mensaje = "Contraseña inválida para <b>{}</b>".format(log.usuario.data)
@@ -39,10 +53,18 @@ def inicio():
 	return render_template("inicio.html", login=log)
 
 
+@app.route("/usuario")
+def usuario():
+	""" Función que redirige a usuario.html """
+
+	# En caso de ingresar por primera vez:
+	return render_template("usuario.html")
+
+
 @app.route("/salir")
 def salir():
 	""" Función que desloguea usuario actual y redirige a inicio. """
-	session.pop('user', None)			# Eliminando al usuario de la sesión.
+	session.pop('user', None)
 	flash("Usuario deslogueado")
 	return redirect(url_for("inicio"))
 
@@ -61,7 +83,6 @@ def error_servidor(e):
 
 # Iniciando:
 if __name__ == "__main__":
-	# app.run(debug=True)
 	manager.run()
 
 # FIN

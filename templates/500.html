@@ -2,18 +2,20 @@
 {% block title %}LoginApp- Error en el servidor{% endblock title %}
 
 {% block page_content %}
-<div id="caja">
-	<h1 id='titulo'>Upsss...</h1>
-	<h2>¡Error en el servidor!</h2>
-	<br>
-	<div class="row">
-		<div class="col-sm-6">
-			<img class="logo-user img-responsive" src="{{ url_for('static', filename = 'imagenes/error500.png') }}" />
-		</div>
+<div class="row">
+	<div class="col-sm-4 col-sm-offset-1 caja">
+		<h1 id='titulo'>Upsss...</h1>
+		<h2>¡Error en el servidor!</h2>
+		<br>
+		<div class="row">
+			<div class="col-sm-6">
+				<img class="logo-user img-responsive" src="{{ url_for('static', filename = 'imagenes/error500.png') }}" />
+			</div>
 
-		<div class="col-sm-6">
-			<br><br>
-			<p>¿Habrá pasado algo con el servidor?</p>
+			<div class="col-sm-6">
+				<br><br>
+				<p>¿Habrá pasado algo con el servidor?</p>
+			</div>
 		</div>
 	</div>
 </div>

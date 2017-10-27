@@ -17,8 +17,7 @@
 		{% endwith %}
 
 		<h1 class="titulo">Ingresar</h1>
-		<h2 class="subtitulo">Solo para usuarios registrados:</h2>
-		<br>
+		<h2 class="subtitulo"><i>Solo usuarios registrados</i></h2>
 		<form name="form_login" method="POST" action="">
 			{{ login.csrf_token }}
 			{{ login.usuario(autofocus=true, placeholder="Usuario", size=20) }}
@@ -31,3 +30,5 @@
 
 </div>
 {% endblock page_content %}
+
+<!-- FIN Inicio -->

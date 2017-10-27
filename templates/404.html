@@ -2,18 +2,20 @@
 {% block title %}LoginApp- Página no encontrada{% endblock title %}
 
 {% block page_content %}
-<div id="caja">
-	<h1 id='titulo'>Upsss...</h1>
-	<h2>¡Página no encontrada!</h2>
-	<br>
-	<div class="row">
-		<div class="col-sm-6">
-			<img class="logo-user img-responsive" src="{{ url_for('static', filename = 'imagenes/error404.png') }}" />
-		</div>
+<div class="row">
+	<div class="col-sm-4 col-sm-offset-1 caja">
+		<h1 id='titulo'>Upsss...</h1>
+		<h2>¡Página no encontrada!</h2>
+		<br>
+		<div class="row">
+			<div class="col-sm-6">
+				<img class="logo-user img-responsive" src="{{ url_for('static', filename = 'imagenes/error404.png') }}" />
+			</div>
 
-		<div class="col-sm-6">
-			<br><br><br>
-			<p>¿Escribiste bien la dirección?</p>
+			<div class="col-sm-6">
+				<br><br><br>
+				<p>¿Escribiste bien la dirección?</p>
+			</div>
 		</div>
 	</div>
 </div>

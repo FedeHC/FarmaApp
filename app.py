@@ -32,7 +32,7 @@ def inicio():
 	
 	log = Login()							# Objeto de formulario 'Login'.
 
-	if log.validate_on_submit():			# Si se ha presionado el botón enviar de login...
+	if log.validate_on_submit():			# Si se presiona el botón enviar...
 		user, clave = db.chequear(log.usuario.data, log.clave.data)
 		if user:
 			if clave:
@@ -47,6 +47,11 @@ def inicio():
 			mensaje = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
 			return render_template("inicio.html", login=log, info=mensaje)
 
+
+	# Si existe algún 'user' en session:
+	if session.get("user"):
+		return redirect(url_for("usuario"))
+
 	# En caso de ingresar por primera vez:
 	return render_template("inicio.html", login=log)
 
@@ -56,7 +61,14 @@ def usuario():
 	""" Función que lleva a usuario.html o inicio.html según condición. """
 
 	if session.get("user"):					# Si existe algún 'user' en session...
-		return render_template("usuario.html")
+		consulta = Consultas()
+		resultados, nro_filas, cantidad = consulta.ultimos_resultados(5)
+
+		return render_template("usuario.html",
+								resultados=resultados,
+								nro_filas=nro_filas,
+								cantidad=cantidad)
+
 	else:									# En caso contrario...
 		return redirect(url_for("inicio"))
 
@@ -66,7 +78,27 @@ def pxc():
 	""" Función que lleva a pxc.html o inicio.html según condición. """
 
 	if session.get("user"):					# Si existe algún 'user' en session...
-		return render_template("pxc.html")
+		busqueda = Busqueda()				# Objeto de formulario 'Busqueda'.
+		
+		if busqueda.validate_on_submit():	# Si se presiona el botón enviar...
+			palabra = busqueda.buscar.data.lower()
+			if len(palabra) < 3:
+				error = "Debe ingresar 3 o más letras para poder realizar la búsqueda"
+				return render_template("pxc.html",
+										busqueda=busqueda,
+										error=error)
+			else:
+				consulta = Consultas()
+
+				resultados, columnas = consulta.listar_x_en_y("PRODUCTO", "CLIENTE", palabra)
+				return render_template("pxc.html",
+										busqueda=busqueda,
+										resultados=resultados,
+										columnas=columnas)
+
+		# Si no se envia aún ninguna búsqueda:
+		return render_template("pxc.html", busqueda=busqueda)
+
 	else:									# En caso contrario se vuelve a inicio.
 		return redirect(url_for("inicio"))
 
@@ -78,16 +110,21 @@ def cxp():
 	if session.get("user"):					# Si existe algún 'user' en session...
 		busqueda = Busqueda()				# Objeto de formulario 'Busqueda'.
 		
-		if busqueda.validate_on_submit():	# Si se ha presionado el botón enviar...
+		if busqueda.validate_on_submit():	# Si se presiona el botón enviar...
 			palabra = busqueda.buscar.data.lower()
 			if len(palabra) < 3:
-				error = "Debe ingresar 3 o más letras en la búsqueda"
-				return render_template("cxp.html", busqueda=busqueda, error=error)
+				error = "Debe ingresar 3 o más letras para poder realizar la búsqueda"
+				return render_template("cxp.html",
+										busqueda=busqueda,
+										error=error)
 			else:
-				con = Consultas()
+				consulta = Consultas()
 
-				resultados = con.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
-				return render_template("cxp.html", busqueda=busqueda, resultados=resultados)
+				resultados, columnas = consulta.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
+				return render_template("cxp.html",
+										busqueda=busqueda,
+										resultados=resultados,
+										columnas=columnas)
 		
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("cxp.html", busqueda=busqueda)

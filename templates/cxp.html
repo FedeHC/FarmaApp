@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block title %}
-	{{ super() }} Clientes x Producto }}
+	{{ super() }} Clientes por Producto
 {% endblock title %}
 
 {% block page_content %}
 <div class="row">
 	<div class="col-sm-7 col-sm-offset-1 caja">
-		<h1 id="titulo">Clientes por producto:</h1>
+		<h1 class="titulo">Clientes por producto:</h1>
 		{% if error: %}
 			<h4><span class="label label-danger">{{ error }}</span>
 			<br>
@@ -14,7 +14,7 @@
 		<br>
 		<form name="form_busqueda" method="POST" action="">
 		{{ busqueda.csrf_token }}
-		{{ busqueda.buscar(autofocus=true, placeholder="Producto", size=20) }}
+		{{ busqueda.buscar(autofocus=true, placeholder="Ingresar producto acá", size=20) }}
 		{{ busqueda.submit(class_="btn btn-default") }}
 		</form>
 		<br>
@@ -26,14 +26,22 @@
 					<tr>
 					<th>#</th>
 					{% for campo in linea: %}
-						<th>{{ campo }}</th>
+						{% if loop.index0 in columnas: %}
+							<th class="danger">{{ campo }}</th>
+						{% else: %}
+							<th>{{ campo }}</th>
+						{% endif %}	
 					{% endfor %}
 					</tr>
 				{% else: %}
 					<tr>
 					<th>{{ loop.index0 }}</th>
 					{% for campo in linea: %}
-						<td>{{ campo }}</td>
+						{% if loop.index0 in columnas: %}
+							<td class="danger">{{ campo }}</td>
+						{% else: %}
+							<td>{{ campo }}</td>
+						{% endif %}	
 					{% endfor %}
 					</tr>
 				{% endif %}

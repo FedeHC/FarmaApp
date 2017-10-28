@@ -38,28 +38,30 @@ class Consultas():
 
 
 	def listar_x_en_y(self, campo1, campo2, palabra):
-		""" Método que busca y muestra en pantalla X campos en un CSV, a partir de un campo Y.
-		Ambos son pasados como parámetros, más el nombre buscado. """
+		""" Método que busca y devuelve filas de un CSV a partir de una palabra que	concuerde
+		con el contenido de un campo (palabra y campo son pasados como parámetros).
+			- Se devuelve una lista con los resultados (si los hay) y otra con los números de
+			las posiciones de las columnas """
 
 		# Obtenemos las ubicaciones de los campos ya sacados en 'validar.py':
 		nro_campo1 = self.csv.campos[campo1]
 		nro_campo2 = self.csv.campos[campo2]
+		columnas = [nro_campo1, nro_campo2]
 
 		# Abrimos el archivo y el objeto CSV:
 		archivo, csv = self.csv.abrir_csv(self.archivo)
 
-		resultados = []	# Lista temporal para guardar resultados.
+		resultados = []	# Lista para guardar los resultados.
 		
 		for c, fila in enumerate(csv):			# Recorremos el CSV.
 			if c == 0:							# Si es la 1ra fila...
-				print(fila)
 				resultados.append(fila)
 			else:										# Si son filas de datos...
-				if palabra in fila[nro_campo2].lower():	# Si la palabra está en el campo1...
-					print(fila)
+				if palabra in fila[nro_campo2].lower():	# Si la palabra está en el campo2...
 					resultados.append(fila)
 
-		return resultados						# Retornamos la lista de resultados.
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		return resultados, columnas				# Retornamos listas de resultados y columnas.
 
 
 	def listar_los_mas_x(self, campo1, campo2, palabra):
@@ -117,6 +119,40 @@ class Consultas():
 
 		return 0
 
+
+	def ultimos_resultados(self, cantidad=5):
+		""" Método que devuelve los últimos 5 resultados de un CSV .
+			- Se devuelve una lista con el resultado. """
+
+		# Abrimos el archivo y el objeto CSV:
+		archivo, csv = self.csv.abrir_csv(self.archivo)
+
+		resultados = []							# Lista para guardar los resultados.
+
+		# Recorremos el CSV para agregar solo las últimas filas:
+		contador = 0
+		for fila in reversed(list(csv)):
+			if contador < cantidad:
+				resultados.append(fila)
+				contador = contador + 1
+
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+
+		# Recorremos nuevamente el CSV para agregar solo la primera fila y también
+		# obtener el total de filas:
+		nro_filas = 0
+		for c, fila in enumerate(csv):			
+			if c == 0:							# Si es la 1ra fila...
+				resultados.append(fila)
+			else:
+				nro_filas = c
+
+		nro_filas = nro_filas - cantidad 		# Restamos cantidad al nro_filas.
+		resultados = reversed(resultados)		# Damos vuelta la lista.
+
+		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		return resultados, nro_filas, cantidad 	# Retornamos lista y demás valores.
+			
 
 class Elem_y_cant():
 	""" Clase que representa internamente en forma de diccionario elementos y cantidades. 

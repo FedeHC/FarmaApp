@@ -1,14 +1,53 @@
 {% extends "base.html" %}
 {% block title %}
-	{{ super() }} Productos x Cliente }}
+	{{ super() }} Productos por Cliente
 {% endblock title %}
 
 {% block page_content %}
 <div class="row">
-	<div class="col-sm-5 col-sm-offset-1 caja">
-		<h1 id="titulo">Productos por cliente:</h1>
+	<div class="col-sm-7 col-sm-offset-1 caja">
+		<h1 class="titulo">Productos por cliente:</h1>
+		{% if error: %}
+			<h4><span class="label label-danger">{{ error }}</span>
+			<br>
+		{% endif %}
 		<br>
-		<p>[ Detalles acá ]</p>
+		<form name="form_busqueda" method="POST" action="">
+		{{ busqueda.csrf_token }}
+		{{ busqueda.buscar(autofocus=true, placeholder="Ingresar cliente acá", size=20) }}
+		{{ busqueda.submit(class_="btn btn-default") }}
+		</form>
+		<br>
+
+		{% if resultados: %}
+		<table class="table table-hover table-striped">
+			{% for linea in resultados: %}
+				{% if loop.index == 1: %}
+					<tr>
+					<th>#</th>
+					{% for campo in linea: %}
+						{% if loop.index0 in columnas: %}
+							<th class="danger">{{ campo }}</th>
+						{% else: %}
+							<th>{{ campo }}</th>
+						{% endif %}	
+					{% endfor %}
+					</tr>
+				{% else: %}
+					<tr>
+					<th>{{ loop.index0 }}</th>
+					{% for campo in linea: %}
+						{% if loop.index0 in columnas: %}
+							<td class="danger">{{ campo }}</td>
+						{% else: %}
+							<td>{{ campo }}</td>
+						{% endif %}	
+					{% endfor %}
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</table>
+		{% endif %}
 	</div>
 </div>
 {% endblock page_content%}

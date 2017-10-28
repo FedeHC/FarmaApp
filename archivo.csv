@@ -1,5 +1,5 @@
 CODIGO,CLIENTE,PRODUCTO,CANTIDAD,PRECIO
-306980,Farma,Alprazolam,18.00,104.00
+306980,Farmy,Alprazolam,18.00,104.00
 637026,Loreto,Cefamar,18.00,43.00
 112528,Selma,Jatamansin,9.00,223.00
 195969,Farmacity,Tramal Plus,15.00,163.00
@@ -33,7 +33,7 @@ CODIGO,CLIENTE,PRODUCTO,CANTIDAD,PRECIO
 899260,La Guardiana,Tafirol Forte,1.00,65.00
 022464,TKL,Amoxicilina,3.00,24.00
 044392,Arisol,Amoxicilina,1.00,40.00
-523514,Farma,Enalapril,10.00,149.00
+523514,Farmy,Enalapril,10.00,149.00
 617110,Mayba,Topirato,13.00,191.00
 393574,Bolivar,Atenolol,1.00,240.00
 989724,Nomesa,Paracetamol,8.00,87.00
@@ -59,9 +59,9 @@ CODIGO,CLIENTE,PRODUCTO,CANTIDAD,PRECIO
 498305,Oggi,Tafirol Forte,11.00,149.00
 802929,Etnica,Aspirinetas,11.00,183.00
 733663,Llavallol,Cistina,2.00,68.00
-899564,Farma,Tramadolten,8.00,125.00
+899564,Farmy,Tramadolten,8.00,125.00
 387252,San Benito,Paracetamol,11.00,226.00
-875988,Farma,Cistina,19.00,4.00
+875988,Farmy,Cistina,19.00,4.00
 625383,Profesional,Paracetamol,12.00,118.00
 590112,Suiza,Paracetamol,10.00,1.00
 626286,Dr. Ahorro,Levotiroxina,7.00,109.00
@@ -92,7 +92,7 @@ CODIGO,CLIENTE,PRODUCTO,CANTIDAD,PRECIO
 181799,Andrea,Tramadolten,16.00,158.00
 558740,Italiana,Tramadolten,10.00,249.00
 743119,Hudson,Palatrobil,5.00,165.00
-050310,Farma,Levotiroxina,20.00,107.00
+050310,Farmy,Levotiroxina,20.00,107.00
 657112,Nueva York,Cistina,15.00,157.00
 574420,Suiza,Cefamar,6.00,250.00
 798295,Macagua,Cistina,6.00,213.00

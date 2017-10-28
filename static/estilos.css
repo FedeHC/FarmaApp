@@ -1,6 +1,6 @@
 /* Hoja de estilos para los templates de Login: */
 
-body  { background-color: #FFFFFF;
+body  { background-color: #F3F3F3;
 		font-family: Arial, Sans-serif;
 		font-size: 16px; }
 
@@ -21,7 +21,7 @@ body  { background-color: #FFFFFF;
 
 
 .caja {
-	background-color: #F3F3F3;
+	background-color: #FFFFFF;
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-top: 10px;

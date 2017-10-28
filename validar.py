@@ -7,18 +7,25 @@
 
 # Clases:
 class Csv():
-	""" La clase que contendrá todos los métodos para validar el CSV (según ejercicio). """
+	"""
+	La clase que contendrá todos los métodos para validar el CSV (según ejercicio).
+	"""
 	
 	def __init__(self, archivo, log):
-		""" Constructor de la clase Csv. """
+		"""	Constructor de la clase Csv.
 
-		self.ok = None					# Variable de estado que constata la correcta
-										# ejecución de todas las validaciones.
-										# - Si todo resulta OK, su valor pasará a 'True'.
-										# - Caso contrario, su valor pasará a 'False'.
+		Args:
+			archivo: El archivo que contiene todo el CSV.
+			log: El archivo que guardará todos los mensajes de error, en caso de haberlos.
+		"""
 
-		self.mensajes_error = []		# Lista de errores que contendrá una lista de 3 campos:
-										# El tipo de campo, el n° de linea con el error y el mensaje.
+		# Variable de estado que constata la correcta ejecución de todas las validaciones.
+		# Si las validaciones resultan OK pasará a 'True', en caso contrario pasará a 'False':
+		self.ok = None					
+
+		# Lista de errores que contendrá una lista de 3 campos:
+		# El tipo de campo, el n° de linea con el error y el mensaje en cuestión:
+		self.mensajes_error = []
 		
 		# Diccionario que contendrá las pos. de los campos:
 		self.campos = {"CODIGO": 0, "CLIENTE": 0, "PRODUCTO": 0, "CANTIDAD": 0, "PRECIO": 0}
@@ -39,8 +46,11 @@ class Csv():
 
 
 	def validando(self, nombre_archivo):
-		""" Método que realizará las validaciones solicitadas en un CSV, una por una.
-		Recibe como parámetros el nombre del archivo CSV y del archivo log. """
+		""" Método que realizará las validaciones solicitadas en un CSV, una a la vez.
+
+		Args:
+			nombre_archivo: El archivo que contiene todo el CSV.
+		 """
 
 		# Abriendo archivo y objeto CSV:
 		archivo, csv = self.abrir_csv(nombre_archivo)
@@ -70,9 +80,22 @@ class Csv():
 
 
 	def abrir_csv(self, archivo):
-		""" Método que abre un archivo CSV, con su nombre pasado como parámetro.		
-			- Devuelve los objetos "open()" y "csv.reader()" si hay éxito.
-			- Devuelve dos "None" en caso contrario. """
+		""" Método que abre un archivo CSV para lectura.
+
+		Args:
+			nombre_archivo: El archivo que contiene todo el CSV.
+
+		Returns:
+			- archivo_abierto: Un objeto open() obtenido a partir de nombre_archivo.
+			- None: en caso de surgir FileNotFoundError o PermissionError.
+			
+			- csv_abierto: Un objeto csv.reader() obtenido a partir del objeto open().
+			- None: en caso de surgir IOError. 
+
+		Raises:
+			- FileNotFoundError: ERROR: No se encontró el archivo (...).
+			- PermissionError: ERROR: No hay permisos para abrir el archivo (...).
+		"""
 
 		try:
 			import csv
@@ -88,15 +111,15 @@ class Csv():
 			self.mensajes.append("ERROR: No hay permisos para abrir el archivo \"{}\".".format(self.nombre))
 			return None, None
 
-		except ImportError:
-			self.mensajes.append("ERROR: no se pudo importar módulo CSV.")
-			return None, None
-
 
 	def obtener_ubicacion_campos(self, archivo, csv):
-		""" Método que obtiene la 1ra fila de un archivo CSV. Este y el CSV son recibidos como
-		parámetros.
-			- Se retorna un diccionario con los campos y sus valores numéricos corresp. """
+		""" Método que obtiene la 1ra fila de un archivo CSV.
+		Se asume que este siempre existe y que sus campos pueden estar en distinto orden.
+		
+		Args:
+			archivo: El objeto open() abierto.
+			csv: El objeto csv.reader() abierto.
+		"""
 
 		for c, fila in enumerate(csv):
 			if c == 0:  									# Si es la 1ra fila...
@@ -109,7 +132,13 @@ class Csv():
 
 
 	def cant_campos(self, archivo, csv, cant_campos):
-		""" Método que chequea la cantidad de campos de todas las filas de un archivo CSV."""
+		""" Método que chequea la cantidad de campos de todas las filas de un archivo CSV.
+		
+		Args:
+			archivo: El objeto open() abierto.
+			csv: El objeto csv.reader() abierto.
+			cant_campos: Un int que contiene la cantidad de campos.
+		"""
 	
 		for c, fila in enumerate(csv):
 			if c > 0:							# Si es filas de datos...
@@ -122,7 +151,13 @@ class Csv():
 
 
 	def codigos(self, archivo, csv, codigo):
-		""" Método que chequea que no haya codigos vacios en un archivo CSV ya abierto."""
+		""" Método que chequea los campos CODIGO de un CSV en caso de estar vacíos.
+
+		Args:
+			archivo: El objeto open() abierto.
+			csv: El objeto csv.reader() abierto.
+			codigo: Un int con el valor de 'CODIGO' en el diccionario 'campos'.
+		"""
 
 		for c, fila in enumerate(csv):
 			if c > 0:											# Si es filas de datos...
@@ -134,8 +169,13 @@ class Csv():
 
 
 	def cantidades(self, archivo, csv, cantidad):
-		""" Método que chequea que haya cantidades enteras en el campo "cantidad" de un
-		archivo CSV	abierto."""
+		""" Método que chequea los campos CANTIDAD de un CSV en caso de no contener cantidades enteras.
+
+		Args:
+			archivo: El objeto open() abierto.
+			csv: El objeto csv.reader() abierto.
+			cantidad: Un int con el el valor de 'CANTIDAD' en el diccionario 'campos'.
+		"""
 
 		for c, fila in enumerate(csv):
 			if c > 0:								# Si es filas de datos...
@@ -163,8 +203,13 @@ class Csv():
 
 
 	def precios(self, archivo, csv, precio):
-		""" Método que chequea que los campos "precio" de un archivo CSV contenga
-			valores decimales. """
+		""" Método que chequea los campos PRECIO de un CSV en caso de no contener valores decimales.
+
+		Args:
+			archivo: El objeto open() abierto.
+			csv: El objeto csv.reader() abierto.
+			precio: Un int con el el valor de 'PRECIO' en el diccionario 'campos'.
+		"""
 
 		for c, fila in enumerate(csv):
 			if c > 0:							# Si es filas de datos...
@@ -191,12 +236,15 @@ class Csv():
 
 
 class MiExcepcion(Exception):
-	""" Clase de excepcion personalizada para cuando se busca lanzar un error a partir de
-	un archivo CSV leido (según ejercicio). """
+	""" Clase de excepción personalizada usada en la clase Csv."""
 
-	# Constructor:
 	def __init__(self, mensajes_error):
+		""" Constructor de la clase MiExcepción
+		
+		Args:
+			mensajes_error: La lista que contiene todos los mensajes de error generados a lo
+			largo de todas las verificaciones realizadas.
+		"""
 		self.mensajes_error = mensajes_error
-
 
 # FIN

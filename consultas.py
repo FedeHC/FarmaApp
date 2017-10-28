@@ -8,40 +8,37 @@
 class Consultas():
 	""" La clase que realiza las consultas solicitadas en las consignas. """
 
-	# Constructor:
 	def __init__(self, archivo, log):
-		""" Constructor de la clase Consultas. """
+		""" Constructor de la clase Consultas. 
+
+		Args:
+			archivo: El archivo que contiene todo el CSV.
+			log: El archivo que guardará todos los mensajes de error, en caso de haberlos.
+		"""
+		import validar
 
 		self.archivo = archivo
 		self.log = log
-		self.todo_ok = None
-
-		self.chequeando()		# Llamando a método que inicia el chequeo del CSV.
-
-
-	def chequeando(self):
-		""" Método que inicia la validación de un CSV a partir de un módulo importado. """
-		
-		# Importando módulo 'validar.py':
-		import validar
 
 		# Creando un objeto de la clase 'Csv':
 		self.csv = validar.Csv(self.archivo, self.log)
 
-		# Si el CSV está correctamente validado:
-		if self.csv.ok:
-			self.todo_ok = True
-		else:
-			self.todo_ok = False
-
-		return 0
+		# Recordar que 'self.csv.ok' guarda el estado de validación del CSV.
 
 
 	def listar_x_en_y(self, campo1, campo2, palabra):
 		""" Método que busca y devuelve filas de un CSV a partir de una palabra que	concuerde
-		con el contenido de un campo (palabra y campo son pasados como parámetros).
-			- Se devuelve una lista con los resultados (si los hay) y otra con los números de
-			las posiciones de las columnas """
+		con el contenido de un campo.
+
+		Args:
+			campo1: Un nombre del campo que debe coincidir con alguno del diccionario 'campos'.
+			campo2: Otro nombre del campo que debe coincidir con alguno del diccionario 'campos'.
+			palabra: Una palabra recibida desde formulario html a buscar en campo2.
+
+		Returns:
+			resultados: Las filas en donde hubo coincidencias de 'palabra' con 'campo2'.
+			columnas: Una lista con las posiciones de columna de las proceden campo1 y campo2.
+		"""
 
 		# Obtenemos las ubicaciones de los campos ya sacados en 'validar.py':
 		nro_campo1 = self.csv.campos[campo1]
@@ -66,19 +63,27 @@ class Consultas():
 
 	def listar_los_mas_x(self, campo1, campo2, palabra):
 		""" Método que busca y muestra en pantalla los N elementos del 'campo1' que más suman del
-		"campo2". Ambos son pasados como parámetros. """
+		"campo2". 
+
+		Args:
+			campo1: Un nombre del campo que debe coincidir con alguno del diccionario 'campos'.
+			campo2: Otro nombre del campo que debe coincidir con alguno del diccionario 'campos'.
+			palabra: Una palabra recibida desde formulario html a buscar en campo2.
+
+		Returns:
+			resultados: Las filas en donde hubo coincidencias de 'palabra' con 'campo2'.
+			columnas: Una lista con las posiciones de columna de las proceden campo1 y campo2.
+		"""
 
 		# Obtenemos las ubicaciones de los campos ya sacados en 'validar.py':
 		nro_campo1 = self.csv.campos[campo1]
 		nro_campo2 = self.csv.campos[campo2]
+		columnas = [nro_campo1, nro_campo2]
 
 		# Abrimos el archivo y el objeto CSV:
 		archivo, csv = self.csv.abrir_csv(self.archivo)
 
-		# Creamos un objeto de la clase 'Elem_y_cant' para representar todos los elementos
-		# de un campo y las cantidades que estos acumulan a lo largo de otro campo en un
-		# archivo CSV:
-		resultados = Elem_y_cant()
+		resultados = Elem_y_cant()					# Para guardar los resultados.
 
 		# Recorremos el CSV:
 		for c, fila in enumerate(csv):
@@ -122,7 +127,17 @@ class Consultas():
 
 	def ultimos_resultados(self, cantidad=5):
 		""" Método que devuelve los últimos 5 resultados de un CSV .
-			- Se devuelve una lista con el resultado. """
+		Args:
+			cantidad: Un nombre del campo que debe coincidir con alguno del diccionario
+				'campos' de la clase. Valor por defecto: 5.
+
+		Returns:
+			resultados: Una lista con la 1ra fila + los últimos resultados del CSV.
+			nro_filas: Un Int con el número de fila del CSV desde donde se empiezan a obtener
+				los resultados.
+			cantidad: El int que se pasó como argumento y que determina la cantidad de
+				resultados a traer.
+		"""
 
 		# Abrimos el archivo y el objeto CSV:
 		archivo, csv = self.csv.abrir_csv(self.archivo)
@@ -155,10 +170,7 @@ class Consultas():
 			
 
 class Elem_y_cant():
-	""" Clase que representa internamente en forma de diccionario elementos y cantidades. 
-	  Como claves se representa todos los elementos encontrados desde un campo determinado dentro
-	  de un CSV. Y como valores, las cantidades que los 1ros acumulan a partir de un 2do campo
-	  del CSV en cuestión. """
+	""" Clase que representa internamente en forma de diccionario elementos y cantidades."""
 
 	# Constructor:
 	def __init__(self):
@@ -167,13 +179,23 @@ class Elem_y_cant():
 
 
 	def agregar(self, clave, valor):
-		""" Método que agrega un par clave/valor al diccionario. """
+		""" Método que agrega un par clave/valor al diccionario. 
+
+		Args:
+			clave: La clave que se agregará al diccionario.
+			valor: Y el valor que se agregará al diccionario a esa clave.
+		"""
 		self.dicc.update({clave:valor})
 		return 0
 
 
 	def sumar(self, clave, valor):
-		""" Método que suma un valor a otro dentro del diccionario. """
+		""" Método que suma un valor a otro dentro del diccionario.
+
+		Args:
+			clave: La clave que se sumará al diccionario.
+			valor: Y el valor que se sumará al diccionario a esa clave.
+		"""
 		self.dicc[clave] = self.dicc[clave] + valor
 		return 0
 
@@ -181,7 +203,14 @@ class Elem_y_cant():
 	def ordenar_y_devolver(self, cantidad):
 		""" Método que obtiene los elementos de un diccionario y los guarda ordenados en
 		una lista.
-			- Se retorna una lista. """
+		
+		Args:
+			cantidad: Un int que especifica la cantidad de elementos al que se deberá delimitar
+				una lista.
+
+		Returns:
+			lista: La nueva lista ordenada.
+		"""
 
 		# Acá uso comprensión de listas:
 		lista = [[clave, self.dicc[clave]] for clave in sorted(self.dicc, key=self.dicc.get, reverse=True)]

@@ -6,7 +6,7 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-sm-7 col-sm-offset-1 caja">
-		<h1 class="titulo">Clientes por producto:</h1>
+		<h1 class="titulo"><span class="text-info">Clientes</span> por <span class="text-danger">producto</span>:</h1>
 		{% if error: %}
 			<h4><span class="label label-danger">{{ error }}</span>
 			<br>
@@ -28,8 +28,10 @@
 					<tr>
 					<th>#</th>
 					{% for campo in linea: %}
-						{% if loop.index0 in columnas: %}
-							<th class="warning">{{ campo }}</th>
+						{% if loop.index0 == columnas[0]: %}
+							<th><span class="text-info">{{ campo }}</span></th>
+						{% elif loop.index0 == columnas[1]: %}
+							<th><span class="text-danger">{{ campo }}</span></th>
 						{% else: %}
 							<th>{{ campo }}</th>
 						{% endif %}	
@@ -42,12 +44,12 @@
 					<th>{{ loop.index0 }}</th>
 					{% for campo in linea: %}
 						{% if loop.index0 == columnas[0]: %}
-							<td class="warning"><i>{{ campo }}</i></td>
+							<td><span class="text-info">{{ campo }}</span></td>
 						{% elif loop.index0 == columnas[1]: %}
-							<td class="warning"><b>{{ campo }}<b></td>
+							<td><b class="text-danger">{{ campo }}<b></td>
 						{% else: %}
 							<td>{{ campo }}</td>
-						{% endif %}	
+						{% endif %}
 					{% endfor %}
 					</tr>
 				{% endif %}

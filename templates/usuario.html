@@ -6,12 +6,42 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-sm-7 col-sm-offset-1 caja">
-		<h1 class="titulo">¡Bienvenido {{ session["user"] }}!</h1>
-		<p><i>Mostrando las últimas {{ cantidad }} ventas:</i></p>
 
-		{% if resultados: %}
+		{# SI hubo errores durante la validación del CSV... #}
+
+		{% if error: %}
+		<h1 class="titulo">Hubo un problema:</h1>
+		<h4><span class="label label-danger">{{ error }}</span>
+		<br><br>
+		<p>Mostrando mensajes de error*:</p>
+		<br>
+		<table class="table table-hover table-striped">
+			<tr>
+			<th>N° LINEA</th>
+			<th>MENSAJE</th>
+			<th>CAMPO</th>
+			</tr>
+			
+			{% for linea in mensajes_error: %}
+				<tr>
+				{% for campo in linea: %}
+					<td>{{ campo }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+		<br>
+		<p><i>* Todos estos mensajes se encuentran registrados en el log.</i></p>
+
+		{# Si en cambio la validación del CSV fue correcta... #}
+
+		{% else: %}
+		<h1 class="titulo">¡Bienvenido {{ session["user"] }}!</h1>
+		<p>Mostrando las últimas {{ cantidad }} ventas:</p>
+		<br>
 		<table class="table table-hover table-striped">
 			{% for linea in resultados: %}
+
 				{% if loop.index == 1: %}
 					<tr>
 					<th>#</th>
@@ -19,6 +49,7 @@
 						<th>{{ campo }}</th>
 					{% endfor %}
 					</tr>
+
 				{% else: %}
 					<tr>
 					<th>{{ nro_filas + loop.index }}</th>
@@ -27,9 +58,11 @@
 					{% endfor %}
 					</tr>
 				{% endif %}
+
 			{% endfor %}
 		</table>
 		{% endif %}
+
 	</div>
 </div>
 {% endblock page_content %}

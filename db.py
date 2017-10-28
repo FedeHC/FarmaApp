@@ -6,17 +6,30 @@
 # -----------------------------------------------------------------------------
 
 class DB():
-	""" Clase para manipular un CSV pasado como argumento. """
+	""" Clase para leer y chequear campos a partir de un CSV determinado. """
 
 	def __init__(self, nombre_archivo):
-		""" Constructor de la clase DB. """
+		"""	Constructor de la clase DB.
+
+		Args:
+			nombre_archivo: El nombre de archivo en el que se guardará user y pass.
+		"""
 		self.nombre_archivo = nombre_archivo
 
 
 	def leer(self):
-		""" Método que lee un CSV a partir de una ruta determinada. 
-			- Devuelve objeto open() y objeto csv.reader() si no hay problemas. 
-			- Caso contrario, se retorna 2 'None'. """
+		"""	Método que lee un CSV a partir de un archivo CSV determinado.
+
+		Returns:
+			- archivo: Un objeto open() obtenido a partir de nombre_archivo.
+			- None: en caso de surgir IOError.
+			
+			- csv_abierto: Un objeto csv.reader() obtenido a partir del objeto open().
+			- None: en caso de surgir IOError. 
+		
+		Raises:
+			IOError: ERROR al leer usuario/clave: (...).
+		"""
 		
 		try:
 			import csv
@@ -31,10 +44,14 @@ class DB():
 
 
 	def chequear(self, campo1, campo2):
-		""" Método que lee un CSV y busca un campo determinado.
-			- Devuelve 'True' en caso de encontrarse.
-			- Devuelve 'False' en caso contrario."""
-		
+		"""
+		Método que lee un archivo CSV determinado y busca en 2 campos pasados como argumentos.
+
+		Returns:
+			- rto_campo1: Un 'True' en caso de coincidencia, 'False' en caso contrario.
+			- rto_campo2: Un 'True' en caso de coincidencia, 'False' en caso contrario.
+		"""
+
 		archivo, csv = self.leer()
 		
 		rto_campo1 = False

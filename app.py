@@ -10,6 +10,7 @@ from flask_bootstrap import Bootstrap
 from flask_script import Manager
 import formularios, consultas, db
 
+
 # Creando objetos flask:
 app = Flask(__name__)
 manager = Manager(app)
@@ -23,7 +24,7 @@ ERROR = RUTA + "error.log"
 USER_CLAVE = RUTA + "usuario_clave.csv"
 
 
-# App:
+# App.config:
 app.config["BOOTSTRAP_SERVE_LOCAL"] = True 			# Para activar versión local de Bootstrap.
 app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios con Flask-WTF.
 
@@ -65,31 +66,44 @@ def inicio():
 def usuario():
 	""" Función que lleva a usuario.html o inicio.html según condición. """
 
-	if session.get("user"):					# Si existe algún 'user' en session...
+	# SI hay 'user' en sesión:
+	if session.get("user"):
+
+		# Creando objeto consulta:
 		consulta = consultas.Consultas(ARC_CSV, ERROR)
-		resultados, nro_filas, cantidad = consulta.ultimos_resultados(5)
 
-		return render_template("usuario.html",
-								resultados=resultados,
-								nro_filas=nro_filas,
-								cantidad=cantidad)
+		# Chequeando que validación del CSV haya sido correcta:
+		if consulta.csv.ok:
+			resultados, nro_filas, cantidad = consulta.ultimos_resultados(5)
 
-	else:									# En caso contrario...
+			return render_template("usuario.html",
+									resultados=resultados,
+									nro_filas=nro_filas,
+									cantidad=cantidad)
+
+		# En caso de que el CSV no se haya validado correctamente:
+		else:
+			error = "Hubo errores durante la validación del CSV"
+			return render_template("usuario.html",
+									error=error,
+									mensajes_error=consulta.csv.mensajes_error)
+	# Si NO hay 'user' en sesión:
+	else:
 		return redirect(url_for("inicio"))
 
 
 @app.route("/ProductosXCliente", methods=["GET", "POST"])
 def pxc():
-	""" Función que lleva a pxc.html o inicio.html según condición. """
+	""" Función que lleva a pxc.html o inicio.html según determinadas condiciones. """
 
-	# Si existe 'user' en sesión:
+	# SI existe 'user' en sesión:
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
 
 		# Si se presiona el botón 'enviar':
 		if busqueda.validate_on_submit():
 
-			# Obteniendo palabra desde el StringField del formulario:
+			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
 
 			# Si la palabre tiene menos de 3 letras...
@@ -120,23 +134,23 @@ def pxc():
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("pxc.html", busqueda=busqueda)
 
-	# Si no hay sesión abierta, se vuelve a inicio.html:
+	# Si NO hay 'user' en sesión:
 	else:
 		return redirect(url_for("inicio"))
 
 
 @app.route("/ClientesXProducto", methods=["GET", "POST"])
 def cxp():
-	""" Función que lleva a cxp.html o inicio.html según condición. """
+	""" Función que lleva a cxp.html o inicio.html según determinadas condiciones. """
 
-	# Si existe 'user' en sesión:
+	# SI hay 'user' en sesión:
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
 
 		# Si se presiona el botón 'enviar':
 		if busqueda.validate_on_submit():
 			
-			# Obteniendo palabra desde el StringField del formulario:
+			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
 			
 			# Si la palabre tiene menos de 3 letras...
@@ -152,43 +166,50 @@ def cxp():
 				# Se obtiene resultados y se renderiza:
 				resultados, columnas = consulta.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
 
-				# Si hubo resultados:
+				# SI hubo resultados:
 				if len(resultados) > 1:
 					return render_template("cxp.html",
 											busqueda=busqueda,
 											resultados=resultados,
 											columnas=columnas)
+				# Si NO hubo resultados:
 				else:
 					error = "No hubo resultados"
 					return render_template("cxp.html",
 											busqueda=busqueda,
 											error=error)
 		
-		# Si no se envia aún ninguna búsqueda:
+		# Si NO se envia aún ninguna búsqueda:
 		return render_template("cxp.html", busqueda=busqueda)
 
-	# Si no hay sesión abierta, se vuelve a inicio.html:
+	# Si NO hay 'user' en sesión:
 	else:
 		return redirect(url_for("inicio"))
 
 
 @app.route("/ProductosMasVendidos", methods=["GET", "POST"])
 def pmv():
-	""" Función que lleva a pmv.html o inicio.html según condición. """
+	""" Función que lleva a pmv.html o inicio.html según si hay sesión abierta o no. """
 
-	if session.get("user"):					# Si existe algún 'user' en session...
+	# SI hay 'user' en sesión:
+	if session.get("user"):
 		return render_template("pmv.html")
-	else:									# En caso contrario se vuelve a inicio.
+	
+	# Si NO hay 'user' en sesión:
+	else:										
 		return redirect(url_for("inicio"))
 
 
 @app.route("/ClientesMasGastaron", methods=["GET", "POST"])
 def cmg():
-	""" Función que lleva a cmg.html o inicio.html según condición. """
+	""" Función que lleva a cmg.html o inicio.html según si hay sesión abierta o no. """
 
-	if session.get("user"):						# Si existe algún 'user' en session...
+	# SI hay 'user' en sesión:
+	if session.get("user"):
 		return render_template("cmg.html")
-	else:										# En caso contrario...
+	
+	# Si NO hay 'user' en sesión:
+	else:										
 		return redirect(url_for("inicio"))
 
 
@@ -196,11 +217,13 @@ def cmg():
 def salir():
 	""" Función que desloguea al usuario actual y redirige a inicio. """
 
-	if session.get("user"):						# Si existe algún 'user' en session...
+	# SI hay 'user' en sesión:
+	if session.get("user"):
 		session.pop("user", None)
 		flash("Usuario deslogueado")
 
-	return redirect(url_for("inicio"))			# En cualquier caso se redirige a inicio.html.
+	# Haya o no sesión abierta, se retorna a inicio.html:
+	return redirect(url_for("inicio"))
 
 
 @app.errorhandler(404)

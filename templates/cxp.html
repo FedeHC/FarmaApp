@@ -5,10 +5,41 @@
 
 {% block page_content %}
 <div class="row">
-	<div class="col-sm-5 col-sm-offset-1 caja">
+	<div class="col-sm-7 col-sm-offset-1 caja">
 		<h1 id="titulo">Clientes por producto:</h1>
+		{% if error: %}
+			<h4><span class="label label-danger">{{ error }}</span>
+			<br>
+		{% endif %}
 		<br>
-		<p>[ Detalles acá ]</p>
+		<form name="form_busqueda" method="POST" action="">
+		{{ busqueda.csrf_token }}
+		{{ busqueda.buscar(autofocus=true, placeholder="Producto", size=20) }}
+		{{ busqueda.submit(class_="btn btn-default") }}
+		</form>
+		<br>
+
+		{% if resultados: %}
+		<table class="table table-hover table-striped">
+			{% for linea in resultados: %}
+				{% if loop.index == 1: %}
+					<tr>
+					<th>#</th>
+					{% for campo in linea: %}
+						<th>{{ campo }}</th>
+					{% endfor %}
+					</tr>
+				{% else: %}
+					<tr>
+					<th>{{ loop.index0 }}</th>
+					{% for campo in linea: %}
+						<td>{{ campo }}</td>
+					{% endfor %}
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</table>
+		{% endif %}
 	</div>
 </div>
 {% endblock page_content%}

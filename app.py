@@ -9,8 +9,8 @@ from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap
 from flask_script import Manager
 from csv_db import DB
-from formulario import Login
-
+from formularios import Login, Busqueda
+from consultas import Consultas
 
 # Creando objetos flask:
 app = Flask(__name__)
@@ -30,20 +30,20 @@ app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios co
 def inicio():
 	""" Función que lleva a inicio.html o usuario.html según condiciones. """
 	
-	log = Login()					# Objeto de formulario Login.
+	log = Login()							# Objeto de formulario 'Login'.
 
-	if log.validate_on_submit():	# Si se ha presionado el botón enviar de login...
+	if log.validate_on_submit():			# Si se ha presionado el botón enviar de login...
 		user, clave = db.chequear(log.usuario.data, log.clave.data)
 		if user:
 			if clave:
 				session["user"] = log.usuario.data
 				return redirect(url_for("usuario"))
 
-			else:					# Si la clave no corresponde con ese usuario...
+			else:							# Si la clave no corresponde con ese usuario...
 				mensaje = "Contraseña inválida para <b>{}</b>".format(log.usuario.data)
 				return render_template("inicio.html", login=log, info=mensaje)
 
-		else:						# Si el usuario no existe en la DB...
+		else:								# Si el usuario no existe en la DB...
 			mensaje = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
 			return render_template("inicio.html", login=log, info=mensaje)
 
@@ -51,47 +51,62 @@ def inicio():
 	return render_template("inicio.html", login=log)
 
 
-@app.route("/Usuario")
+@app.route("/Usuario", methods=["GET", "POST"])
 def usuario():
 	""" Función que lleva a usuario.html o inicio.html según condición. """
 
-	if session.get("user"):						# Si existe algún 'user' en session...
+	if session.get("user"):					# Si existe algún 'user' en session...
 		return render_template("usuario.html")
-	else:										# En caso contrario...
+	else:									# En caso contrario...
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ProductosXCliente")
+@app.route("/ProductosXCliente", methods=["GET", "POST"])
 def pxc():
 	""" Función que lleva a pxc.html o inicio.html según condición. """
 
-	if session.get("user"):						# Si existe algún 'user' en session...
+	if session.get("user"):					# Si existe algún 'user' en session...
 		return render_template("pxc.html")
-	else:										# En caso contrario se vuelve a inicio.
+	else:									# En caso contrario se vuelve a inicio.
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ClientesXProducto")
+@app.route("/ClientesXProducto", methods=["GET", "POST"])
 def cxp():
 	""" Función que lleva a cxp.html o inicio.html según condición. """
 
-	if session.get("user"):						# Si existe algún 'user' en session...
-		return render_template("cxp.html")
-	else:										# En caso contrario se vuelve a inicio.
+	if session.get("user"):					# Si existe algún 'user' en session...
+		busqueda = Busqueda()				# Objeto de formulario 'Busqueda'.
+		
+		if busqueda.validate_on_submit():	# Si se ha presionado el botón enviar...
+			palabra = busqueda.buscar.data.lower()
+			if len(palabra) < 3:
+				error = "Debe ingresar 3 o más letras en la búsqueda"
+				return render_template("cxp.html", busqueda=busqueda, error=error)
+			else:
+				con = Consultas()
+
+				resultados = con.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
+				return render_template("cxp.html", busqueda=busqueda, resultados=resultados)
+		
+		# Si no se envia aún ninguna búsqueda:
+		return render_template("cxp.html", busqueda=busqueda)
+
+	else:									# En caso contrario se vuelve a inicio.
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ProductosMasVendidos")
+@app.route("/ProductosMasVendidos", methods=["GET", "POST"])
 def pmv():
 	""" Función que lleva a pmv.html o inicio.html según condición. """
 
-	if session.get("user"):						# Si existe algún 'user' en session...
+	if session.get("user"):					# Si existe algún 'user' en session...
 		return render_template("pmv.html")
-	else:										# En caso contrario se vuelve a inicio.
+	else:									# En caso contrario se vuelve a inicio.
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ClientesMasGastaron")
+@app.route("/ClientesMasGastaron", methods=["GET", "POST"])
 def cmg():
 	""" Función que lleva a cmg.html o inicio.html según condición. """
 

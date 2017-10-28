@@ -17,4 +17,10 @@ class Login(FlaskForm):
 	clave = PasswordField("Clave", validators=[DataRequired()])
 	submit = SubmitField("Enviar")
 
+class Busqueda(FlaskForm):
+	""" Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
+	de búsqueda usadas para los 4 tipos de consultas posibles. """
+	buscar = StringField("Buscar", validators=[DataRequired()])
+	submit = SubmitField("Buscar")
+
 # FIN

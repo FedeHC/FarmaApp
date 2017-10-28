@@ -22,23 +22,29 @@
 		{% if resultados: %}
 		<table class="table table-hover table-striped">
 			{% for linea in resultados: %}
+
+				{# Primera Fila #}
 				{% if loop.index == 1: %}
 					<tr>
 					<th>#</th>
 					{% for campo in linea: %}
 						{% if loop.index0 in columnas: %}
-							<th class="danger">{{ campo }}</th>
+							<th class="warning">{{ campo }}</th>
 						{% else: %}
 							<th>{{ campo }}</th>
 						{% endif %}	
 					{% endfor %}
 					</tr>
+
+				{# Filas de datos #}
 				{% else: %}
 					<tr>
 					<th>{{ loop.index0 }}</th>
 					{% for campo in linea: %}
-						{% if loop.index0 in columnas: %}
-							<td class="danger">{{ campo }}</td>
+						{% if loop.index0 == columnas[0]: %}
+							<td class="warning"><i>{{ campo }}</i></td>
+						{% elif loop.index0 == columnas[1]: %}
+							<td class="warning"><b>{{ campo }}<b></td>
 						{% else: %}
 							<td>{{ campo }}</td>
 						{% endif %}	

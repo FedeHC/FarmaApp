@@ -8,15 +8,19 @@
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap
 from flask_script import Manager
-from csv_db import DB
-from formularios import Login, Busqueda
-from consultas import Consultas
+import formularios, consultas, db
 
 # Creando objetos flask:
 app = Flask(__name__)
 manager = Manager(app)
 bs = Bootstrap(app)
-db = DB("usuario_clave.csv")
+
+
+# Constantes con nombres y rutas de archivos:
+RUTA = ""
+ARC_CSV = RUTA + "archivo.csv"
+ERROR = RUTA + "error.log"
+USER_CLAVE = RUTA + "usuario_clave.csv"
 
 
 # App:
@@ -30,10 +34,11 @@ app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios co
 def inicio():
 	""" Función que lleva a inicio.html o usuario.html según condiciones. """
 	
-	log = Login()							# Objeto de formulario 'Login'.
-
+	log = formularios.Login()
 	if log.validate_on_submit():			# Si se presiona el botón enviar...
-		user, clave = db.chequear(log.usuario.data, log.clave.data)
+
+		bd = db.DB(USER_CLAVE)
+		user, clave = bd.chequear(log.usuario.data, log.clave.data)
 		if user:
 			if clave:
 				session["user"] = log.usuario.data
@@ -61,7 +66,7 @@ def usuario():
 	""" Función que lleva a usuario.html o inicio.html según condición. """
 
 	if session.get("user"):					# Si existe algún 'user' en session...
-		consulta = Consultas()
+		consulta = consultas.Consultas(ARC_CSV, ERROR)
 		resultados, nro_filas, cantidad = consulta.ultimos_resultados(5)
 
 		return render_template("usuario.html",
@@ -77,29 +82,46 @@ def usuario():
 def pxc():
 	""" Función que lleva a pxc.html o inicio.html según condición. """
 
-	if session.get("user"):					# Si existe algún 'user' en session...
-		busqueda = Busqueda()				# Objeto de formulario 'Busqueda'.
-		
-		if busqueda.validate_on_submit():	# Si se presiona el botón enviar...
+	# Si existe 'user' en sesión:
+	if session.get("user"):
+		busqueda = formularios.Busqueda()
+
+		# Si se presiona el botón 'enviar':
+		if busqueda.validate_on_submit():
+
+			# Obteniendo palabra desde el StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
+
+			# Si la palabre tiene menos de 3 letras...
 			if len(palabra) < 3:
 				error = "Debe ingresar 3 o más letras para poder realizar la búsqueda"
 				return render_template("pxc.html",
 										busqueda=busqueda,
 										error=error)
+			# Si tiene más de 3 letras:
 			else:
-				consulta = Consultas()
+				consulta = consultas.Consultas(ARC_CSV, ERROR)
 
+				# Se obtiene resultados y se renderiza:
 				resultados, columnas = consulta.listar_x_en_y("PRODUCTO", "CLIENTE", palabra)
-				return render_template("pxc.html",
-										busqueda=busqueda,
-										resultados=resultados,
-										columnas=columnas)
+				
+				# Si hubo resultados:
+				if len(resultados) > 1:
+					return render_template("pxc.html",
+											busqueda=busqueda,
+											resultados=resultados,
+											columnas=columnas)
+				else:
+					error = "No hubo resultados"
+					return render_template("pxc.html",
+											busqueda=busqueda,
+											error=error)					
 
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("pxc.html", busqueda=busqueda)
 
-	else:									# En caso contrario se vuelve a inicio.
+	# Si no hay sesión abierta, se vuelve a inicio.html:
+	else:
 		return redirect(url_for("inicio"))
 
 
@@ -107,29 +129,46 @@ def pxc():
 def cxp():
 	""" Función que lleva a cxp.html o inicio.html según condición. """
 
-	if session.get("user"):					# Si existe algún 'user' en session...
-		busqueda = Busqueda()				# Objeto de formulario 'Busqueda'.
-		
-		if busqueda.validate_on_submit():	# Si se presiona el botón enviar...
+	# Si existe 'user' en sesión:
+	if session.get("user"):
+		busqueda = formularios.Busqueda()
+
+		# Si se presiona el botón 'enviar':
+		if busqueda.validate_on_submit():
+			
+			# Obteniendo palabra desde el StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
+			
+			# Si la palabre tiene menos de 3 letras...
 			if len(palabra) < 3:
 				error = "Debe ingresar 3 o más letras para poder realizar la búsqueda"
 				return render_template("cxp.html",
 										busqueda=busqueda,
 										error=error)
+			# Si tiene más de 3 letras:
 			else:
-				consulta = Consultas()
+				consulta = consultas.Consultas(ARC_CSV, ERROR)
 
+				# Se obtiene resultados y se renderiza:
 				resultados, columnas = consulta.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
-				return render_template("cxp.html",
-										busqueda=busqueda,
-										resultados=resultados,
-										columnas=columnas)
+
+				# Si hubo resultados:
+				if len(resultados) > 1:
+					return render_template("cxp.html",
+											busqueda=busqueda,
+											resultados=resultados,
+											columnas=columnas)
+				else:
+					error = "No hubo resultados"
+					return render_template("cxp.html",
+											busqueda=busqueda,
+											error=error)
 		
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("cxp.html", busqueda=busqueda)
 
-	else:									# En caso contrario se vuelve a inicio.
+	# Si no hay sesión abierta, se vuelve a inicio.html:
+	else:
 		return redirect(url_for("inicio"))
 
 

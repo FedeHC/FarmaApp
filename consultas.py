@@ -9,7 +9,7 @@ class Consultas():
 	""" La clase que realiza las consultas solicitadas en las consignas. """
 
 	# Constructor:
-	def __init__(self, archivo="archivo.csv", log="error.log"):
+	def __init__(self, archivo, log):
 		""" Constructor de la clase Consultas. """
 
 		self.archivo = archivo

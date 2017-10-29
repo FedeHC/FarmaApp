@@ -6,13 +6,13 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-sm-7 col-sm-offset-1 caja">
-		<h1 class="titulo"><span class="text-info">Productos</span> por <span class="text-danger">cliente</span>:</h1>
+		<h1 class="titulo">Productos por <span class="text-danger">cliente</span>:</h1>
 		{% if error: %}
-			<h4><span class="label label-danger">{{ error }}</span>
+			<h4><span class="label label-danger">{{ error }}</span>&nbsp;</h4>
 			<br>
 		{% endif %}
 		<br>
-		<form name="form_busqueda" method="POST" action="">
+		<form method="POST">
 		{{ busqueda.csrf_token }}
 		{{ busqueda.buscar(autofocus=true, placeholder="Ingresar cliente acá", size=20) }}
 		{{ busqueda.submit(class_="btn btn-default") }}
@@ -28,9 +28,7 @@
 					<tr>
 					<th>#</th>
 					{% for campo in linea: %}
-						{% if loop.index0 == columnas[0]: %}
-							<th><span class="text-info">{{ campo }}</span></th>
-						{% elif loop.index0 == columnas[1]: %}
+						{% if loop.index0 == columnas[1]: %}
 							<th><span class="text-danger">{{ campo }}</span></th>
 						{% else: %}
 							<th>{{ campo }}</th>
@@ -44,7 +42,7 @@
 					<th>{{ loop.index0 }}</th>
 					{% for campo in linea: %}
 						{% if loop.index0 == columnas[0]: %}
-							<td><span class="text-info">{{ campo }}</span></td>
+							<td><b>{{ campo }}</b></td>
 						{% elif loop.index0 == columnas[1]: %}
 							<td><b class="text-danger">{{ campo }}<b></td>
 						{% else: %}

@@ -5,9 +5,9 @@
 
 {% block head %}
 {{ super() }}
+<link href="{{ url_for('static', filename='estilos.css') }}" rel="stylesheet">
 <link rel="shortcut icon" href="{{ url_for('static', filename = 'imagenes/icono.png') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename = 'imagenes/icono.png') }}" type="image/x-icon">
-<link href="{{ url_for('static', filename='estilos.css') }}" rel="stylesheet">
 {% endblock head %}
 
 {% block title %} FarmaApp- {% endblock title %}
@@ -27,18 +27,18 @@
 				<span class="icon-bar"></span>
 			</button>
 
-			<a class="navbar-brand" href="/Usuario">
-				<img id="logo" src="{{ url_for("static", filename = "imagenes/icono.png") }}" />
+			<a class="navbar-brand" href="/usuario">
+				<img id="logo" alt="logo" src="{{ url_for("static", filename = "imagenes/icono.png") }}" />
 				<strong>FarmaApp</strong>
 			</a>
 		</div>
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="/ProductosXCliente">Productos <strong>x</strong> Cliente</a></li>
-				<li><a href="/ClientesXProducto">Clientes <strong>x</strong> Productos</a></li>
-				<li><a href="/ProductosMasVendidos">Productos <strong>+</strong>Vendidos</a></li>
-				<li><a href="/ClientesMasGastaron">Clientes <strong>+</strong>Gastaron</a></li>
+				<li><a href="/productos">Productos</a></li>
+				<li><a href="/clientes">Clientes</a></li>
+				<li><a href="/masvendidos">Más Vendidos</a></li>
+				<li><a href="/masgastaron">Más Gastaron</a></li>
 			</ul>
 
 			<ul class="nav navbar-right navbar-nav">
@@ -64,7 +64,7 @@
 		{% else: %}
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">
-				<img id="logo" src="{{ url_for("static", filename = "imagenes/icono.png") }}" />
+				<img id="logo" alt="logo" src="{{ url_for("static", filename = "imagenes/icono.png") }}" />
 				<strong>FarmaApp</strong>
 			</a>
 		</div>
@@ -79,8 +79,8 @@
 <div class="container">
 	<br>
 	{% block page_content %}{% endblock %}
+	<br><br>
 </div>
 {% endblock content %}
-
 
 <!-- FIN Base -->

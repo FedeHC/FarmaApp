@@ -25,9 +25,10 @@ USER_CLAVE = RUTA + "usuario_clave.csv"
 
 
 # App.config:
-app.config["BOOTSTRAP_SERVE_LOCAL"] = True 			# Para activar versión local de Bootstrap.
-app.config["SECRET_KEY"] = "UnaClaveSecreta"		# Clave random para formularios con Flask-WTF.
-
+app.config["SECRET_KEY"] = "UnaClaveSecreta"			# Clave random para formularios de Flask-WTF.
+app.config["BOOTSTRAP_SERVE_LOCAL"] = True 				# Para activar versión local de Bootstrap.
+app.config["BOOTSTRAP_QUERYSTRING_REVVING"] = False		# Para quitar el "?bootstrap=..." cuando se
+														# busca archivos de bootstrap locales.
 
 # Funciones:
 @app.route("/index", methods=["GET", "POST"])
@@ -62,7 +63,7 @@ def inicio():
 	return render_template("inicio.html", login=log)
 
 
-@app.route("/Usuario", methods=["GET", "POST"])
+@app.route("/usuario", methods=["GET", "POST"])
 def usuario():
 	""" Función que lleva a usuario.html o inicio.html según condición. """
 
@@ -92,7 +93,7 @@ def usuario():
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ProductosXCliente", methods=["GET", "POST"])
+@app.route("/productos", methods=["GET", "POST"])
 def pxc():
 	""" Función que lleva a pxc.html o inicio.html según determinadas condiciones. """
 
@@ -126,7 +127,7 @@ def pxc():
 											resultados=resultados,
 											columnas=columnas)
 				else:
-					error = "No hubo resultados"
+					error = "No hubo resultados con ese término"
 					return render_template("pxc.html",
 											busqueda=busqueda,
 											error=error)					
@@ -139,7 +140,7 @@ def pxc():
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ClientesXProducto", methods=["GET", "POST"])
+@app.route("/clientes", methods=["GET", "POST"])
 def cxp():
 	""" Función que lleva a cxp.html o inicio.html según determinadas condiciones. """
 
@@ -174,7 +175,7 @@ def cxp():
 											columnas=columnas)
 				# Si NO hubo resultados:
 				else:
-					error = "No hubo resultados"
+					error = "No hubo resultados con ese término"
 					return render_template("cxp.html",
 											busqueda=busqueda,
 											error=error)
@@ -187,7 +188,7 @@ def cxp():
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ProductosMasVendidos", methods=["GET", "POST"])
+@app.route("/masvendidos", methods=["GET", "POST"])
 def pmv():
 	""" Función que lleva a pmv.html o inicio.html según si hay sesión abierta o no. """
 
@@ -200,7 +201,7 @@ def pmv():
 		return redirect(url_for("inicio"))
 
 
-@app.route("/ClientesMasGastaron", methods=["GET", "POST"])
+@app.route("/masgastaron", methods=["GET", "POST"])
 def cmg():
 	""" Función que lleva a cmg.html o inicio.html según si hay sesión abierta o no. """
 

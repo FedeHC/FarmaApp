@@ -23,7 +23,7 @@ class Consultas():
 		# Creando un objeto de la clase 'Csv':
 		self.csv = validar.Csv(self.archivo, self.log)
 
-		# Recordar que 'self.csv.ok' guarda el estado de validación del CSV.
+		# Recordar que 'self.csv.ok' guarda el estado de la validación del CSV.
 
 
 	def listar_x_en_y(self, campo1, campo2, palabra):
@@ -61,14 +61,14 @@ class Consultas():
 		return resultados, columnas				# Retornamos listas de resultados y columnas.
 
 
-	def listar_los_mas_x(self, campo1, campo2, palabra):
-		""" Método que busca y muestra en pantalla los N elementos del 'campo1' que más suman del
-		"campo2". 
+	def listar_los_mas_x(self, campo1, campo2, cantidad):
+		""" Método que busca y muestra en pantalla los N elementos del 'campo1' que más suman
+		del	"campo2". 
 
 		Args:
 			campo1: Un nombre del campo que debe coincidir con alguno del diccionario 'campos'.
 			campo2: Otro nombre del campo que debe coincidir con alguno del diccionario 'campos'.
-			palabra: Una palabra recibida desde formulario html a buscar en campo2.
+			cantidad: Un int para delimitar la cantidad de resultados obtenidos.
 
 		Returns:
 			resultados: Las filas en donde hubo coincidencias de 'palabra' con 'campo2'.
@@ -112,7 +112,6 @@ class Consultas():
 		# Obtenemos en forma de lista lo almacenado en el objeto 'resultados', limitado
 		# a la cantidad pasada por el usuario:
 		lista = resultados.ordenar_y_devolver(cantidad)
-		print(" - Listando los {}:\n".format(len(lista)))
 
 		# Mostramos los resultados de la lista obtenida en pantalla:
 		for e, v in lista:

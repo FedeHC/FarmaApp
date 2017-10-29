@@ -6,8 +6,8 @@
 # -----------------------------------------------------------------------------
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired
+from wtforms import Form, StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length
 
 
 class Login(FlaskForm):
@@ -15,8 +15,8 @@ class Login(FlaskForm):
 	de login al ingresar al sitio.
 	"""
 
-	usuario = StringField("Usuario", validators=[InputRequired()])
-	clave = PasswordField("Clave", validators=[InputRequired()])
+	usuario = StringField("Usuario", validators=[InputRequired(), Length(min=3)])
+	clave = PasswordField("Clave", validators=[InputRequired(), Length(min=3)])
 	submit = SubmitField("Enviar")
 
 
@@ -25,7 +25,7 @@ class Busqueda(FlaskForm):
 	de búsqueda (usado en las 4 consultas que el sitio debe brindar).
 	"""
 
-	buscar = StringField("Buscar", validators=[InputRequired()])
+	buscar = StringField("Buscar", validators=[InputRequired(), Length(min=3)])
 	submit = SubmitField("Buscar")
 
 

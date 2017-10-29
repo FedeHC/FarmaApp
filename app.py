@@ -37,7 +37,9 @@ def inicio():
 	""" Función que lleva a inicio.html o usuario.html según condiciones. """
 	
 	log = formularios.Login()
-	if log.validate_on_submit():			# Si se presiona el botón enviar...
+	
+	# Si se presiona el botón enviar:
+	if log.validate_on_submit():
 
 		bd = db.DB(USER_CLAVE)
 		user, clave = bd.chequear(log.usuario.data, log.clave.data)
@@ -46,11 +48,13 @@ def inicio():
 				session["user"] = log.usuario.data
 				return redirect(url_for("usuario"))
 
-			else:							# Si la clave no corresponde con ese usuario...
+			# Si la clave no corresponde con ese usuario:
+			else:
 				mensaje = "Contraseña inválida para <b>{}</b>".format(log.usuario.data)
 				return render_template("inicio.html", login=log, info=mensaje)
 
-		else:								# Si el usuario no existe en la DB...
+		# Si el usuario no existe en la DB:
+		else:
 			mensaje = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
 			return render_template("inicio.html", login=log, info=mensaje)
 
@@ -107,30 +111,21 @@ def pxc():
 			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
 
-			# Si la palabre tiene menos de 3 letras...
-			if len(palabra) < 3:
-				error = "Debe ingresar 3 o más letras para poder realizar la búsqueda"
+			# Creando objeto consulta y obteniendo resultados:
+			consulta = consultas.Consultas(ARC_CSV, ERROR)
+			resultados, columnas = consulta.listar_x_en_y("PRODUCTO", "CLIENTE", palabra)
+			
+			# Si hubo resultados:
+			if len(resultados) > 1:
 				return render_template("pxc.html",
 										busqueda=busqueda,
-										error=error)
-			# Si tiene más de 3 letras:
+										resultados=resultados,
+										columnas=columnas)
 			else:
-				consulta = consultas.Consultas(ARC_CSV, ERROR)
-
-				# Se obtiene resultados y se renderiza:
-				resultados, columnas = consulta.listar_x_en_y("PRODUCTO", "CLIENTE", palabra)
-				
-				# Si hubo resultados:
-				if len(resultados) > 1:
-					return render_template("pxc.html",
-											busqueda=busqueda,
-											resultados=resultados,
-											columnas=columnas)
-				else:
-					error = "No hubo resultados con ese término"
-					return render_template("pxc.html",
-											busqueda=busqueda,
-											error=error)					
+				error = "No hubo resultados con ese término"
+				return render_template("pxc.html",
+										busqueda=busqueda,
+										error=error)					
 
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("pxc.html", busqueda=busqueda)
@@ -154,31 +149,22 @@ def cxp():
 			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
 			
-			# Si la palabre tiene menos de 3 letras...
-			if len(palabra) < 3:
-				error = "Debe ingresar 3 o más letras para poder realizar la búsqueda"
+			# Creando objeto consulta y obteniendo resultados:
+			consulta = consultas.Consultas(ARC_CSV, ERROR)
+			resultados, columnas = consulta.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
+
+			# SI hubo resultados:
+			if len(resultados) > 1:
+				return render_template("cxp.html",
+										busqueda=busqueda,
+										resultados=resultados,
+										columnas=columnas)
+			# Si NO hubo resultados:
+			else:
+				error = "No hubo resultados con ese término"
 				return render_template("cxp.html",
 										busqueda=busqueda,
 										error=error)
-			# Si tiene más de 3 letras:
-			else:
-				consulta = consultas.Consultas(ARC_CSV, ERROR)
-
-				# Se obtiene resultados y se renderiza:
-				resultados, columnas = consulta.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
-
-				# SI hubo resultados:
-				if len(resultados) > 1:
-					return render_template("cxp.html",
-											busqueda=busqueda,
-											resultados=resultados,
-											columnas=columnas)
-				# Si NO hubo resultados:
-				else:
-					error = "No hubo resultados con ese término"
-					return render_template("cxp.html",
-											busqueda=busqueda,
-											error=error)
 		
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("cxp.html", busqueda=busqueda)

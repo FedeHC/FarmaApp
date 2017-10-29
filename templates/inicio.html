@@ -20,9 +20,20 @@
 		<h2 class="subtitulo"><i>Solo usuarios registrados</i></h2>
 		<form method="POST">
 			{{ login.csrf_token }}
-			{{ login.usuario(autofocus=true, placeholder="Usuario", size=20) }}
+			{{ login.usuario(autofocus=true,
+							required="",
+							placeholder="Usuario",
+							size=20,
+							maxlength=20,
+							pattern=".{3,}",
+							title="3 caracteres mínimo") }}
 			<br>
-			{{ login.clave(placeholder="Contraseña", size=20) }}
+			{{ login.clave(required="",
+						placeholder="Contraseña",
+						size=20,
+						maxlength=20,
+						pattern=".{3,}",
+						title="3 caracteres mínimo") }}
 			<br><br>
 			{{ login.submit(class_="btn btn-default") }}
 		</form>

@@ -5,16 +5,17 @@
 
 {% block page_content %}
 <div class="row">
-	<div class="col-md-12 col-xs-12 caja">
+	<div class="col-xs-12 caja">
 
 		{# SI hubo errores durante la validación del CSV... #}
 
 		{% if error: %}
 		<h1 class="titulo">Hubo un problema:</h1>
-		<h4><span class="label label-danger">{{ error }}</span>
+		<h4><span class="label label-danger">{{ error }}</span></h4>
 		<br><br>
 		<p>Mostrando mensajes de error*:</p>
 		<br>
+
 		<div class="table-responsive">
 		<table class="table table-hover table-striped">
 			<tr>
@@ -41,6 +42,7 @@
 		<h1 class="titulo">¡Bienvenido {{ session["user"] }}!</h1>
 		<p>Mostrando las últimas {{ cantidad }} ventas:</p>
 		<br>
+
 		<div class="table-responsive">
 		<table class="table table-hover table-striped">
 			{% for linea in resultados: %}

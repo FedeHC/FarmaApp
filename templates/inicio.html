@@ -5,7 +5,7 @@
 
 {% block page_content %}
 <div class="row">
-	<div class="col-sm-4 col-sm-offset-1 caja">
+	<div class="col-md-5 col-xs-12 caja">
 		{% if error: %}
 			<h4><span class="label label-danger">{{ error|safe }}</span>&nbsp;</h4>
 		{% endif %}
@@ -19,23 +19,28 @@
 		<h1 class="titulo">Ingresar:</h1>
 		<h2 class="subtitulo"><i>Solo usuarios registrados</i></h2>
 		<form method="POST">
-			{{ login.csrf_token }}
-			{{ login.usuario(autofocus=true,
+			<div class="form-group">
+				{{ login.csrf_token }}
+
+				{{ login.usuario(class_="form-control input-lg",
+								autofocus=true,
+								required="",
+								placeholder="Usuario",
+								size=20,
+								maxlength=20,
+								pattern=".{3,}",
+								title="3 caracteres mínimo") }}
+								
+				{{ login.clave(class_="form-control input-lg",
 							required="",
-							placeholder="Usuario",
+							placeholder="Contraseña",
 							size=20,
 							maxlength=20,
 							pattern=".{3,}",
 							title="3 caracteres mínimo") }}
-			<br>
-			{{ login.clave(required="",
-						placeholder="Contraseña",
-						size=20,
-						maxlength=20,
-						pattern=".{3,}",
-						title="3 caracteres mínimo") }}
-			<br><br>
-			{{ login.submit(class_="btn btn-default") }}
+				<br>
+				{{ login.submit(class_="btn btn-default btn-lg") }}
+			</div>
 		</form>
 	</div>
 

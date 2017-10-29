@@ -5,7 +5,7 @@
 
 {% block page_content %}
 <div class="row">
-	<div class="col-sm-7 col-sm-offset-1 caja">
+	<div class="col-md-12 col-xs-12 caja">
 
 		{# SI hubo errores durante la validación del CSV... #}
 
@@ -15,6 +15,7 @@
 		<br><br>
 		<p>Mostrando mensajes de error*:</p>
 		<br>
+		<div class="table-responsive">
 		<table class="table table-hover table-striped">
 			<tr>
 			<th>N° LINEA</th>
@@ -30,6 +31,7 @@
 				</tr>
 			{% endfor %}
 		</table>
+		</div>
 		<br>
 		<p><i>* Todos estos mensajes se encuentran registrados en el log.</i></p>
 
@@ -39,6 +41,7 @@
 		<h1 class="titulo">¡Bienvenido {{ session["user"] }}!</h1>
 		<p>Mostrando las últimas {{ cantidad }} ventas:</p>
 		<br>
+		<div class="table-responsive">
 		<table class="table table-hover table-striped">
 			{% for linea in resultados: %}
 
@@ -61,6 +64,7 @@
 
 			{% endfor %}
 		</table>
+		</div>
 		{% endif %}
 
 	</div>

@@ -5,27 +5,31 @@
 
 {% block page_content %}
 <div class="row">
-	<div class="col-sm-7 col-sm-offset-1 caja">
-		<h1 class="titulo">Productos por <span class="text-danger">cliente</span>:</h1>
+	<div class="col-xs-12 caja">
+		<h1 class="titulo">Productos <span class="text-danger">por cliente</span>:</h1>
 		{% if error: %}
 			<h4><span class="label label-danger">{{ error }}</span>&nbsp;</h4>
 		{% endif %}
-		<form method="POST">
+		<form method="POST" class="form-inline">
+		<div class="form-group">
 		{{ busqueda.csrf_token }}
-		{{ busqueda.buscar(autofocus=true,
-						 required="",
-						 placeholder="Ingresar cliente acá",
-						 size=25,
-						 maxlength=25,
-						 pattern=".{3,}",
-						 title="3 caracteres mínimo") }}
+		
+		{{ busqueda.buscar(class_="form-control",
+						autofocus=true,
+						required="",
+						placeholder="Ingrese cliente",
+						size=25,
+						maxlength=25,
+						pattern=".{3,}",
+						title="3 caracteres mínimo") }}
 
 		{{ busqueda.submit(class_="btn btn-default") }}
+		</div>
 		</form>
 		
 		{% if resultados: %}
-		<br>
-		<p>Mostrando resultados:</p>
+		<br><br>
+		<p><i>Mostrando resultados</i>:</p>
 		<table class="table table-hover table-striped">
 			{% for linea in resultados: %}
 

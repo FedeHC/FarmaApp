@@ -15,7 +15,7 @@
 <!-- Pagina -->
 {% block navbar %}
 <nav class="navbar navbar-default navbar-static-top">
-	<div class="container">
+	<div class="container-fluid">
 
 		{# SI existe una sesión de usuario abierta... #}
 		{% if session["user"]: %}
@@ -35,10 +35,10 @@
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="/productos">Productos</a></li>
-				<li><a href="/clientes">Clientes</a></li>
-				<li><a href="/masvendidos">Más Vendidos</a></li>
-				<li><a href="/masgastaron">Más Gastaron</a></li>
+				<li><a href="/clientes">Productos <strong>por cliente</strong></a></li>
+				<li><a href="/productos">Clientes <strong>por productos</strong></a></li>
+				<li><a href="/masvendidos">Productos <strong>más vendidos</strong></a></li>
+				<li><a href="/masgastaron">Clientes que <strong>más gastaron</strong></a></li>
 			</ul>
 
 			<ul class="nav navbar-right navbar-nav">

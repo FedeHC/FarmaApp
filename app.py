@@ -28,7 +28,7 @@ USER_CLAVE = RUTA + "usuario_clave.csv"
 app.config["SECRET_KEY"] = "UnaClaveSecreta"			# Clave random para formularios de Flask-WTF.
 app.config["BOOTSTRAP_SERVE_LOCAL"] = True 				# Para activar versión local de Bootstrap.
 app.config["BOOTSTRAP_QUERYSTRING_REVVING"] = False		# Para quitar el "?bootstrap=..." cuando se
-														# busca archivos de bootstrap locales.
+														# buscan los archivos de bootstrap locales.
 
 # Funciones:
 @app.route("/index", methods=["GET", "POST"])
@@ -102,7 +102,7 @@ def usuario():
 		return redirect(url_for("inicio"))
 
 
-@app.route("/productos", methods=["GET", "POST"])
+@app.route("/clientes", methods=["GET", "POST"])
 def pxc():
 	""" Función que lleva a pxc.html o inicio.html según determinadas condiciones. """
 
@@ -140,7 +140,7 @@ def pxc():
 		return redirect(url_for("inicio"))
 
 
-@app.route("/clientes", methods=["GET", "POST"])
+@app.route("/productos", methods=["GET", "POST"])
 def cxp():
 	""" Función que lleva a cxp.html o inicio.html según determinadas condiciones. """
 

@@ -10,7 +10,6 @@
 		{% if error: %}
 			<h4><span class="label label-danger">{{ error }}</span>&nbsp;</h4>
 		{% endif %}
-		<br>
 		<form method="POST">
 		{{ busqueda.csrf_token }}
 		{{ busqueda.buscar(autofocus=true,
@@ -23,7 +22,6 @@
 
 		{{ busqueda.submit(class_="btn btn-default") }}
 		</form>
-		<br>
 
 		{% if resultados: %}
 		<br>

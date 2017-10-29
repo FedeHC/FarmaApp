@@ -50,13 +50,17 @@ def inicio():
 
 			# Si la clave no corresponde con ese usuario:
 			else:
-				mensaje = "Contraseña inválida para <b>{}</b>".format(log.usuario.data)
-				return render_template("inicio.html", login=log, info=mensaje)
+				error = "Contraseña inválida para <b>{}</b>".format(log.usuario.data)
+				return render_template("inicio.html",
+										error=error,
+										login=log)
 
 		# Si el usuario no existe en la DB:
 		else:
-			mensaje = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
-			return render_template("inicio.html", login=log, info=mensaje)
+			error = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
+			return render_template("inicio.html",
+									error=error,
+									login=log)
 
 
 	# Si existe algún 'user' en session:
@@ -64,7 +68,8 @@ def inicio():
 		return redirect(url_for("usuario"))
 
 	# En caso de ingresar por primera vez:
-	return render_template("inicio.html", login=log)
+	return render_template("inicio.html",
+							login=log)
 
 
 @app.route("/usuario", methods=["GET", "POST"])

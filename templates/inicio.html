@@ -6,8 +6,8 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-sm-4 col-sm-offset-1 caja">
-		{% if info != '': %}
-			<h4><span class="label label-danger">{{ info|safe }}</span>&nbsp;</h4>
+		{% if error: %}
+			<h4><span class="label label-danger">{{ error|safe }}</span>&nbsp;</h4>
 		{% endif %}
 
 		{% with mensaje_info = get_flashed_messages() %}
@@ -16,7 +16,7 @@
 			{% endif %}
 		{% endwith %}
 
-		<h1 class="titulo">Ingresar</h1>
+		<h1 class="titulo">Ingresar:</h1>
 		<h2 class="subtitulo"><i>Solo usuarios registrados</i></h2>
 		<form method="POST">
 			{{ login.csrf_token }}

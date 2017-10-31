@@ -9,7 +9,16 @@ Aplicación web realizada como trabajo de parcial para las materias de [Paradigm
 
 ## Informe
 
-### Flujo del programa/funcionamiento:
+### Modo de uso:
+
+La app cuenta con un login donde el usuario debe loguearse para poder ingresar y realizar las consultas disponibles. 
+
+* **Nota:** ver archivo [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) para ver los usuarios/contraseña ya registrados.
+
+Una vez logueado, se visualiza un título de bienvenida seguido de las últimas ventas realizadas. Desde allí el usuario puede optar por realizar cualquiera de las 4 consultas disponibles  o salir.
+
+
+### Flujo del programa:
 
 La aplicación parte desde [app.py](https://github.com/FedeHC/FarmaApp/blob/master/app.py), que redirige al HTML correspondiente de acuerdo a si hay un usuario logueado o no:
 

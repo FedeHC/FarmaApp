@@ -5,6 +5,7 @@ Aplicación web realizada como trabajo de parcial para las materias de [Paradigm
 * *Alumno: **Federico H. Cacace**.*
 * *Profesor: **Leandro E. Colombo Viña**.*
 
+
 ![Imagen](https://i.imgur.com/nUSoQcD.png)
 
 ## Informe
@@ -13,7 +14,7 @@ Aplicación web realizada como trabajo de parcial para las materias de [Paradigm
 
 La app cuenta con un login donde el usuario debe loguearse para poder ingresar y realizar las consultas disponibles. 
 
-* **Nota:** ver archivo [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) para ver los usuarios/contraseña ya registrados.
+* **Nota:** ver archivo [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) para ver los pares usuario/contraseña ya registrados.
 
 Una vez logueado, se visualiza un título de bienvenida seguido de las últimas ventas realizadas. Desde allí el usuario puede optar por realizar cualquiera de las 4 consultas disponibles o salir.
 
@@ -24,7 +25,7 @@ La aplicación parte desde [app.py](https://github.com/FedeHC/FarmaApp/blob/mast
 
 + Si no hay usuario logueado, se redirige a [inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html) para que el mismo pueda loguearse.
 
-+ Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas, o lo que contenga el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecutarse la app, o mensajes de error si no se encuentra bien validado.
++ Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas; o lo que contenga el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecutarse la app, o mensajes de error si no se encuentra éste bien validado.
 En caso de estar bien validado, desde ahí puede elegirse las 4 consultas que se disponen:
 	+ **Productos por cliente** ([pxc.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pxc.html)): el usuario puede consultar todos los productos que compró un cliente determinado.
 	+ **Clientes por producto** ([cxp.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cxp.html)): el usuario puede también consultar todos los clientes que compraron un producto en particular.
@@ -52,17 +53,17 @@ En caso de estar bien validado, desde ahí puede elegirse las 4 consultas que se
 * **[consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py):**  el  que crea al anterior a modo de objeto y que contiene los métodos necesarios para realizar todas las consultas solicitadas a lo largo del sitio.
 	
     
-* **[db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py):**  el script que permite guardar en [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) todos los usuarios ya registrados, con sus respectivas contraseñas.
+* **[db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py):**  el script que permite guardar en [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) todos los pares usuario/contraseña.
 
 
-* **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas divididos en campos separados por coma. La primera fila indica el tipo y el orden de los campos (este puede venir en cualquier orden, siempre que sean solamente los 5 campos especificados en el ejercicio).
+* **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas divididos en campos separados por coma. La primera fila indica el tipo y el orden de los campos (éste puede venir en cualquier orden, siempre que sean solamente los 5 campos especificados en el ejercicio).
 
 
-* **[usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv):** Otro fichero de texto plano que guarda los usuarios y sus contraseñas correspondientes.
+* **[usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv):** Otro fichero de texto plano que guarda los pares usuario/contraseña correspondientes.
 
 #### [En carpeta templates]
 
-* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar más la division contenedora principal del sitio. Se usa justamente de base para los demás templates. El navbar varia su contenido, monstrando las distintas consultas disponibles y el nombre del usuario si este está logueado (incluyendo la opción de salir).
+* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar más la division contenedora principal del sitio. Se usa justamente de base para los demás templates. El navbar varia su contenido, monstrando las distintas consultas disponibles y el nombre del usuario si éste está logueado (incluyendo la opción de salir).
     
 
 * **[inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html):** Contiene el formulario de logueo para ingresar al sitio.
@@ -97,7 +98,7 @@ En caso de estar bien validado, desde ahí puede elegirse las 4 consultas que se
 
 ### Clases usadas en la aplicación:
 
-*  Clase **DB** (en [db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py#L8)): Clase que recibe un nombre de archivo en su constructor y que cuenta con los métodos necesarios para leer y chequear todos los usuarios/contraseña ya registrados.
+*  Clase **DB** (en [db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py#L8)): Clase que recibe un nombre de archivo en su constructor y que cuenta con los métodos necesarios para leer y chequear todos los pares usuario/contraseña ya registrados.
 
 
 *  Clase **Csv** (en [validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py#L9)): Clase que recibe en su constructor un nombre de archivo como fuente de *datos* y un archivo *log* para guardar errores. Cuenta con los métodos para abrir el archivo fuente y validar sus campos, fila por fila.

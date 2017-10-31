@@ -84,12 +84,13 @@ def usuario():
 
 		# Chequeando que validación del CSV haya sido correcta:
 		if consulta.csv.ok:
-			resultados, nro_filas, cantidad = consulta.ultimos_resultados(5)
+			CANTIDAD=5
+			resultados, nro_filas = consulta.ultimos_resultados(CANTIDAD)
 
 			return render_template("usuario.html",
 									resultados=resultados,
 									nro_filas=nro_filas,
-									cantidad=cantidad)
+									cantidad=CANTIDAD)
 
 		# En caso de que el CSV no se haya validado correctamente:
 		else:
@@ -106,7 +107,7 @@ def usuario():
 def pxc():
 	""" Función que lleva a pxc.html o inicio.html según determinadas condiciones. """
 
-	# SI existe 'user' en sesión:
+	# SI hay 'user' en sesión:
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
 
@@ -118,7 +119,7 @@ def pxc():
 
 			# Creando objeto consulta y obteniendo resultados:
 			consulta = consultas.Consultas(ARC_CSV, ERROR)
-			resultados, columnas = consulta.listar_x_en_y("PRODUCTO", "CLIENTE", palabra)
+			resultados, columnas = consulta.listar_x_en_y(palabra, "PRODUCTO", "CLIENTE")
 			
 			# Si hubo resultados:
 			if len(resultados) > 1:
@@ -133,7 +134,8 @@ def pxc():
 										error=error)					
 
 		# Si no se envia aún ninguna búsqueda:
-		return render_template("pxc.html", busqueda=busqueda)
+		return render_template("pxc.html",
+								busqueda=busqueda)
 
 	# Si NO hay 'user' en sesión:
 	else:
@@ -156,7 +158,7 @@ def cxp():
 			
 			# Creando objeto consulta y obteniendo resultados:
 			consulta = consultas.Consultas(ARC_CSV, ERROR)
-			resultados, columnas = consulta.listar_x_en_y("CLIENTE", "PRODUCTO", palabra)
+			resultados, columnas = consulta.listar_x_en_y(palabra, "CLIENTE", "PRODUCTO")
 
 			# SI hubo resultados:
 			if len(resultados) > 1:
@@ -172,7 +174,8 @@ def cxp():
 										error=error)
 		
 		# Si NO se envia aún ninguna búsqueda:
-		return render_template("cxp.html", busqueda=busqueda)
+		return render_template("cxp.html",
+								busqueda=busqueda)
 
 	# Si NO hay 'user' en sesión:
 	else:
@@ -185,8 +188,27 @@ def pmv():
 
 	# SI hay 'user' en sesión:
 	if session.get("user"):
-		return render_template("pmv.html")
-	
+		traer = formularios.Traer()
+
+		# Si se presiona el botón 'enviar':
+		if traer.validate_on_submit():
+
+			# Obteniendo palabra desde un IntegerField del formulario:
+			cantidad = traer.buscar.data
+
+			# Creando objeto consulta y obteniendo resultados:
+			consulta = consultas.Consultas(ARC_CSV, ERROR)
+			resultados, columnas = consulta.listar_los_mas_x(cantidad, "PRODUCTO", "CANTIDAD")
+
+			return render_template("pmv.html",
+									traer=traer,
+									resultados=resultados,
+									columnas=columnas)
+
+		# Si NO se envia aún ninguna búsqueda:
+		return render_template("pmv.html",
+		 						traer=traer)
+
 	# Si NO hay 'user' en sesión:
 	else:										
 		return redirect(url_for("inicio"))
@@ -198,8 +220,27 @@ def cmg():
 
 	# SI hay 'user' en sesión:
 	if session.get("user"):
-		return render_template("cmg.html")
-	
+		traer = formularios.Traer()
+
+		# Si se presiona el botón 'enviar':
+		if traer.validate_on_submit():
+
+			# Obteniendo palabra desde un IntegerField del formulario:
+			cantidad = traer.buscar.data
+
+			# Creando objeto consulta y obteniendo resultados:
+			consulta = consultas.Consultas(ARC_CSV, ERROR)
+			resultados, columnas = consulta.listar_los_mas_x(cantidad, "CLIENTE", "PRECIO")
+
+			return render_template("cmg.html",
+									traer=traer,
+									resultados=resultados,
+									columnas=columnas)
+
+		# Si NO se envia aún ninguna búsqueda:
+		return render_template("cmg.html",
+		 						traer=traer)
+
 	# Si NO hay 'user' en sesión:
 	else:										
 		return redirect(url_for("inicio"))

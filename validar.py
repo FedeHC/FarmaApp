@@ -19,26 +19,23 @@ class Csv():
 			log: El archivo que guardará todos los mensajes de error, en caso de haberlos.
 		"""
 
-		# Variable de estado que constata la correcta ejecución de todas las validaciones.
-		# Si las validaciones resultan OK pasará a 'True', en caso contrario pasará a 'False':
-		self.ok = None					
+		# Variable que constatará si todas la validaciones fueron correctas o no:
+		self.ok = None
 
-		# Lista de errores que contendrá una lista de 3 campos:
-		# El tipo de campo, el n° de linea con el error y el mensaje en cuestión:
+		# Lista que guardará otras listas con 3 campos: tipo, linea y error:
 		self.mensajes_error = []
 		
-		# Diccionario que contendrá las pos. de los campos:
+		# Diccionario que guarda la posición relativa de los campos:
 		self.campos = {"CODIGO": 0, "CLIENTE": 0, "PRODUCTO": 0, "CANTIDAD": 0, "PRECIO": 0}
 
-		try:			
-			# Creando un error.log desde cero:
+		try:
+			# Creando un error.log desde cero.
 			with open(log, "w") as archivo_log:
 				archivo_log.write("")
 
-			# Llamando al método que ejecutará todas las validaciones:
+			# Método que ejecutará todas las validaciones:
 			self.validando(archivo)
 
-		# En caso de surgir una 'MiExcepción'...
 		except MiExcepcion as e:
 			with open(log, "w") as archivo_log:
 				for linea in e.mensajes_error:
@@ -52,12 +49,10 @@ class Csv():
 			nombre_archivo: El archivo que contiene todo el CSV.
 		 """
 
-		# Abriendo archivo y objeto CSV:
+		# Abriendo:
 		archivo, csv = self.abrir_csv(nombre_archivo)
 		
-		# Si no hubo problemas en el paso anterior...
 		if archivo:
-
 			# Asumimos que la 1ra fila del CSV contiene los campos correctamente...
 			self.obtener_ubicacion_campos(archivo, csv)
 
@@ -67,11 +62,11 @@ class Csv():
 			self.cantidades(archivo, csv, self.campos["CANTIDAD"])
 			self.precios(archivo, csv, self.campos["PRECIO"])
 
-			# Si no hubo mensajes de error:
+			# Si NO hubo mensajes de error:
 			if len(self.mensajes_error) == 0:
 				self.ok = True
-			
-			# En caso contrario levantamos excepción:
+
+			# En caso contrario:
 			else:
 				self.ok = False
 				raise MiExcepcion(self.mensajes_error)
@@ -114,7 +109,7 @@ class Csv():
 
 	def obtener_ubicacion_campos(self, archivo, csv):
 		""" Método que obtiene la 1ra fila de un archivo CSV.
-		Se asume que este siempre existe y que sus campos pueden estar en distinto orden.
+		Se asume que este siempre existe y que sus campos pueden venir en cualquier orden.
 		
 		Args:
 			archivo: El objeto open() abierto.
@@ -122,12 +117,12 @@ class Csv():
 		"""
 
 		for c, fila in enumerate(csv):
-			if c == 0:  									# Si es la 1ra fila...
+			if c == 0:  								# Si es la 1ra fila...
 				for posicion, campo in enumerate(fila):
-					campo = campo.upper().strip()			# Sacando espacios, convirtiendo a may.
-					self.campos[campo] = posicion			# Asignando pos. del campo.
+					campo = campo.upper().strip()
+					self.campos[campo] = posicion
 		
-		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		archivo.seek(0)
 		return 0
 
 
@@ -141,12 +136,12 @@ class Csv():
 		"""
 	
 		for c, fila in enumerate(csv):
-			if c > 0:							# Si es filas de datos...
-				if len(fila) != cant_campos:	# Si el largo de la fila coincide con la 1ra...
+			if c > 0:									# Si es filas de datos...
+				if len(fila) != cant_campos:
 					self.mensajes_error.append([c+1, "Se encontró distinta cantidad de campos.", "Campos"])
 					estado = False
 
-		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		archivo.seek(0)
 		return 0
 
 
@@ -160,11 +155,11 @@ class Csv():
 		"""
 
 		for c, fila in enumerate(csv):
-			if c > 0:											# Si es filas de datos...
-				if fila[codigo] == "" or fila[codigo] == " ":  	# Si el código está vacío...
+			if c > 0:									# Si es filas de datos...
+				if fila[codigo] == "" or fila[codigo] == " ":
 					self.mensajes_error.append([c+1, "Se encontró un código vacío.","Códigos"])
 
-		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		archivo.seek(0)
 		return 0
 
 
@@ -178,27 +173,22 @@ class Csv():
 		"""
 
 		for c, fila in enumerate(csv):
-			if c > 0:								# Si es filas de datos...
+			if c > 0:									# Si es filas de datos...
 				parte_entera = 0
 				parte_fraccion = 0
 				error = False
 
 				try:
-					valor = fila[cantidad]				# Obtenemos el string.
-					p = valor.index(".")				# Obtenemos el punto decimal.
-					parte_entera = int(valor[:p])		# Sacamos parte entera.
-					parte_fraccion = int(valor[p + 1:]) # Y sacamos parte fracionaria.
+					# Traemos string, la pos. del pto. decimal y de ahí la parte entera y frac.:
+					valor = fila[cantidad]
+					p = valor.index(".")
+					parte_entera = int(valor[:p])
+					parte_fraccion = int(valor[p + 1:])
 
-				except ValueError:				# En caso de no poder castear...
-					error = True
-
-				except IndexError:				# En caso de encontrar un "fuera de índice"...
-					error = True
-
-				if error or parte_fraccion > 0:
+				except (ValueError, IndexError):
 					self.mensajes_error.append([c+1, "El campo cantidad no contiene un valor entero.", "Cantidades"])
 
-		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		archivo.seek(0)
 		return 0
 
 
@@ -212,26 +202,20 @@ class Csv():
 		"""
 
 		for c, fila in enumerate(csv):
-			if c > 0:							# Si es filas de datos...
+			if c > 0:									# Si es filas de datos...
 				parte_entera = 0
 				parte_fraccion = 0
-				error = False
 
+				# Obtenemos string y de ahí sacamos parte entera y fraccionaria:
 				try:
-					valor = fila[precio]				# Obtenemos el string.
-					parte_entera = int(valor[:-3])		# Sacamos parte entera.
-					parte_fraccion = int(valor[-2:])	# Y sacamos parte fracionaria.
+					valor = fila[precio]
+					parte_entera = int(valor[:-3])
+					parte_fraccion = int(valor[-2:])
 
-				except ValueError:				# En caso de no poder castear...
-					error = True
-
-				except IndexError:				# En caso de encontrar un "fuera de índice"...
-					error = True
-
-				if error:
+				except (ValueError, IndexError):
 					self.mensajes_error.append([c+1, "El campo precio no contiene un un valor decimal.","Precios"])
 
-		archivo.seek(0)							# Ponemos el cursor del archivo en cero.
+		archivo.seek(0)
 		return 0
 
 
@@ -245,6 +229,8 @@ class MiExcepcion(Exception):
 			mensajes_error: La lista que contiene todos los mensajes de error generados a lo
 			largo de todas las verificaciones realizadas.
 		"""
+
 		self.mensajes_error = mensajes_error
+
 
 # FIN

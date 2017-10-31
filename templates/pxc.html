@@ -7,9 +7,11 @@
 <div class="row">
 	<div class="col-xs-12 caja">
 		<h1 class="titulo">Productos <span class="text-danger">por cliente</span>:</h1>
+		
 		{% if error: %}
 			<h4><span class="label label-danger">{{ error }}</span>&nbsp;</h4>
 		{% endif %}
+
 		<form method="POST" class="form-inline">
 		<div class="form-group">
 		{{ busqueda.csrf_token }}
@@ -68,6 +70,7 @@
 		</table>
 		</div>
 		{% endif %}
+		
 	</div>
 </div>
 {% endblock page_content%}

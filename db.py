@@ -14,6 +14,7 @@ class DB():
 		Args:
 			nombre_archivo: El nombre de archivo en el que se guardará user y pass.
 		"""
+		
 		self.nombre_archivo = nombre_archivo
 
 
@@ -33,7 +34,6 @@ class DB():
 		
 		try:
 			import csv
-
 			archivo = open(self.nombre_archivo ,'r')
 			csv_abierto = csv.reader(archivo, delimiter='|')
 			return archivo, csv_abierto
@@ -57,14 +57,13 @@ class DB():
 		rto_campo1 = False
 		rto_campo2 = False
 
-		if(archivo):
+		if archivo:
 			for c, fila in enumerate(csv):
 				if c > 0:
 					if fila[0] == campo1:
 						rto_campo1 = True
 						if fila[1] == campo2:
 							rto_campo2 = True
-
 			archivo.close()
 
 		return rto_campo1, rto_campo2

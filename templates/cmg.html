@@ -8,7 +8,45 @@
 	<div class="col-xs-12 caja">
 		<h1 class='titulo'>Clientes que <span class="text-danger">más gastaron</span>:</h1>
 		<br>
-		<p>[ Detalles acá ]</p>
+
+		<form method="POST" class="form-inline">
+		<div class="form-group">
+		{{ traer.csrf_token }}
+		
+		{{ traer.buscar(class_="form-control",
+						autofocus=true,
+						required="",
+						placeholder="Ingrese cantidad:",
+						size=15,
+						maxlength=6) }}
+
+		{{ traer.submit(class_="btn btn-default") }}
+		</div>
+		</form>
+
+		{% if resultados: %}
+		<br><br>
+		<p><i>Mostrando todos los resultados obtenidos</i>:</p>
+
+		<div class="table-responsive">
+		<table class="table table-hover table-striped">
+			<tr>
+			<th>#</th>
+			<th>PRODUCTOS</th>
+			<th>PRECIOS</th>	
+			</tr>
+			{% for linea in resultados: %}
+				<tr>
+				<th>{{ loop.index }}</th>
+				{% for campo in linea: %}
+					<td>{{ campo }}</td>
+				{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+		</div>
+		{% endif %}
+
 	</div>
 </div>
 {% endblock page_content%}

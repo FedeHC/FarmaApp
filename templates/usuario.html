@@ -40,14 +40,14 @@
 
 		{% else: %}
 		<h1 class="titulo">¡Bienvenido {{ session["user"] }}!</h1>
-		<p>Mostrando las últimas {{ cantidad }} ventas:</p>
+		<p>Mostrando las últimas {{ cantidad }} ventas (o las que hay):</p>
 		<br>
 
 		<div class="table-responsive">
 		<table class="table table-hover table-striped">
 			{% for linea in resultados: %}
 
-				{% if loop.index == 1: %}
+				{% if loop.index0 == 0: %}
 					<tr>
 					<th>#</th>
 					{% for campo in linea: %}
@@ -57,7 +57,7 @@
 
 				{% else: %}
 					<tr>
-					<th>{{ nro_filas + loop.index }}</th>
+					<th>{{ nro_filas + loop.index0 }}</th>
 					{% for campo in linea: %}
 						<td>{{ campo }}</td>
 					{% endfor %}

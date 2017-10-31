@@ -24,7 +24,7 @@ La aplicación parte desde [app.py](https://github.com/FedeHC/FarmaApp/blob/mast
 
 + Si no hay usuario logueado, se redirige a [inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html) para que el mismo pueda loguearse.
 
-+ Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas (o lo que contenga el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecutarse la aplicación).
++ Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas, o lo que contenga el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecutarse la app, o mensajes de error si no se encuentra bien validado.
 Y desde ahí puede elegirse las 4 consultas que se disponen:
 	+ **Productos por cliente** ([pxc.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pxc.html)): el usuario puede consultar todos los productos que compró un cliente determinado.
 	+ **Clientes por producto** ([cxp.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cxp.html)): el usuario puede también consultar todos los clientes que compraron un producto en particular.

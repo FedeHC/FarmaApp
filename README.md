@@ -118,7 +118,7 @@ Y desde ahí puede elegirse las 4 consultas que se disponen:
 *  Clase **Busqueda** (en [formularios.py](https://github.com/FedeHC/FarmaApp/blob/master/formularios.py#L22)): Clase que también hereda de WTForms y que contiene los inputs necesarios para los formulario de búsqueda en [pxc.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pxc.html) y [cxp.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cxp.html)
 
 
-*  Clase **Traer** (en [formularios.py](https://github.com/FedeHC/FarmaApp/blob/master/formularios.py#L30)): Clase que también ereda de WTForms y que contiene los inputs necesarios para los formulario de búsqueda en [pmv.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pmv.html) y [cmg.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cmg.html)
+*  Clase **Traer** (en [formularios.py](https://github.com/FedeHC/FarmaApp/blob/master/formularios.py#L30)): Clase que también hereda de WTForms y que contiene los inputs necesarios para los formulario de búsqueda en [pmv.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pmv.html) y [cmg.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cmg.html)
 
 
 ## Instalación/Requisitos

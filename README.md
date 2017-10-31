@@ -15,45 +15,45 @@ La aplicación parte desde [app.py](https://github.com/FedeHC/FarmaApp/blob/mast
 
 + Si no hay usuario logueado, se redirige a [inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html) para que el mismo pueda loguearse.
 
-+ Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas (o lo que contenga [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecturse la aplicación).
++ Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas (o lo que contenga el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecutarse la aplicación).
 Desde allí puede elegirse las 4 consultas disponibles:
 	+ **Productos por cliente** ([pxc.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pxc.html)): el usuario puede consultar todos los productos que compró un cliente determinado.
-	+ **Clientes por producto** ([cxp.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cxp.html)): el usuario puede también consultar todos los clientes que compraron un producto especificado.
-	+ **Productos más vendidos** ([pmv.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pmv.html)): el usuario puede traer acá una lista dos los productos que más se vendieron por unidad.
-	+ **Clientes que más gastaron** ([cmg.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cmg.html)): el usuario puede traer acá una lista dos los clientes que más gastaron por venta.
+	+ **Clientes por producto** ([cxp.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cxp.html)): el usuario puede también consultar todos los clientes que compraron un producto en particular.
+	+ **Productos más vendidos** ([pmv.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pmv.html)): el usuario puede solicitar una lista con los productos que más se vendieron por unidad, ingresando la cantidad a mostrar.
+	+ **Clientes que más gastaron** ([cmg.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cmg.html)): el usuario puede solicitar una lista con los clientes que más gastaron por venta, ingresando la cantidad a mostrar.
 
-	+ (El usuario puede elegir desloguearse al elegir el menu que lleva su nombre de usuario y hacer click en *salir*).
+	+ (El usuario puede elegir desloguearse al elegir el menu que lleva su nombre-->*salir*).
 
 ### Estructura de la aplicación:
 
 #### [En raiz]
 
-*  **[app.py](https://github.com/FedeHC/FarmaApp/blob/master/app.py):** el programa principal. El mismo importa e instancia:
+*  **[app.py](https://github.com/FedeHC/FarmaApp/blob/master/app.py):** el programa principal. El mismo importa e instancia los siguientes:
 	+ *Flask* y todas las extensiones empleadas (Flask-Bootstrap, Flask-Script)
 	+ Las clases propias utilizadas para realizar las consultas.
 	
-    También contiene configuraciones varias para la app y los distintas rutas con el origen de los archivos de datos (a modo de constantes).
+    También contiene configuraciones varias y las distintas rutas con el origen de los archivos de datos.
     
-    Y por sobre todo contiene también todas las funciones necesarias para redirigir a los templates correspondientes según elija el usuario y las condiciones impuestas de acuerdo al caso.
+    Su función pricipal es contener todas las funciones necesarias para redirigir a los templates correspondientes según elija el usuario y las condiciones impuestas de acuerdo al caso (si está logueado, si hay datos disponibles, si la validación fue correcta, etc.)
     
 
-* **[validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py):** el script que valida el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) pasado como fuente de datos.
+* **[validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py):** el script que valida el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) pasado como fuente de datos de las todas las ventas realizadas.
 
 
-* **[consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py):**  el  que crea al anterior a modo de objeto y que contiene los métodos necesarios para realizar todas las consultas solicitadas.
+* **[consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py):**  el  que crea al anterior a modo de objeto y que contiene los métodos necesarios para realizar todas las consultas solicitadas a lo largo del sitio.
 	
     
-* **[db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py):**  el script que permite guardar en [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) todos los usuarios ya registrados con sus respectivas constraseñas.
+* **[db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py):**  el script que permite guardar en [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) todos los usuarios ya registrados, con sus respectivas contraseñas.
 
 
-* **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas divididos en campos separados por coma. La primera fila indica el tipo y el orden de los campos.
+* **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas divididos en campos separados por coma. La primera fila indica el tipo y el orden de los campos (este puede venir en cualquier orden, siempre que sean solamente los 5 campos especificados en el ejercicio).
 
 
 * **[usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv):** Otro fichero de texto plano que guarda los usuarios y sus contraseñas correspondientes.
 
 #### [En carpeta templates]
 
-* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar más la division contenedora principal del sitio. Se usa de base para los restantes templates y el navbar muestra las distintas consultas disponibles si el usuario está logueado (además de la opción de salir).
+* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar más la division contenedora principal del sitio. Se usa justamente de base para los demás templates. El navbar varia su contenido, monstrando las distintas consultas disponibles y el nombre del usuario si este está logueado (incluyendo la opción de salir).
     
 
 * **[inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html):** Contiene el formulario de logueo para ingresar al sitio.
@@ -80,27 +80,27 @@ Desde allí puede elegirse las 4 consultas disponibles:
 * **[estilos.css](https://github.com/FedeHC/FarmaApp/blob/master/static/estilos.css):** El archivo CSS con los estilos propios usados a lo largo del sitio.
 
 
-* Carpeta **[imágenes](https://github.com/FedeHC/FarmaApp/tree/master/static/imagenes):** La carpeta que contiene el icono del sitio más las imágenes por para [404.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/404.html) y [500.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/500.html).
+* Carpeta **[imágenes](https://github.com/FedeHC/FarmaApp/tree/master/static/imagenes):** La carpeta que contiene el icono del sitio más las imágenes usadas para [404.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/404.html) y [500.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/500.html).
 
 
-* Carpeta **[bootstrap](https://github.com/FedeHC/FarmaApp/tree/master/static/bootstrap):** Carpeta donde se descarga todo el contenido necesario para usar [Bootstrap](http://getbootstrap.com/docs/3.3/getting-started/#download) y [jQuery](http://jquery.com/download/) en nuestra aplicación en modo local (evitando usar el CDN por defecto).
+* Carpeta **[bootstrap](https://github.com/FedeHC/FarmaApp/tree/master/static/bootstrap):** Carpeta donde se descarga todo el contenido necesario para usar [Bootstrap](http://getbootstrap.com/docs/3.3/getting-started/#download) y [jQuery](http://jquery.com/download/) en nuestra aplicación a modo local (evitando usar el CDN).
 
 
 ### Clases usadas en la aplicación:
 
-*  Clase **DB** (en [db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py#L8)): Clase que recibe un nombre de archivo en su constructor y que cuenta con los métodos necesarios para leer y chequear los usuarios/contraseña registrados.
+*  Clase **DB** (en [db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py#L8)): Clase que recibe un nombre de archivo en su constructor y que cuenta con los métodos necesarios para leer y chequear todos los usuarios/contraseña ya registrados.
 
 
-*  Clase **Csv** (en [validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py#L9)): Clase que recibe en su constructor un nombre de archivo como fuente de *datos* y un archivo *log* para guardar errores. Cuenta con los métodos para abrir el archivo fuente y validar sus campos fila por fila.
+*  Clase **Csv** (en [validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py#L9)): Clase que recibe en su constructor un nombre de archivo como fuente de *datos* y un archivo *log* para guardar errores. Cuenta con los métodos para abrir el archivo fuente y validar sus campos, fila por fila.
 
 
 *  Clase **MiExcepcion** (en [validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py#L222)): Clase usada a modo de excepción personalizada en la clase **Csv** cuando surgen en esta mensajes de error a lo largo de las validaciones.
 
 
-*  Clase **Consultas** (en [consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py#L8)): Clase que también recibe en su constructor un nombre de archivo como fuente de *datos* y un archivo *log* para guardar errores. Esta instancia un objeto de la clase **Csv**, y si su validación es correcta entonces brinda los métodos necesarios para realizar todas las consultas de datos que se pueden hacer a lo largo del sitio web.
+*  Clase **Consultas** (en [consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py#L8)): Clase que también recibe en su constructor un nombre de archivo como fuente de *datos* y un archivo *log* para guardar errores. Esta misma clase instancia un objeto de la clase **Csv**, y si la validación del CSV en esta última es correcta entonces la clase *Consultas* brinda los métodos necesarios para realizar todas las consultas de datos que se pueden hacer a lo largo del sitio.
 
 
-*  Clase **Valores** (en [consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py#L174)): Clase que recibe solamente un nombre de campo y que representa en forma de lista de listas los resultados utilizados en uno de los métodos de la clase **Consultas**. En concreto, contiene los métodos necesarios para encontrar, sumar, agregar, ordenar/recortar/devolver los resultados en dicha lista.
+*  Clase **Valores** (en [consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py#L174)): Clase que recibe solamente un nombre de campo y que representa en forma de *lista de listas* los resultados utilizados en uno de los métodos de la clase **Consultas**. En concreto, contiene los métodos necesarios para encontrar, sumar, agregar, ordenar/recortar/devolver los resultados en dicha lista.
 
 
 *  Clase **Login** (en [formularios.py](https://github.com/FedeHC/FarmaApp/blob/master/formularios.py#L13)): Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario de logueo en [inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html).

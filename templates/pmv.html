@@ -33,13 +33,17 @@
 			<tr>
 			<th>#</th>
 			<th>PRODUCTOS</th>
-			<th>CANTIDADES</th>	
+			<th class="text-danger">CANTIDADES</th>	
 			</tr>
 			{% for linea in resultados: %}
 				<tr>
-				<th>{{ loop.index }}</th>
+				<th>{{ loop.index }}°</th>
 				{% for campo in linea: %}
-					<td>{{ campo }}</td>
+					{% if loop.index == 2: %}
+						<td><b class="text-danger">{{ campo }}</b></td>
+					{% else: %}
+						<td>{{ campo }}</td>
+					{% endif %}
 				{% endfor %}
 				</tr>
 			{% endfor %}

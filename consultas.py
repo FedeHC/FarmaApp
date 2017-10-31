@@ -26,6 +26,31 @@ class Consultas():
 
 		# 'self.csv.ok' contendrá el estado de la validación del CSV.
 
+	
+	def listar_x(self, campo):
+		""" Método que busca y devuelve filas del campo buscado en un CSV.
+
+		Args:
+			campo: Un nombre del campo sobre el que se buscará sus contenidos.
+
+		Returns:
+			resultados: Todas las filas pero solo con el contenido del campo pasado.
+		"""
+
+		# Obtenemos las ubicaciones de los campos ya sacados en 'validar.py':
+		nro_campo = self.csv.campos[campo]
+
+		archivo, csv = self.csv.abrir_csv(self.archivo)
+		
+		resultados = []
+		
+		for c, fila in enumerate(csv):
+			if c > 0 and fila[nro_campo] not in resultados:
+				resultados.append(fila[nro_campo])
+
+		archivo.seek(0)
+		return resultados
+
 
 	def listar_x_en_y(self, palabra, campo1, campo2):
 		""" Método que busca y devuelve filas de un CSV a partir de una palabra que	concuerde
@@ -51,9 +76,9 @@ class Consultas():
 		resultados = []
 		
 		for c, fila in enumerate(csv):
-			if c == 0:										# Si es la 1ra fila...
+			if c == 0:
 				resultados.append(fila)
-			else:											# Si son filas de datos...
+			else:
 				if palabra in fila[nro_campo2].lower():
 					resultados.append(fila)
 

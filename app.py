@@ -110,6 +110,10 @@ def pxc():
 	# SI hay 'user' en sesión:
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
+		
+		# Creando objeto consulta y obteniendo sugerencias:
+		consulta = consultas.Consultas(ARC_CSV, ERROR)
+		todos_clientes = consulta.listar_x("CLIENTE")
 
 		# Si se presiona el botón 'enviar':
 		if busqueda.validate_on_submit():
@@ -117,25 +121,27 @@ def pxc():
 			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
 
-			# Creando objeto consulta y obteniendo resultados:
-			consulta = consultas.Consultas(ARC_CSV, ERROR)
+			# Obteniendo resultados:
 			resultados, columnas = consulta.listar_x_en_y(palabra, "PRODUCTO", "CLIENTE")
 			
 			# Si hubo resultados:
 			if len(resultados) > 1:
 				return render_template("pxc.html",
 										busqueda=busqueda,
+										todos_clientes=todos_clientes,
 										resultados=resultados,
 										columnas=columnas)
 			else:
 				error = "No hubo resultados con ese término"
 				return render_template("pxc.html",
 										busqueda=busqueda,
+										todos_clientes=todos_clientes,
 										error=error)					
 
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("pxc.html",
-								busqueda=busqueda)
+								busqueda=busqueda,
+								todos_clientes=todos_clientes)
 
 	# Si NO hay 'user' en sesión:
 	else:
@@ -150,20 +156,24 @@ def cxp():
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
 
+		# Creando objeto consulta y obteniendo sugerencias:
+		consulta = consultas.Consultas(ARC_CSV, ERROR)
+		todos_productos = consulta.listar_x("PRODUCTO")
+
 		# Si se presiona el botón 'enviar':
 		if busqueda.validate_on_submit():
 			
 			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
 			
-			# Creando objeto consulta y obteniendo resultados:
-			consulta = consultas.Consultas(ARC_CSV, ERROR)
+			# Obteniendo resultados:
 			resultados, columnas = consulta.listar_x_en_y(palabra, "CLIENTE", "PRODUCTO")
 
 			# SI hubo resultados:
 			if len(resultados) > 1:
 				return render_template("cxp.html",
 										busqueda=busqueda,
+										todos_productos=todos_productos,
 										resultados=resultados,
 										columnas=columnas)
 			# Si NO hubo resultados:
@@ -171,11 +181,13 @@ def cxp():
 				error = "No hubo resultados con ese término"
 				return render_template("cxp.html",
 										busqueda=busqueda,
+										todos_productos=todos_productos,
 										error=error)
 		
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("cxp.html",
-								busqueda=busqueda)
+								busqueda=busqueda,
+								todos_productos=todos_productos)
 
 	# Si NO hay 'user' en sesión:
 	else:

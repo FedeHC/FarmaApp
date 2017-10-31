@@ -16,14 +16,20 @@
 		<div class="form-group">
 		{{ busqueda.csrf_token }}
 		
-		{{ busqueda.buscar(class_="form-control",
+		{{ busqueda.buscar(list="productos",
+						class_="form-control",
 						autofocus=true,
 						required="",
+						autocomplete="off",
 						placeholder="Ingrese producto",
 						size=25,
-						maxlength=25,
-						pattern=".{3,}",
-						title="3 caracteres mínimo") }}
+						maxlength=25) }}
+
+		<datalist id="productos">
+			{% for fila in todos_productos %}
+			<option value="{{ fila }}">{{ fila }}</option>
+			{% endfor %}
+		</datalist>
 
 		{{ busqueda.submit(class_="btn btn-default") }}
 		</div>

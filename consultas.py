@@ -107,7 +107,7 @@ class Consultas():
 
 		archivo, csv = self.csv.abrir_csv(self.archivo)
 
-		valores = Valores()
+		valores = Valores(campo2)
 
 		# Recorremos CSV y agregamos todas las filas al objeto 'valores':
 		for c, fila in enumerate(csv):
@@ -174,8 +174,12 @@ class Consultas():
 class Valores():
 	""" Clase que representa valores usados en método de la clase Consultas """
 
-	def __init__(self):
-		""" Constructor de la clase Valores. """		
+	def __init__(self, campo):
+		""" Constructor de la clase Valores.
+		Args:
+			campo: String que indica si los valores a trabajar son del tipo 'cantidad' o 'precio'.
+		"""
+		self.campo = campo
 		self.resultados = []
 
 
@@ -183,7 +187,7 @@ class Valores():
 		""" Método que busca un elemento a una lista
 		
 		Args:
-			elemento: string que describe el elemento a buscar.
+			elemento: String que describe el elemento a buscar.
 
 		Returns:
 			respuesta: booleando que describe el éxito de la búsqueda.
@@ -218,9 +222,12 @@ class Valores():
 			valor: float que representa el valor del elemento.
 		"""
 
-		# Se intenta castear elemento:
+		# Se intenta castear elemento según campo recibido:
 		try:
-			valor = float(valor)
+			if self.campo == 'PRECIO':
+				valor = float(valor)
+			else:
+				valor = int(float(valor))
 
 		except ValueError:
 			valor = "ERROR"

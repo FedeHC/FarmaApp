@@ -13,20 +13,20 @@
 		<div class="form-group">
 		{{ traer.csrf_token }}
 		
-		{{ traer.buscar(class_="form-control",
+		{{ traer.buscar(class_="form-control input-lg",
 						autofocus=true,
 						required="",
-						placeholder="Ingrese cantidad:",
-						size=15,
+						placeholder="Ingrese cantidad (ej: 10):",
+						size=20,
 						maxlength=6) }}
 
-		{{ traer.submit(class_="btn btn-default") }}
+		{{ traer.submit(class_="btn btn-default btn-lg") }}
 		</div>
 		</form>
 
 		{% if resultados: %}
 		<br><br>
-		<p><i>Mostrando todos los resultados obtenidos</i>:</p>
+		<p><i>Mostrando los productos más vendidos por cantidad</i>:</p>
 
 		<div class="table-responsive">
 		<table class="table table-hover table-striped">
@@ -40,7 +40,7 @@
 				<th>{{ loop.index }}°</th>
 				{% for campo in linea: %}
 					{% if loop.index == 2: %}
-						<td><b class="text-danger">{{ campo }}</b></td>
+						<td><b class="text-danger letra-grande">{{ campo }}</b> <span class="letra-chica">un.</span></td>
 					{% else: %}
 						<td>{{ campo }}</td>
 					{% endif %}

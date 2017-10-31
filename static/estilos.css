@@ -58,3 +58,7 @@ b {	color: #242424; }
 	color: snow;
 	background-color: #242424;;
 }
+
+.letra-chica { font-size: 10px; }
+
+.letra-grande { font-size: 20px; }

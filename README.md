@@ -115,7 +115,7 @@ Desde allí puede elegirse las 4 consultas disponibles:
 ## Instalación/Requisitos
 En caso de instalar la app desde el código fuente, es necesario tener instalados [Python 3](https://www.python.org/downloads/) y [Flask](http://flask.pocoo.org/)  nuestro sistema operativo.
 
-Además, es necesario también las siguientes extensiones:
+Además, es necesario también contar con las siguientes extensiones:
   * [Flask_WTF](https://flask-wtf.readthedocs.io/)
   * [Flask-Bootstrap](https://pythonhosted.org/Flask-Bootstrap/)
   * [Flask-Script](https://flask-script.readthedocs.io/)

@@ -40,7 +40,7 @@
 				<th>{{ loop.index }}°</th>
 				{% for campo in linea: %}
 					{% if loop.index == 2: %}
-						<td><b class="text-danger">{{ campo }}</b></td>
+						<td><b class="text-danger">$ {{ campo }}</b></td>
 					{% else: %}
 						<td>{{ campo }}</td>
 					{% endif %}

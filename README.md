@@ -50,20 +50,20 @@ En caso de estar bien validado, desde ahí puede elegirse las 4 consultas que se
 * **[validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py):** el script que valida el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) pasado como fuente de datos de las todas las ventas realizadas.
 
 
-* **[consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py):**  el  que crea al anterior a modo de objeto y que contiene los métodos necesarios para realizar todas las consultas solicitadas a lo largo del sitio.
+* **[consultas.py](https://github.com/FedeHC/FarmaApp/blob/master/consultas.py):**  el  que crea al anterior a modo de objeto y que contiene los métodos necesarios para realizar todas las consultas solicitadas por el ejercicio.
 	
     
 * **[db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py):**  el script que permite guardar en [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) todos los pares usuario/contraseña.
 
 
-* **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas divididos en campos separados por coma. La primera fila indica el tipo y el orden de los campos (éste puede venir en cualquier orden, siempre que sean solamente los 5 campos especificados en el ejercicio).
+* **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas, divididos en campos separados por coma. La primera fila indica siempre los tipos y el orden relativo de los campos (se asume que estos pueden venir en cualquier orden, pero también se asume que son siempre los mismos 5 campos especificados en el ejercicio).
 
 
 * **[usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv):** Otro fichero de texto plano que guarda los pares usuario/contraseña correspondientes.
 
 #### [En carpeta templates]
 
-* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar más la division contenedora principal del sitio. Se usa justamente de base para los demás templates. El navbar varia su contenido, monstrando las distintas consultas disponibles y el nombre del usuario si éste está logueado (incluyendo la opción de salir).
+* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar más la division contenedora principal del sitio. Se usa justamente de base para los demás templates. El navbar en si variará su contenido de acuerdo a si existe un user logueado o no. En caso de haberlo, mostrará los links a las distintas consultas disponibles y el nombre del usuario logueado (con la opción de salir).
     
 
 * **[inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html):** Contiene el formulario de logueo para ingresar al sitio.

@@ -15,7 +15,7 @@ La app cuenta con un login donde el usuario debe loguearse para poder ingresar y
 
 * **Nota:** ver archivo [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) para ver los usuarios/contraseña ya registrados.
 
-Una vez logueado, se visualiza un título de bienvenida seguido de las últimas ventas realizadas. Desde allí el usuario puede optar por realizar cualquiera de las 4 consultas disponibles  o salir.
+Una vez logueado, se visualiza un título de bienvenida seguido de las últimas ventas realizadas. Desde allí el usuario puede optar por realizar cualquiera de las 4 consultas disponibles o salir.
 
 
 ### Flujo del programa:
@@ -25,7 +25,7 @@ La aplicación parte desde [app.py](https://github.com/FedeHC/FarmaApp/blob/mast
 + Si no hay usuario logueado, se redirige a [inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html) para que el mismo pueda loguearse.
 
 + Si se ha logueado con éxito, se redirige a [usuario.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/usuario.html), en donde se mostrarán las últimas 5 ventas realizadas (o lo que contenga el [archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/archivo.csv) al momento de ejecutarse la aplicación).
-Desde allí puede elegirse las 4 consultas disponibles:
+Y desde ahí puede elegirse las 4 consultas que se disponen:
 	+ **Productos por cliente** ([pxc.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pxc.html)): el usuario puede consultar todos los productos que compró un cliente determinado.
 	+ **Clientes por producto** ([cxp.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/cxp.html)): el usuario puede también consultar todos los clientes que compraron un producto en particular.
 	+ **Productos más vendidos** ([pmv.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/pmv.html)): el usuario puede solicitar una lista con los productos que más se vendieron por unidad, ingresando la cantidad a mostrar.

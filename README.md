@@ -132,4 +132,4 @@ Además, es necesario también contar con las siguientes extensiones:
 
 (Para más detalles chequear [requirements.txt](https://github.com/FedeHC/FarmaApp/blob/master/requirements.txt))
 
- Se recomienda emplear un entorno virtual como [VirtualEnv](https://virtualenv.pypa.io/) o [VirtualEnvWrapper](https://virtualenvwrapper.readthedocs.io/) para ejecutar la app con dichas extensiones.]
+ Se recomienda emplear un entorno virtual como [VirtualEnv](https://virtualenv.pypa.io/) o [VirtualEnvWrapper](https://virtualenvwrapper.readthedocs.io/) para ejecutar la app con dichas extensiones.

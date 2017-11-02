@@ -12,7 +12,7 @@ Aplicación web realizada como trabajo de parcial para las materias de [Paradigm
 
 ### Modo de uso:
 
-La app cuenta con un login donde el usuario debe loguearse para poder ingresar y realizar las consultas disponibles. 
+La app cuenta con un login donde el usuario debe loguearse para poder ingresar y realizar las consultas solicitadas por el trabajo.
 
 * **Nota:** ver archivo [usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/usuario_clave.csv) para ver los pares usuario/contraseña ya registrados.
 

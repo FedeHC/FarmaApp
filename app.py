@@ -1,12 +1,13 @@
 # -----------------------------------------------------------------------------
-# Parcial de Estructura de Datos (2° Cuatr. 2017)
+# Final de Paradigmas de Programación y Estructura de Datos
+# (1° Año, 2° Cuatr. - 2017)
 #
 # -	Alumno: Federico H. Cacace
 # -	Profesor: Leandro E. Colombo Viña
 # -----------------------------------------------------------------------------
 
 from flask import Flask, render_template, redirect, url_for, flash, session
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap, StaticCDN
 from flask_script import Manager
 import formularios, consultas, db
 
@@ -30,46 +31,105 @@ app.config["BOOTSTRAP_SERVE_LOCAL"] = True 				# Para activar versión local de 
 app.config["BOOTSTRAP_QUERYSTRING_REVVING"] = False		# Para quitar el "?bootstrap=..." cuando se
 														# buscan los archivos de bootstrap locales.
 
+# App.extensions:
+app.extensions['bootstrap']['cdns']['jquery'] = StaticCDN()	# Para poder usar archivo jQuery local.
+
+
 # Funciones:
+@app.route("/login", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def inicio():
 	""" Función que lleva a inicio.html o usuario.html según condiciones. """
 	
-	log = formularios.Login()
-	
-	# Si se presiona el botón enviar:
-	if log.validate_on_submit():
+	# Si existe algún 'user' en sesión:
+	if session.get("user"):
+		return redirect(url_for("usuario"))
 
-		bd = db.DB(USER_CLAVE)
-		user, clave = bd.chequear(log.usuario.data, log.clave.data)
-		if user:
-			if clave:
-				session["user"] = log.usuario.data
-				return redirect(url_for("usuario"))
+	# En caso de no haber usuario logueado, se prosigue:
+	else:
+		log = formularios.Login()
+		
+		# Si se presiona el botón enviar:
+		if log.validate_on_submit():
 
-			# Si la clave no corresponde con ese usuario:
+			bd = db.DB(USER_CLAVE)
+			user, clave = bd.chequear(log.usuario.data, log.clave.data)
+
+			if user:
+				if clave:
+					session["user"] = log.usuario.data
+					return redirect(url_for("usuario"))
+
+				# Si la clave no corresponde con ese usuario:
+				else:
+					error = "clave inválida"
+					return render_template("inicio.html",
+											error=error,
+											login=log)
+
+			# Si el usuario no existe en la DB:
 			else:
-				error = "Contraseña inválida para <b>{}</b>".format(log.usuario.data)
+				error = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
 				return render_template("inicio.html",
 										error=error,
 										login=log)
 
-		# Si el usuario no existe en la DB:
-		else:
-			error = "<b>{}</b> no es un usuario registrado".format(log.usuario.data)
-			return render_template("inicio.html",
-									error=error,
-									login=log)
+		# En caso de ingresar por primera vez:
+		return render_template("inicio.html",
+								login=log)
 
 
-	# Si existe algún 'user' en session:
+@app.route("/registrarse", methods=["GET", "POST"])
+def registrarse():
+	""" Función que lleva a registro.html, inicio.html o usuario.html según condiciones. """
+
+	# Si existe algún 'user' en sesión:
 	if session.get("user"):
 		return redirect(url_for("usuario"))
 
-	# En caso de ingresar por primera vez:
-	return render_template("inicio.html",
-							login=log)
+	# En caso de no haber usuario logueado, se prosigue:
+	else:
+		registro = formularios.Registro()
+		
+		# Si se presiona el botón enviar:
+		if registro.validate_on_submit():
+			
+			# Si los campos de claves son distintos entre si:
+			if registro.clave.data != registro.repetir_clave.data:
+				error = "Las claves ingresadas son distintas entre si."
+				return render_template("registro.html",
+										error=error,
+										registro=registro)
+			
+			# Si ambas claves son iguales, se prosigue:
+			else:
+				bd = db.DB(USER_CLAVE)
+				user, clave = bd.chequear(registro.usuario.data, registro.clave.data)
+				
+				# Si ya existe usuario:
+				if user:
+					error = "<b>{}</b> ya es un usuario registrado".format(registro.usuario.data)
+					return render_template("registro.html",
+											error=error,
+											registro=registro)
+
+				# En caso contrario, se registra y se redirecciona a inicio:
+				registro_ok = bd.crear(registro.usuario.data, registro.clave.data)
+				if registro_ok:
+					flash("El usuario ha sido registrado con éxito")
+					return redirect(url_for("inicio"))
+
+				# Si surgió algún error durante el registro, se notifica:
+				else:
+					error = "Hubo un error al intentar registrarse en la DB."
+					return render_template("registro.html",
+											error=error,
+											registro=registro)
+
+		# En caso de ingresar por primera vez:
+		return render_template("registro.html",
+								registro=registro)
 
 
 @app.route("/usuario", methods=["GET", "POST"])
@@ -258,9 +318,63 @@ def cmg():
 		return redirect(url_for("inicio"))
 
 
+@app.route("/clave", methods=["GET", "POST"])
+def clave():
+	""" Función que lleva a clave.html o inicio.html según condiciones. """
+
+	# Si no existe algún 'user' en sesión, se redirige a inicio:
+	if not session.get("user"):
+		return redirect(url_for("inicio"))
+
+	# En caso de haberlo, se prosigue:
+	else:
+		cambio = formularios.Cambio_Clave()
+
+		# Si se presiona el botón enviar:
+		if cambio.validate_on_submit():
+
+			bd = db.DB(USER_CLAVE)
+			user, clave = bd.chequear(session.get("user"), cambio.vieja_clave.data)
+
+			# Si la vieja clave es la correcta, se prosigue:
+			if clave:
+				# Si las nuevas claves son ambas idénticas, entonces se procede a cambiar:
+				if cambio.nueva_clave.data == cambio.confirmar_nueva_clave.data:
+
+					borrar_ok = bd.borrar(session.get("user"), cambio.vieja_clave.data)
+					agregar_ok = bd.crear(session.get("user"), cambio.nueva_clave.data)
+
+					# Si la operación de cambiar ha sido exitosa:
+					if borrar_ok and agregar_ok:
+						flash("La clave ha sido cambiada con éxito.")
+						return render_template("clave.html",
+												cambio=cambio)
+					else:
+						error = "Hubo un error al intentar cambiar claves en DB."
+						return render_template("clave.html",
+												error=error,
+												cambio=cambio)
+				else:
+					error = "La nuevas claves ingresadas son distintas entre si"
+					return render_template("clave.html",
+											error=error,
+											cambio=cambio)
+
+			# Si la clave no corresponde con ese usuario:
+			else:
+				error = "La clave actual es inválida"
+				return render_template("clave.html",
+										error=error,
+										cambio=cambio)
+
+
+		# En caso de ingresar por primera vez:
+		return render_template("clave.html",
+								cambio=cambio)
+
 @app.route("/salir")
 def salir():
-	""" Función que desloguea al usuario actual y redirige a inicio. """
+	""" Función que desloguea al usuario actual y lleva a inicio.html """
 
 	# SI hay 'user' en sesión:
 	if session.get("user"):
@@ -273,13 +387,13 @@ def salir():
 
 @app.errorhandler(404)
 def no_encontrado(e):
-	""" Función que redirige a 404.html en caso de no encontrar la página solicitada. """
+	""" Función que lleva a 404.html en caso de no encontrar la página solicitada. """
 	return render_template("404.html"), 404
 
 
 @app.errorhandler(500)
 def error_servidor(e):
-	""" Función que redirige a 500.html en caso de surgir algún error en el servidor. """
+	""" Función que lleva a 500.html en caso de surgir algún error en el servidor. """
 	return render_template("500.html"), 500
 
 

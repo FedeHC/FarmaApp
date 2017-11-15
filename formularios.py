@@ -1,5 +1,6 @@
 # -----------------------------------------------------------------------------
-# Parcial de Estructura de Datos (2° Cuatr. 2017)
+# Final de Paradigmas de Programación y Estructura de Datos
+# (1° Año, 2° Cuatr. - 2017)
 #
 # -	Alumno: Federico H. Cacace
 # -	Profesor: Leandro E. Colombo Viña
@@ -14,25 +15,42 @@ class Login(FlaskForm):
 	"""	Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
 	de login al ingresar al sitio."""
 
-	usuario = StringField("Usuario", validators=[InputRequired(), Length(min=3)])
-	clave = PasswordField("Clave", validators=[InputRequired(), Length(min=3)])
-	submit = SubmitField("Enviar")
+	usuario = StringField(validators=[InputRequired(), Length(min=3)])
+	clave = PasswordField(validators=[InputRequired(), Length(min=3)])
+	submit = SubmitField()
 
+
+class Registro(Login):
+	"""	Clase que hereda de Login y que contiene los inputs necesarios para el formulario
+	de registro del sitio."""
+
+	repetir_clave = PasswordField(validators=[InputRequired(), Length(min=3)])
+
+
+class Cambio_Clave(FlaskForm):
+	"""	Clase que hereda de FlaskForm y que contiene los inputs necesarios para el formulario
+	de cambio de clave (cuando se está logueado como usuario)."""
+
+	vieja_clave = PasswordField(validators=[InputRequired(), Length(min=3)])
+	nueva_clave = PasswordField(validators=[InputRequired(), Length(min=3)])
+	confirmar_nueva_clave = PasswordField(validators=[InputRequired(), Length(min=3)])
+	submit = SubmitField()
+	
 
 class Busqueda(FlaskForm):
 	""" Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
 	de búsqueda (usado en 2 de las 4 consultas que el sitio brinda)."""
 
-	buscar = StringField("Buscar", validators=[InputRequired(), Length(min=3)])
-	submit = SubmitField("Enviar")
+	buscar = StringField(validators=[InputRequired(), Length(min=3)])
+	submit = SubmitField()
 
 
 class Traer(FlaskForm):
 	""" Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
 	de cantidad a traer (usado en 2 de las 4 consultas que el sitio brinda). """
 
-	buscar = IntegerField("Buscar", validators=[InputRequired()])
-	submit = SubmitField("Enviar")
+	buscar = IntegerField(validators=[InputRequired()])
+	submit = SubmitField()
 
 
 # FIN

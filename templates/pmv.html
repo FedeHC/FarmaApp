@@ -7,20 +7,20 @@
 <div class="row">
 	<div class="col-xs-12 caja">
 		<h1 class="titulo">Productos <span class="text-danger">más vendidos</span>:</h1>
-		<br>
 
 		<form method="POST" class="form-inline">
 		<div class="form-group">
 		{{ traer.csrf_token }}
 		
-		{{ traer.buscar(class_="form-control input-lg",
+		{{ traer.buscar(class_="form-control",
 						autofocus=true,
 						required="",
 						placeholder="Ingrese cantidad (ej: 10):",
 						size=20,
 						maxlength=6) }}
 
-		{{ traer.submit(class_="btn btn-default btn-lg") }}
+		{{ traer.submit(class_="btn btn-default",
+						value="Traer") }}
 		</div>
 		</form>
 

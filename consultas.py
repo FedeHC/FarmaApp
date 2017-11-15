@@ -1,5 +1,6 @@
 # -----------------------------------------------------------------------------
-# Parcial de Estructura de Datos (2° Cuatr. 2017)
+# Final de Paradigmas de Programación y Estructura de Datos
+# (1° Año, 2° Cuatr. - 2017)
 #
 # -	Alumno: Federico H. Cacace
 # -	Profesor: Leandro E. Colombo Viña

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-	{{ super() }} Login
+	{{ super() }} Registrarse
 {% endblock title %}
 
 {% block page_content %}
@@ -16,13 +16,13 @@
 			{% endif %}
 		{% endwith %}
 
-		<h1 class="titulo">¿Sos usuario?</h1>
-		<h2 class="subtitulo"><i>Ingresá tus datos para entrar al sitio</i>:</h2>
+		<h1 class="titulo">¿Usuario nuevo?</h1>
+		<h2 class="subtitulo"><i>Completá el siguiente formulario para registrarte</i>:</h2>
 		<form method="POST">
 			<div class="form-group">
-				{{ login.csrf_token }}
+				{{ registro.csrf_token }}
 
-				{{ login.usuario(class_="form-control input-lg",
+				{{ registro.usuario(class_="form-control input-lg",
 								autofocus=true,
 								required="",
 								placeholder="Usuario",
@@ -31,16 +31,25 @@
 								pattern=".{3,}",
 								title="3 caracteres mínimo") }}
 								
-				{{ login.clave(class_="form-control input-lg",
+				{{ registro.clave(class_="form-control input-lg",
 								required="",
-								placeholder="Clave",
+								placeholder="Contraseña",
 								size=15,
 								maxlength=15,
 								pattern=".{3,}",
 								title="3 caracteres mínimo") }}
+
+				{{ registro.repetir_clave(class_="form-control input-lg",
+								required="",
+								placeholder="Repetir contraseña",
+								size=15,
+								maxlength=15,
+								pattern=".{3,}",
+								title="3 caracteres mínimo") }}
+
 				<br>
-				{{ login.submit(class_="btn btn-default btn-lg",
-								value="Loguearme!") }}
+				{{ registro.submit(class_="btn btn-default btn-lg",
+								value="Registrarme!") }}
 			</div>
 		</form>
 	</div>

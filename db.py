@@ -1,12 +1,13 @@
 # -----------------------------------------------------------------------------
-# Parcial de Estructura de Datos (2° Cuatr. 2017)
+# Final de Paradigmas de Programación y Estructura de Datos
+# (1° Año, 2° Cuatr. - 2017)
 #
 # -	Alumno: Federico H. Cacace
 # -	Profesor: Leandro E. Colombo Viña
 # -----------------------------------------------------------------------------
 
 class DB():
-	""" Clase para leer y chequear campos a partir de un CSV determinado. """
+	""" Clase para chequear, crear y borrar usuarios/clave en archivo CSV. """
 
 	def __init__(self, nombre_archivo):
 		"""	Constructor de la clase DB.
@@ -17,56 +18,98 @@ class DB():
 		
 		self.nombre_archivo = nombre_archivo
 
+	def chequear(self, user, clave):
+		"""
+		Método que lee un archivo CSV y busca un par usuario/clave pasados como argumentos.
 
-	def leer(self):
-		"""	Método que lee un CSV a partir de un archivo CSV determinado.
+		Args:
+			user: el usuario a chequear.
+			clave: la clave del usuario a chequear.
 
 		Returns:
-			- archivo: Un objeto open() obtenido a partir de nombre_archivo.
-			- None: en caso de surgir IOError.
-			
-			- csv_abierto: Un objeto csv.reader() obtenido a partir del objeto open().
-			- None: en caso de surgir IOError. 
+			- user_encontrado: Un 'True' en caso de coincidencia, 'False' en caso contrario.
+			- clave_encontrada: Un 'True' en caso de coincidencia, 'False' en caso contrario.
+		"""
+
+		try:
+			import csv
+			archivo = open(self.nombre_archivo)
+			csv_abierto = csv.reader(archivo, delimiter='|')
+
+			user_encontrado = False
+			clave_encontrada = False
+
+			if archivo:
+				for c, fila in enumerate(csv_abierto):
+					if fila[0] == user:
+						user_encontrado = True
+						if fila[1] == clave:
+							clave_encontrada = True
+				archivo.close()
+
+			return user_encontrado, clave_encontrada
 		
+		except IOError as e:
+			print("ERROR al leer usuario/clave:", e)
+			return False, False
+
+
+	def crear(self, user, clave):
+		"""
+		Método que guarda un par usuario/clave en archivo CSV.
+
+		Args:
+			user: el nombre de usuario a guardar.
+			clave: la clave de usuario a guardar.
+
+		Return:
+			True: si la operación fue exitosa.
+			False: si hubo un IOError.
+
 		Raises:
-			IOError: ERROR al leer usuario/clave: (...).
+			IOError: ERROR al guardar usuario/clave.
 		"""
 		
 		try:
-			import csv
-			archivo = open(self.nombre_archivo ,'r')
-			csv_abierto = csv.reader(archivo, delimiter='|')
-			return archivo, csv_abierto
+			with open(self.nombre_archivo, 'a') as archivo:
+				archivo.writelines([user + '|' + clave + '\n'])
+			return True
 
 		except IOError as e:
-			print("ERROR al leer usuario/clave:", e)
-			return None, None		
+			print("ERROR al guardar usuario/clave:", e)
+			return False
 
 
-	def chequear(self, campo1, campo2):
+	def borrar(self, user, clave):
 		"""
-		Método que lee un archivo CSV determinado y busca en 2 campos pasados como argumentos.
+		Método que borra un par usuario/clave en archivo CSV.
 
-		Returns:
-			- rto_campo1: Un 'True' en caso de coincidencia, 'False' en caso contrario.
-			- rto_campo2: Un 'True' en caso de coincidencia, 'False' en caso contrario.
+		Args:
+			user: el nombre de usuario a borrar.
+			clave: la clave de usuario a borrar.
+
+		Return:
+			True: si la operación fue exitosa.
+			False: si hubo un IOError.
+
+		Raises:
+			IOError: ERROR al guardar usuario/clave.
 		"""
-
-		archivo, csv = self.leer()
 		
-		rto_campo1 = False
-		rto_campo2 = False
+		try:
+			with open(self.nombre_archivo, 'r+') as archivo:
+				todas_lineas = archivo.readlines()
+				archivo.seek(0)
 
-		if archivo:
-			for c, fila in enumerate(csv):
-				if c > 0:
-					if fila[0] == campo1:
-						rto_campo1 = True
-						if fila[1] == campo2:
-							rto_campo2 = True
-			archivo.close()
+				for linea in todas_lineas:
+					if not linea.startswith(user):
+						archivo.write(linea)
 
-		return rto_campo1, rto_campo2
+				archivo.truncate()
+			return True
 
+		except IOError as e:
+			print("ERROR al borrar usuario/clave:", e)
+			return False
 
 # FIN

@@ -36,12 +36,13 @@
 		<br>
 		<p><i>* Todos estos mensajes se encuentran registrados en el log.</i></p>
 
+
 		{# Si en cambio la validación del CSV fue correcta... #}
 
 		{% else: %}
-		<h1 class="titulo">¡Bienvenido {{ session["user"] }}!</h1>
+		<h1 class="titulo">Hola {{ session["user"] }}!</h1>
+		<p><i>Mostrando las últimas {{ cantidad }} ventas (o las únicas disponibles)</i>:</p>
 		<br>
-		<p><i>Mostrando las últimas {{ cantidad }} ventas (o las que existen)</i>:</p>
 
 		<div class="table-responsive">
 		<table class="table table-hover table-striped">

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-	{{ super() }} Login
+	{{ super() }} Cambio clave
 {% endblock title %}
 
 {% block page_content %}
@@ -16,31 +16,41 @@
 			{% endif %}
 		{% endwith %}
 
-		<h1 class="titulo">¿Sos usuario?</h1>
-		<h2 class="subtitulo"><i>Ingresá tus datos para entrar al sitio</i>:</h2>
+		<h1 class="titulo">Cambio de clave</h1>
+		<h2 class="subtitulo"><i>Confirmá primero tu clave actual</i>:</h2>
 		<form method="POST">
 			<div class="form-group">
-				{{ login.csrf_token }}
+				{{ cambio.csrf_token }}
 
-				{{ login.usuario(class_="form-control input-lg",
-								autofocus=true,
+				{{ cambio.vieja_clave(class_="form-control input-lg",
 								required="",
-								placeholder="Usuario",
+								placeholder="Clave actual",
 								size=15,
 								maxlength=15,
 								pattern=".{3,}",
 								title="3 caracteres mínimo") }}
+
+				<br>
+				<h2 class="subtitulo"><i>Ingresá ahora la nueva clave</i>:</h2>
 								
-				{{ login.clave(class_="form-control input-lg",
+				{{ cambio.nueva_clave(class_="form-control input-lg",
 								required="",
-								placeholder="Clave",
+								placeholder="Nueva clave",
+								size=15,
+								maxlength=15,
+								pattern=".{3,}",
+								title="3 caracteres mínimo") }}
+
+				{{ cambio.confirmar_nueva_clave(class_="form-control input-lg",
+								required="",
+								placeholder="Confirmar nueva clave",
 								size=15,
 								maxlength=15,
 								pattern=".{3,}",
 								title="3 caracteres mínimo") }}
 				<br>
-				{{ login.submit(class_="btn btn-default btn-lg",
-								value="Loguearme!") }}
+				{{ cambio.submit(class_="btn btn-default btn-lg",
+								value="Realizar cambio!") }}
 			</div>
 		</form>
 	</div>

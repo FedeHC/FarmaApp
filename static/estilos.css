@@ -4,10 +4,19 @@ body  {
 	font-size: 16px;
 }
 
-.navbar { background-color: #C35F52; }
+/* Color de fondo y sin bordes para navbar */
+.navbar {
+	background-color: #C35F52;
+	border: 0 solid white;
+}
 
+/* Colores de los links del navbar */
 .navbar-brand, ul.nav li a { color: white !important; }
 
+/* Color del link seleccionado */
+ul .active { background-color: #333333 !important; }
+
+/* Título principal del sitio */
 .navbar-brand:hover, ul.nav li a:hover {
 	background-color: #333333 !important;
 	color: white;
@@ -18,7 +27,6 @@ body  {
 
 /* Color de fondo del menu que sale al presionar el boton de usuario: */
 .navbar-nav > li > .dropdown-menu { background-color: #C35F52; }
-
 
 .caja {
 	background-color: #FFFFFF;
@@ -37,7 +45,6 @@ body  {
 	font-weight: lighter !important;
 	padding-bottom: 10px;
 }
-
 
 b {	color: #242424; }
 

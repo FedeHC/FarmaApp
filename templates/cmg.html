@@ -10,16 +10,16 @@
 
 		<form method="POST" class="form-inline">
 		<div class="form-group">
-		{{ traer.csrf_token }}
+		{{ traer_cmg.csrf_token }}
 		
-		{{ traer.buscar(class_="form-control",
+		{{ traer_cmg.buscar(class_="form-control",
 						autofocus=true,
 						required="",
 						placeholder="Ingrese cantidad (ej: 5)",
 						size=20,
 						maxlength=6) }}
 
-		{{ traer.submit(class_="btn btn-default",
+		{{ traer_cmg.submit(class_="btn btn-default",
 						value="Traer") }}
 		</div>
 		</form>

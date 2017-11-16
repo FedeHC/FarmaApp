@@ -36,7 +36,6 @@ app.extensions['bootstrap']['cdns']['jquery'] = StaticCDN()	# Para poder usar ar
 
 
 # Funciones:
-@app.route("/login", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def inicio():
@@ -175,7 +174,7 @@ def pxc():
 		consulta = consultas.Consultas(ARC_CSV, ERROR)
 		todos_clientes = consulta.listar_x("CLIENTE")
 
-		# Si se presiona el botón 'enviar':
+		# Si se presiona el botón de enviar:
 		if busqueda.validate_on_submit():
 
 			# Obteniendo palabra desde un StringField del formulario:
@@ -187,20 +186,20 @@ def pxc():
 			# Si hubo resultados:
 			if len(resultados) > 1:
 				return render_template("pxc.html",
-										busqueda=busqueda,
+										busqueda_pxc=busqueda,
 										todos_clientes=todos_clientes,
 										resultados=resultados,
 										columnas=columnas)
 			else:
 				error = "No hubo resultados con ese término"
 				return render_template("pxc.html",
-										busqueda=busqueda,
+										busqueda_pxc=busqueda,
 										todos_clientes=todos_clientes,
 										error=error)					
 
 		# Si no se envia aún ninguna búsqueda:
 		return render_template("pxc.html",
-								busqueda=busqueda,
+								busqueda_pxc=busqueda,
 								todos_clientes=todos_clientes)
 
 	# Si NO hay 'user' en sesión:
@@ -220,7 +219,7 @@ def cxp():
 		consulta = consultas.Consultas(ARC_CSV, ERROR)
 		todos_productos = consulta.listar_x("PRODUCTO")
 
-		# Si se presiona el botón 'enviar':
+		# Si se presiona el botón de enviar:
 		if busqueda.validate_on_submit():
 			
 			# Obteniendo palabra desde un StringField del formulario:
@@ -232,7 +231,7 @@ def cxp():
 			# SI hubo resultados:
 			if len(resultados) > 1:
 				return render_template("cxp.html",
-										busqueda=busqueda,
+										busqueda_cxp=busqueda,
 										todos_productos=todos_productos,
 										resultados=resultados,
 										columnas=columnas)
@@ -240,13 +239,13 @@ def cxp():
 			else:
 				error = "No hubo resultados con ese término"
 				return render_template("cxp.html",
-										busqueda=busqueda,
+										busqueda_cxp=busqueda,
 										todos_productos=todos_productos,
 										error=error)
 		
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("cxp.html",
-								busqueda=busqueda,
+								busqueda_cxp=busqueda,
 								todos_productos=todos_productos)
 
 	# Si NO hay 'user' en sesión:
@@ -262,7 +261,7 @@ def pmv():
 	if session.get("user"):
 		traer = formularios.Traer()
 
-		# Si se presiona el botón 'enviar':
+		# Si se presiona el botón de enviar:
 		if traer.validate_on_submit():
 
 			# Obteniendo palabra desde un IntegerField del formulario:
@@ -273,13 +272,13 @@ def pmv():
 			resultados, columnas = consulta.listar_los_mas_x(cantidad, "PRODUCTO", "CANTIDAD")
 
 			return render_template("pmv.html",
-									traer=traer,
+									traer_pmv=traer,
 									resultados=resultados,
 									columnas=columnas)
 
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("pmv.html",
-		 						traer=traer)
+		 						traer_pmv=traer)
 
 	# Si NO hay 'user' en sesión:
 	else:										
@@ -294,7 +293,7 @@ def cmg():
 	if session.get("user"):
 		traer = formularios.Traer()
 
-		# Si se presiona el botón 'enviar':
+		# Si se presiona el botón de enviar:
 		if traer.validate_on_submit():
 
 			# Obteniendo palabra desde un IntegerField del formulario:
@@ -305,13 +304,13 @@ def cmg():
 			resultados, columnas = consulta.listar_los_mas_x(cantidad, "CLIENTE", "PRECIO")
 
 			return render_template("cmg.html",
-									traer=traer,
+									traer_cmg=traer,
 									resultados=resultados,
 									columnas=columnas)
 
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("cmg.html",
-		 						traer=traer)
+		 						traer_cmg=traer)
 
 	# Si NO hay 'user' en sesión:
 	else:										
@@ -371,6 +370,7 @@ def clave():
 		# En caso de ingresar por primera vez:
 		return render_template("clave.html",
 								cambio=cambio)
+
 
 @app.route("/salir")
 def salir():

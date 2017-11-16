@@ -9,14 +9,12 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename = 'imagenes/icono.png') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename = 'imagenes/icono.png') }}" type="image/x-icon">
 
-{# Agrego el siguiente script en 'head' para solucionar el problema FOUC que tenia el sitio: #}
+{# Agrego el siguiente script en 'head' para solucionar el problema FOUC que tenia el sitio. #}
+{# De por si no hace gran cosa, pero soluciona misteriosamente el problema. #}
 {# https://en.wikipedia.org/wiki/Flash_of_unstyled_content #}
 
 <script type="text/javascript">
 	document.documentElement.className = 'no-fouc';
-	$(window).on("load", function() {
-		$('.no-fouc').removeClass('no-fouc');
-	});
 </script>
 
 {% endblock head %}
@@ -28,7 +26,9 @@
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container-fluid">
 
-		{# SI existe una sesión de usuario abierta... #}
+		{# ---------------------------------------- #}
+		{# SI existe una sesión de usuario abierta: #}
+
 		{% if session["user"]: %}
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -46,11 +46,11 @@
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="/usuario"><strong>Inicio</strong></a></li>
-				<li><a href="/clientes">Productos <strong>por cliente</strong></a></li>
-				<li><a href="/productos">Clientes <strong>por productos</strong></a></li>
-				<li><a href="/masvendidos">Productos <strong>más vendidos</strong></a></li>
-				<li><a href="/masgastaron">Clientes que <strong>más gastaron</strong></a></li>
+				<li><a {% if resultados %} class="active" {% endif %} href="/usuario" active><strong>Inicio</strong></a></li>
+				<li><a {% if busqueda_pxc %} class="active" {% endif %} href="/clientes">Productos <strong>por cliente</strong></a></li>
+				<li><a {% if busqueda_cxp %} class="active" {% endif %} href="/productos">Clientes <strong>por productos</strong></a></li>
+				<li><a {% if traer_pmv %} class="active" {% endif %} href="/masvendidos">Productos <strong>más vendidos</strong></a></li>
+				<li><a {% if traer_cmg %} class="active" {% endif %} href="/masgastaron">Clientes que <strong>más gastaron</strong></a></li>
 			</ul>
 
 			<ul class="nav navbar-right navbar-nav">
@@ -72,8 +72,11 @@
 				</ul>
 			</ul>
 		</div>
+		{# ------------------------------------------- #}
 
-		{# Si NO existe una sesión de usuario abierta... #}
+		{# ------------------------------------------- #}
+		{# Si NO existe una sesión de usuario abierta: #}
+
 		{% else: %}
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -91,11 +94,11 @@
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="/">Login</a></li>
-				<li><a href="/registrarse">Registrarse</a></li>
+				<li><a {% if login %} class="active" {% endif %} href="/">Inicio</a></li>
+				<li><a {% if registro %} class="active" {% endif %} href="/registrarse">Registrarse</a></li>
 			</ul>
 		</div>
-
+		{# ------------------------------------------- #}
 		{% endif %}
 	</div>
 </nav>

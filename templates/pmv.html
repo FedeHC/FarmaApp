@@ -10,16 +10,16 @@
 
 		<form method="POST" class="form-inline">
 		<div class="form-group">
-		{{ traer.csrf_token }}
+		{{ traer_pmv.csrf_token }}
 		
-		{{ traer.buscar(class_="form-control",
+		{{ traer_pmv.buscar(class_="form-control",
 						autofocus=true,
 						required="",
 						placeholder="Ingrese cantidad (ej: 10):",
 						size=20,
 						maxlength=6) }}
 
-		{{ traer.submit(class_="btn btn-default",
+		{{ traer_pmv.submit(class_="btn btn-default",
 						value="Traer") }}
 		</div>
 		</form>

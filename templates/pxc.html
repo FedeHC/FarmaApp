@@ -14,9 +14,9 @@
 
 		<form method="POST" class="form-inline">
 		<div class="form-group">
-		{{ busqueda.csrf_token }}
+		{{ busqueda_pxc.csrf_token }}
 		
-		{{ busqueda.buscar(list="clientes",
+		{{ busqueda_pxc.buscar(list="clientes",
 						class_="form-control",
 						autofocus=true,
 						required="",
@@ -31,7 +31,7 @@
 			{% endfor %}
 		</datalist>
 
-		{{ busqueda.submit(class_="btn btn-default",
+		{{ busqueda_pxc.submit(class_="btn btn-default",
 						value="Buscar") }}
 		</div>
 		</form>

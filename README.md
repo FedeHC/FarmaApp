@@ -5,8 +5,7 @@ Aplicación web realizada como trabajo de parcial para las materias de [Paradigm
 * *Alumno: **Federico H. Cacace**.*
 * *Profesor: **Leandro E. Colombo Viña**.*
 
-
-![Imagen](https://i.imgur.com/nUSoQcD.png)
+![Imagen](https://raw.githubusercontent.com/FedeHC/fedehc.github.io/master/images/web3.jpg)
 
 ## Informe
 

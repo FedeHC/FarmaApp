@@ -36,6 +36,7 @@ app.extensions['bootstrap']['cdns']['jquery'] = StaticCDN()	# Para poder usar ar
 
 
 # Funciones:
+@app.route("/login", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 def inicio():
@@ -147,6 +148,7 @@ def usuario():
 			resultados, nro_filas = consulta.ultimos_resultados(CANTIDAD)
 
 			return render_template("usuario.html",
+									usuario=True,
 									resultados=resultados,
 									nro_filas=nro_filas,
 									cantidad=CANTIDAD)
@@ -155,6 +157,7 @@ def usuario():
 		else:
 			error = "Hubo errores durante la validación del CSV"
 			return render_template("usuario.html",
+									usuario=True,
 									error=error,
 									mensajes_error=consulta.csv.mensajes_error)
 	# Si NO hay 'user' en sesión:

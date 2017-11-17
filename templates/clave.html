@@ -10,11 +10,9 @@
 			<h4><span class="label label-danger">{{ error|safe }}</span>&nbsp;</h4>
 		{% endif %}
 
-		{% with mensaje_info = get_flashed_messages() %}
-			{% if mensaje_info: %}
-				<h4><span class="label label-success">{{ mensaje_info[0] }}</span>&nbsp;</h4>
-			{% endif %}
-		{% endwith %}
+		{% if mensaje: %}
+			<h4><span class="label label-success">{{ mensaje }}</span>&nbsp;</h4>
+		{% endif %}
 
 		<h1 class="titulo">Cambio de clave</h1>
 		<h2 class="subtitulo"><i>Confirmá tu clave actual</i>:</h2>

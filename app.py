@@ -448,8 +448,9 @@ def clave():
 
 					# Si la operación de cambiar ha sido exitosa:
 					if borrar_ok and agregar_ok:
-						flash("La clave ha sido cambiada con éxito.")
+						mensaje = "La clave ha sido cambiada con éxito"
 						return render_template("clave.html",
+												mensaje=mensaje,
 												cambio=cambio)
 					else:
 						error = "Hubo un error al intentar cambiar claves en DB."

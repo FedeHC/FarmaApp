@@ -104,4 +104,3 @@ ENV/
 __pycache__
 correr
 error.log
-resultados/*.csv

@@ -69,3 +69,6 @@ b {	color: #242424; }
 .letra-chica { font-size: 10px; }
 
 .letra-grande { font-size: 20px; }
+
+/* Botones de guardar resultados en csv */
+.btn-block { border-radius: 0 !important; }

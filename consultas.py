@@ -7,7 +7,7 @@
 # -----------------------------------------------------------------------------
 
 class Consultas():
-	""" La clase que realiza las consultas solicitadas en las consignas. """
+	""" Clase que contiene los métodos para realizar las consultas solicitadas. """
 
 	def __init__(self, archivo, log):
 		""" Constructor de la clase Consultas. 

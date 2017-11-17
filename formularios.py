@@ -53,4 +53,11 @@ class Traer(FlaskForm):
 	submit = SubmitField()
 
 
+class Exportar(FlaskForm):
+	""" Clase que hereda de WTForms y que contiene un submit necesario para exportar resultados
+	a un archivo CSV. """
+
+	guardar = SubmitField()
+
+
 # FIN

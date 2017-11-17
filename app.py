@@ -6,7 +6,7 @@
 # -	Profesor: Leandro E. Colombo Viña
 # -----------------------------------------------------------------------------
 
-from flask import Flask, render_template, redirect, url_for, flash, session
+from flask import Flask, render_template, redirect, url_for, flash, session, request
 from flask_bootstrap import Bootstrap, StaticCDN
 from flask_script import Manager
 import formularios, consultas, db
@@ -18,11 +18,12 @@ manager = Manager(app)
 bs = Bootstrap(app)
 
 
-# Constantes con nombres y rutas de archivos:
+# Constantes con rutas y nombres de archivos:
 RUTA = ""
-ARC_CSV = RUTA + "archivo.csv"
 ERROR = RUTA + "error.log"
-USER_CLAVE = RUTA + "usuario_clave.csv"
+ARC_CSV = RUTA + "csv/archivo.csv"
+USER_CLAVE = RUTA + "csv/usuario_clave.csv"
+CSV_INICIO = RUTA + "csv/"
 
 
 # App.config:
@@ -138,7 +139,6 @@ def usuario():
 
 	# SI hay 'user' en sesión:
 	if session.get("user"):
-
 		# Creando objeto consulta:
 		consulta = consultas.Consultas(ARC_CSV, ERROR)
 
@@ -146,7 +146,7 @@ def usuario():
 		if consulta.csv.ok:
 			CANTIDAD=5
 			resultados, nro_filas = consulta.ultimos_resultados(CANTIDAD)
-
+	
 			return render_template("usuario.html",
 									usuario=True,
 									resultados=resultados,
@@ -155,7 +155,7 @@ def usuario():
 
 		# En caso de que el CSV no se haya validado correctamente:
 		else:
-			error = "Hubo errores durante la validación del CSV"
+			error = "Hubo errores durante la validación del CSV (chequear log)"
 			return render_template("usuario.html",
 									usuario=True,
 									error=error,
@@ -172,13 +172,14 @@ def pxc():
 	# SI hay 'user' en sesión:
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
-		
+		exportar = formularios.Exportar()
+
 		# Creando objeto consulta y obteniendo sugerencias:
 		consulta = consultas.Consultas(ARC_CSV, ERROR)
 		todos_clientes = consulta.listar_x("CLIENTE")
 
 		# Si se presiona el botón de enviar:
-		if busqueda.validate_on_submit():
+		if busqueda.validate_on_submit() and busqueda.submit.data or exportar.validate_on_submit() and exportar.guardar.data:
 
 			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
@@ -188,11 +189,20 @@ def pxc():
 			
 			# Si hubo resultados:
 			if len(resultados) > 1:
-				return render_template("pxc.html",
-										busqueda_pxc=busqueda,
-										todos_clientes=todos_clientes,
-										resultados=resultados,
-										columnas=columnas)
+
+				# Si se presiona el botón de 'guardar resultados en csv':
+				if exportar.validate_on_submit() and exportar.guardar.data:
+					flash("Los resultados fueron guardados con éxito en CSV")
+					return redirect(url_for("pxc"))
+
+				else:
+					return render_template("pxc.html",
+											busqueda_pxc=busqueda,
+											exportar=exportar,
+											todos_clientes=todos_clientes,
+											resultados=resultados,
+											columnas=columnas)
+			# Si NO hubo resultados: 
 			else:
 				error = "No hubo resultados con ese término"
 				return render_template("pxc.html",
@@ -217,13 +227,15 @@ def cxp():
 	# SI hay 'user' en sesión:
 	if session.get("user"):
 		busqueda = formularios.Busqueda()
+		exportar = formularios.Exportar()
 
 		# Creando objeto consulta y obteniendo sugerencias:
 		consulta = consultas.Consultas(ARC_CSV, ERROR)
 		todos_productos = consulta.listar_x("PRODUCTO")
 
 		# Si se presiona el botón de enviar:
-		if busqueda.validate_on_submit():
+		if busqueda.validate_on_submit() and busqueda.submit.data or exportar.validate_on_submit() and exportar.guardar.data:
+
 			
 			# Obteniendo palabra desde un StringField del formulario:
 			palabra = busqueda.buscar.data.lower()
@@ -233,12 +245,21 @@ def cxp():
 
 			# SI hubo resultados:
 			if len(resultados) > 1:
-				return render_template("cxp.html",
-										busqueda_cxp=busqueda,
-										todos_productos=todos_productos,
-										resultados=resultados,
-										columnas=columnas)
-			# Si NO hubo resultados:
+
+				# Si se presiona el botón de 'guardar resultados en csv':
+				if exportar.validate_on_submit() and exportar.guardar.data:
+					flash("Los resultados fueron guardados con éxito en CSV")
+					return redirect(url_for("cxp"))
+
+				else:
+					return render_template("cxp.html",
+											busqueda_cxp=busqueda,
+											exportar=exportar,
+											todos_productos=todos_productos,
+											resultados=resultados,
+											columnas=columnas)
+
+			# Si NO hubo resultados: 
 			else:
 				error = "No hubo resultados con ese término"
 				return render_template("cxp.html",
@@ -263,21 +284,32 @@ def pmv():
 	# SI hay 'user' en sesión:
 	if session.get("user"):
 		traer = formularios.Traer()
+		exportar = formularios.Exportar()
 
 		# Si se presiona el botón de enviar:
-		if traer.validate_on_submit():
+		if traer.validate_on_submit() and traer.submit.data or exportar.validate_on_submit() and exportar.guardar.data:
 
-			# Obteniendo palabra desde un IntegerField del formulario:
-			cantidad = traer.buscar.data
+			# Obteniendo palabra desde un IntegerField del formulario (si hay datos):
+			if traer.buscar.data:
+				cantidad = traer.buscar.data
+			else:
+				cantidad = 0
 
 			# Creando objeto consulta y obteniendo resultados:
 			consulta = consultas.Consultas(ARC_CSV, ERROR)
 			resultados, columnas = consulta.listar_los_mas_x(cantidad, "PRODUCTO", "CANTIDAD")
 
-			return render_template("pmv.html",
-									traer_pmv=traer,
-									resultados=resultados,
-									columnas=columnas)
+			# Si se presiona el botón de 'guardar resultados en csv':
+			if exportar.validate_on_submit() and exportar.guardar.data:
+				flash("Los resultados fueron guardados con éxito en CSV")
+				return redirect(url_for("pmv"))
+
+			else:
+				return render_template("pmv.html",
+										traer_pmv=traer,
+										exportar=exportar,
+										resultados=resultados,
+										columnas=columnas)
 
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("pmv.html",
@@ -295,21 +327,32 @@ def cmg():
 	# SI hay 'user' en sesión:
 	if session.get("user"):
 		traer = formularios.Traer()
+		exportar = formularios.Exportar()
 
 		# Si se presiona el botón de enviar:
-		if traer.validate_on_submit():
+		if traer.validate_on_submit() and traer.submit.data or exportar.validate_on_submit() and exportar.guardar.data:
 
-			# Obteniendo palabra desde un IntegerField del formulario:
-			cantidad = traer.buscar.data
+			# Obteniendo palabra desde un IntegerField del formulario (si hay datos):
+			if traer.buscar.data:
+				cantidad = traer.buscar.data
+			else:
+				cantidad = 0
 
 			# Creando objeto consulta y obteniendo resultados:
 			consulta = consultas.Consultas(ARC_CSV, ERROR)
 			resultados, columnas = consulta.listar_los_mas_x(cantidad, "CLIENTE", "PRECIO")
 
-			return render_template("cmg.html",
-									traer_cmg=traer,
-									resultados=resultados,
-									columnas=columnas)
+			# Si se presiona el botón de 'guardar resultados en csv':
+			if exportar.validate_on_submit() and exportar.guardar.data:
+				flash("Los resultados fueron guardados con éxito en CSV")
+				return redirect(url_for("cmg"))
+
+			else:
+				return render_template("cmg.html",
+										traer_cmg=traer,
+										exportar=exportar,
+										resultados=resultados,
+										columnas=columnas)
 
 		# Si NO se envia aún ninguna búsqueda:
 		return render_template("cmg.html",

@@ -6,6 +6,12 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-xs-12 caja">
+		{% with mensaje_info = get_flashed_messages() %}
+			{% if mensaje_info: %}
+				<h4><span class="label label-success">{{ mensaje_info[0] }}</span>&nbsp;</h4>
+			{% endif %}
+		{% endwith %}
+
 		<h1 class="titulo">Clientes <span class="text-danger">por producto</span>:</h1>
 		
 		{% if error: %}
@@ -37,7 +43,7 @@
 		</form>
 
 		{% if resultados: %}
-		<br><br>
+		<br>
 		<p><i>Mostrando resultados</i>:</p>
 
 		<div class="table-responsive">
@@ -51,6 +57,10 @@
 					{% for campo in linea: %}
 						{% if loop.index0 == columnas[1]: %}
 							<th><span class="text-danger">{{ campo }}</span></th>
+						{% elif campo == 'CANTIDAD' %}
+							<th>{{ campo }} (un.)</th>
+						{% elif campo == 'PRECIO' %}
+							<th>{{ campo }} ($)</th>
 						{% else: %}
 							<th>{{ campo }}</th>
 						{% endif %}	
@@ -75,6 +85,19 @@
 			{% endfor %}
 		</table>
 		</div>
+		
+		<br>
+			{% if exportar %}
+			<form method="POST">
+				{{ exportar.csrf_token }}
+
+				{{ exportar.guardar(class_="btn btn-default btn-block btn-lg btn-danger",
+								value="Guardar estos resultados en CSV") }}
+			</form>
+
+			{% else %}
+				<button type="button" class="btn btn-block btn-lg btn-danger disabled">Resultados guardados!</button>
+			{% endif %}
 		{% endif %}
 		
 	</div>

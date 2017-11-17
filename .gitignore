@@ -103,3 +103,4 @@ ENV/
 # Archivos y carpetas a ignorar: #
 __pycache__
 correr
+error.log

@@ -6,16 +6,14 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-xs-12 caja">
-		{% with mensaje_info = get_flashed_messages() %}
-			{% if mensaje_info: %}
-				<h4><span class="label label-success">{{ mensaje_info[0] }}</span>&nbsp;</h4>
-			{% endif %}
-		{% endwith %}
+		{% if mensaje: %}
+			<h4><span class="label label-success">{{ mensaje|safe }}</span></h4>
+		{% endif %}
 
 		<h1 class="titulo">Productos <span class="text-danger">por cliente</span>:</h1>
 		
 		{% if error: %}
-			<h4><span class="label label-danger">{{ error }}</span>&nbsp;</h4>
+			<h4><span class="label label-danger">{{ error }}</span></h4>
 		{% endif %}
 
 		<form method="POST" class="form-inline">

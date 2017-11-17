@@ -80,7 +80,7 @@ class Consultas():
 			if c == 0:
 				resultados.append(fila)
 			else:
-				if palabra in fila[nro_campo2].lower():
+				if palabra.lower() in fila[nro_campo2].lower():
 					resultados.append(fila)
 
 		archivo.seek(0)
@@ -117,7 +117,7 @@ class Consultas():
 
 		# Obteniendo la lista final de resultados:
 		resultados = valores.ordenar_recortar_y_devolver(cantidad)
-		
+
 		archivo.seek(0)
 		return resultados, columnas
 

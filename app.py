@@ -449,16 +449,27 @@ def descargar():
 	# SI hay 'user' en sesión:
 	if session.get("user"):
 
-		# Si se recibió la ruta y el nombre del archivo:
+		# SI están todas las sesiones ruta y nombre:
 		if session.get("ruta") and session.get("nombre"):
 			
+			# Guardando ruta:
+			nombre = session["nombre"]
 			archivo = session["ruta"] + session["nombre"]
+
+			# Borrando las sesiones ruta y nombre:
+			session.pop("ruta", None)
+			session.pop("nombre", None)
+
 			# Descargando archivo:
 			return send_file(archivo,
 						 	 as_attachment=True,
-							 attachment_filename=session["nombre"],
-							 cache_timeout=60)
-	
+							 attachment_filename=nombre,
+							 cache_timeout=5)
+
+		# En caso contrario, volver a usuario.html:
+		else:
+			return redirect(url_for("usuario"))
+
 	# Si NO hay 'user' en sesión:
 	else:										
 		return redirect(url_for("inicio"))

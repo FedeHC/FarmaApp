@@ -30,7 +30,7 @@
 						maxlength=25) }}
 
 		<datalist id="productos">
-			{% for fila in todos_productos %}
+			{% for fila in sugerencias %}
 			<option value="{{ fila }}">{{ fila }}</option>
 			{% endfor %}
 		</datalist>
@@ -85,16 +85,13 @@
 		</div>
 		
 		<br>
-			{% if exportar %}
-			<form method="POST">
-				{{ exportar.csrf_token }}
+			{% if bajar: %}
+			<form method="POST" style="display: inline;">
+				{{ bajar.csrf_token }}
 
-				{{ exportar.guardar(class_="btn btn-default btn-block btn-lg btn-danger",
-								value="Guardar estos resultados en CSV") }}
+				{{ bajar.submit(class_="btn btn-lg btn-block btn-danger",
+								value="Descargar resultados en formato CSV") }}
 			</form>
-
-			{% else %}
-				<button type="button" class="btn btn-block btn-lg btn-danger disabled">Resultados guardados!</button>
 			{% endif %}
 		{% endif %}
 		

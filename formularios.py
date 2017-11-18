@@ -12,8 +12,7 @@ from wtforms.validators import InputRequired, Length
 
 
 class Login(FlaskForm):
-	"""	Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
-	de login al ingresar al sitio."""
+	"""	Clase que contiene los inputs necesarios para el formulario de login al ingresar al sitio."""
 
 	usuario = StringField(validators=[InputRequired(), Length(min=3)])
 	clave = PasswordField(validators=[InputRequired(), Length(min=3)])
@@ -28,8 +27,8 @@ class Registro(Login):
 
 
 class Cambio_Clave(FlaskForm):
-	"""	Clase que hereda de FlaskForm y que contiene los inputs necesarios para el formulario
-	de cambio de clave (cuando se está logueado como usuario)."""
+	"""	Clase que contiene los inputs necesarios para el formulario	de cambio de clave (cuando
+	se está logueado como usuario)."""
 
 	vieja_clave = PasswordField(validators=[InputRequired(), Length(min=3)])
 	nueva_clave = PasswordField(validators=[InputRequired(), Length(min=3)])
@@ -38,26 +37,26 @@ class Cambio_Clave(FlaskForm):
 	
 
 class Busqueda(FlaskForm):
-	""" Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
-	de búsqueda (usado en 2 de las 4 consultas que el sitio brinda)."""
+	""" Clase que contiene los inputs necesarios para el formulario	de búsqueda (usado en
+	2 de las 4 consultas que el sitio brinda)."""
 
 	buscar = StringField(validators=[InputRequired(), Length(min=3)])
 	submit = SubmitField()
 
 
 class Traer(FlaskForm):
-	""" Clase que hereda de WTForms y que contiene los inputs necesarios para el formulario
-	de cantidad a traer (usado en 2 de las 4 consultas que el sitio brinda). """
+	""" Clase que contiene los inputs necesarios para el formulario	de cantidad a traer (usado en
+	2 de las 4 consultas que el sitio brinda). """
 
 	buscar = IntegerField(validators=[InputRequired()])
 	submit = SubmitField()
 
 
-class Exportar(FlaskForm):
-	""" Clase que hereda de WTForms y que contiene un submit necesario para exportar resultados
-	a un archivo CSV. """
+class Local(FlaskForm):
+	""" Clase que contiene solamente el submit necesario para exportar los resultados a un 
+	archivo CSV. """
 
-	guardar = SubmitField()
+	submit = SubmitField()
 
 
 # FIN

@@ -9,29 +9,41 @@
 class Exportar():
 	""" Clase que guarda resultados recibidos en CSV con nombre de fecha y hora actual. """
 
-	def __init__(self, ruta, titulo, resultados):
+	def __init__(self, ruta):
 		""" Constructor de la clase Exportar. 
 
 		Args:
 			ruta: string con ruta para el archivo a guardar.
-			titulo: string que se agregará en la 1ra fila del CSV a crear.
-			resultados: Lista con los resultados a ser guardados en el nuevo CSV.
 		"""
 
-		import datetime, csv, os
+		import datetime
 
 		# Variable de estado:
 		self.ok = None
 
 		# Le añadimos la carpeta 'resultados' a la ruta recibida como parámetro:
-		ruta = ruta + "resultados/"
+		self.ruta = ruta + "resultados/"
 
 		# Generando ruta y nombre de archivo con fecha y hora actual:
 		self.nombre_archivo = "resultados_" + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + ".csv" 
 
+
+	def local(self, resultados, titulo):
+		""" Método que guarda una lista de resultados en un archivo CSV local.
+
+		Args:
+			resultados: Lista con los resultados a ser guardados en el nuevo CSV.
+			titulo: string que se agregará en la 1ra fila del CSV a crear.
+
+		Raise:
+			IOError: Si hubo error al crear CSV.
+		"""
+
 		try:
+			import csv, os
+
 			# Creando y guardando en archivo los resultados:
-			with open(ruta + self.nombre_archivo, "w", newline="") as archivo:
+			with open(self.ruta + self.nombre_archivo, "w", newline="") as archivo:
 				archivo.write(titulo + "\n")				# Agregando título.
 				csv_abierto = csv.writer(archivo)
 				
@@ -44,16 +56,18 @@ class Exportar():
 				archivo.seek(pos-2) 						# Se parte desde la última posición, se
 				archivo.truncate() 							# retrocede 2 caracteres y se trunca archivo.
 
-				self.ok = True
+			self.ok = True
+			return self.ok
 
 		except IOError as e:
 			print("ERROR al crear CSV:", e)
+			return False
 
 
 	def nombre_completo(self):
 		""" Método que simplemente devuelve un nombre de archivo de la clase. 
 
-			Returns:
+		Returns:
 			archivo: string con el nombre completo de archivo CSV (sin ruta).
 			False: en caso de surgir problemas durante la creación del archivo CSV.
 		"""

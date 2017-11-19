@@ -22,23 +22,23 @@ Una vez logueado en el sistema, se muestran las últimas ventas registradas desd
 * *Productos más vendidos*
 * *Clientes que más gastaron*
 
-En cada uno se ofrece la posiblidad de poder descargar en nuestra máquina la consultas efectuadas en formato CSV.
+En cada uno se ofrece la posibilidad de poder descargar en nuestra máquina la consultas efectuadas en formato CSV.
 
-También desde la misma barra de navegación se puede ver en el extremo derecho el nombre del usuario logueado, desde el cual se puede hacer click para ver las opciones de *cambiar clave* o *salir* del sistema (desloguearse y volver a la sección de login).
+También desde la misma barra de navegación se puede ver en el extremo derecho el nombre del usuario logueado, desde el cual se puede hacer clic para ver las opciones de *cambiar clave* o *salir* del sistema (desloguearse y volver a la sección de login).
 
 
 ### Estructura de la aplicación:
 
-#### [En carpeta raiz]
+#### [En carpeta raíz]
 
 *  **[app.py](https://github.com/FedeHC/FarmaApp/blob/master/app.py):** el script principal. El mismo inicia importando e instanciando todos los siguientes:
 
-	* *Flask*, sus extensiones nativas y las extensiones extra utilizadas (*Flask-Bootstrap, Flask-Script*).
-	* Los scripts de python utilizados para realizar las consultas.
-	
-    También contiene configuraciones varias y las distintas rutas con el origen de los archivos CSV usuados y el log de registro de errores.
+  * *Flask*, sus extensiones nativas y las extensiones extra utilizadas (*Flask-Bootstrap, Flask-Script*).
+  * Los scripts de python utilizados para realizar las consultas.
+  
+    También contiene configuraciones varias y las distintas rutas con el origen de los archivos CSV usados y el log de registro de errores.
     
-    Su función pricipal es contener todas las funciones necesarias para redirigir a los templates correspondientes según elija el usuario y las condiciones impuestas de acuerdo al caso (si está logueado, si hay datos disponibles, si la validación fue correcta, etc.)
+    Su función principal es contener todas las funciones necesarias para redirigir a los templates correspondientes según elija el usuario y las condiciones impuestas de acuerdo al caso (si está logueado, si hay datos disponibles, si la validación fue correcta, etc.)
     
 
 * **[validar.py](https://github.com/FedeHC/FarmaApp/blob/master/validar.py):** el script contiene a las clases:
@@ -56,18 +56,18 @@ También desde la misma barra de navegación se puede ver en el extremo derecho 
     
 * **[db.py](https://github.com/FedeHC/FarmaApp/blob/master/db.py):** este script contiene a la clase:
 
-	* **DB**: Clase que recibe un nombre de archivo en su constructor y que cuenta con los métodos necesarios para leer y chequear todos los pares usuario/contraseña ya registrados.
+  * **DB**: Clase que recibe un nombre de archivo en su constructor y que cuenta con los métodos necesarios para leer y chequear todos los pares usuario/contraseña ya registrados.
 
 * **[formularios.py](https://github.com/FedeHC/FarmaApp/blob/master/formularios.py)**: este contiene a las siguientes clases:
   * **Login**: Clase que contiene los inputs necesarios para el formulario de login al ingresar al sitio.
   
   * **Registro**: Clase que hereda de Login y que contiene los inputs necesarios para el formulario de registro del sitio.
  
-  * **Cambio_Clave**: Clase que contiene los inputs necesarios para el formulario	de cambio de clave (cuando se está logueado como usuario).
+  * **Cambio_Clave**: Clase que contiene los inputs necesarios para el formulario de cambio de clave (cuando se está logueado como usuario).
 
-  * **Busqueda**: Clase que contiene los inputs necesarios para el formulario	de búsqueda (usado en 2 de las 4 consultas que el sitio brinda).
+  * **Busqueda**: Clase que contiene los inputs necesarios para el formulario de búsqueda (usado en 2 de las 4 consultas que el sitio brinda).
 
-  *  **Traer**: Clase que contiene los inputs necesarios para el formulario	de cantidad a traer (usado en las otras 2 consultas restantes que el sitio brinda).
+  *  **Traer**: Clase que contiene los inputs necesarios para el formulario de cantidad a traer (usado en las otras 2 consultas restantes que el sitio brinda).
   
   *  **Local**: Clase que contiene solamente el submit necesario para exportar los resultados a un archivo CSV.
 
@@ -81,11 +81,11 @@ También desde la misma barra de navegación se puede ver en el extremo derecho 
 * **[archivo.csv](https://github.com/FedeHC/FarmaApp/blob/master/csv/archivo.csv):** El fichero de texto plano que contiene toda la información de las ventas realizadas, divididos en campos 5 separados por coma.
 La primera fila debe indicar siempre los campos (el orden puede variar y no originará ningún problema) y siempre deberán ser cinco.
 
-	* Código
-	* Cliente
-	* Producto
-	* Cantidad
-	* Precio
+  * Código
+  * Cliente
+  * Producto
+  * Cantidad
+  * Precio
 
 En caso de que el CSV vengan con campos vacíos o con valores que no correspondan al campo en cuestión, se generará errores que la aplicación notificará en la sección de inicio de usuario.
 
@@ -93,11 +93,11 @@ En caso de que el CSV vengan con campos vacíos o con valores que no corresponda
 
 #### [En carpeta resultados]
 
-En esta carpeta solo se guardan temporalmente los archivos CSV originados por las consultas descargadas. Su contenido se borrará por completo cuando el usuario se deslogué del sistema.
+En esta carpeta solo se guardan temporalmente los archivos CSV originados por las consultas descargadas. Su contenido se borrará por completo cuando el usuario se desloguee del sistema.
 
 #### [En carpeta templates]
 
-* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar y la division contenedora principal del sitio. Se usa justamente de base para todos los restantes templates. El navbar en si variará su contenido de acuerdo a si existe un user logueado o no. En caso de haberlo, mostrará los links con las distintas consultas disponibles y el nombre del usuario logueado (con la opción de cambiar de clave y la opción de salir).
+* **[base.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/base.html):** Contiene el navbar y la división contenedora principal del sitio. Se usa justamente de base para todos los restantes templates. El navbar en si variará su contenido de acuerdo a si existe un user logueado o no. En caso de haberlo, mostrará los links con las distintas consultas disponibles y el nombre del usuario logueado (con la opción de cambiar de clave y la opción de salir).
     
 
 * **[inicio.html](https://github.com/FedeHC/FarmaApp/blob/master/templates/inicio.html):** Contiene el formulario de logueo para ingresar al sitio.

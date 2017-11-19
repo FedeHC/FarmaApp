@@ -352,7 +352,7 @@ def pmv():
 			# Si no hubo problemas se descargan los resultados en un CSV:
 			import datetime as dt
 			fecha = dt.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
-			titulo = "[Consulta: Producto más vendidos] [Usuario: {}] [Fecha: {}]".format(session["user"], fecha)
+			titulo = "[Consulta: Productos más vendidos] [Usuario: {}] [Fecha: {}]".format(session["user"], fecha)
 			
 			exportar = guardar.Exportar(RUTA)
 			exp_ok = exportar.local(pmv.resultados, titulo)

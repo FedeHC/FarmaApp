@@ -23,6 +23,7 @@ RUTA = ""
 ERROR = RUTA + "error.log"
 ARC_CSV = RUTA + "csv/archivo.csv"
 USER_CLAVE = RUTA + "csv/usuario_clave.csv"
+TEMP = "csv/resultados/"
 
 
 # App.config:
@@ -218,7 +219,7 @@ def pxc():
 			fecha = dt.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
 			titulo = "[Consulta: Productos por Cliente] [Usuario: {}] [Fecha: {}]".format(session["user"], fecha)
 			
-			exportar = guardar.Exportar(RUTA)
+			exportar = guardar.Exportar(RUTA + TEMP)
 			exp_ok = exportar.local(pxc.resultados, titulo)
 
 			# Si se pudo crear CSV:
@@ -295,7 +296,7 @@ def cxp():
 			fecha = dt.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
 			titulo = "[Consulta: Clientes por Producto] [Usuario: {}] [Fecha: {}]".format(session["user"], fecha)
 			
-			exportar = guardar.Exportar(RUTA)
+			exportar = guardar.Exportar(RUTA + TEMP)
 			exp_ok = exportar.local(cxp.resultados, titulo)
 
 			# Si se pudo crear CSV:
@@ -359,7 +360,7 @@ def pmv():
 			fecha = dt.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
 			titulo = "[Consulta: Productos más vendidos] [Usuario: {}] [Fecha: {}]".format(session["user"], fecha)
 			
-			exportar = guardar.Exportar(RUTA)
+			exportar = guardar.Exportar(RUTA + TEMP)
 			exp_ok = exportar.local(pmv.resultados, titulo)
 
 			# Si se pudo crear CSV:
@@ -421,7 +422,7 @@ def cmg():
 			fecha = dt.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")
 			titulo = "[Consulta: Clientes que más gastaron] [Usuario: {}] [Fecha: {}]".format(session["user"], fecha)
 			
-			exportar = guardar.Exportar(RUTA)
+			exportar = guardar.Exportar(RUTA + TEMP)
 			exp_ok = exportar.local(cmg.resultados, titulo)
 
 			# Si se pudo crear CSV:
@@ -546,7 +547,7 @@ def salir():
 		# Borrando todos los archivos CSV en carpeta resultados:
 		import sys, os
 
-		directorio = RUTA + "csv/resultados/"
+		directorio = RUTA + TEMP
 		todos_archivos = os.listdir(directorio)
 
 		for archivo in todos_archivos:

@@ -46,7 +46,7 @@ class Busqueda(FlaskForm):
 
 class Traer(FlaskForm):
 	""" Clase que contiene los inputs necesarios para el formulario	de cantidad a traer (usado en
-	2 de las 4 consultas que el sitio brinda). """
+	las otras 2 consultas restantes que el sitio brinda). """
 
 	buscar = IntegerField(validators=[InputRequired()])
 	submit = SubmitField()

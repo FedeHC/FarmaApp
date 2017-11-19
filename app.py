@@ -143,6 +143,10 @@ def usuario():
 
 		# Chequeando que validación del CSV haya sido correcta:
 		if consulta.csv.ok:
+
+			# Borrando variable de error, si aún estaba fijada:
+			session.pop("error_csv", None)
+
 			CANTIDAD=5
 			resultados, nro_filas = consulta.ultimos_resultados(CANTIDAD)
 	
@@ -154,7 +158,8 @@ def usuario():
 
 		# En caso de que el CSV no se haya validado correctamente:
 		else:
-			error = "Hubo errores durante la validación del CSV (chequear log)"
+			session["error_csv"] = True
+			error = "Surgieron errores durante la validación del CSV"
 			return render_template("usuario.html",
 									usuario=True,
 									error=error,
@@ -541,7 +546,7 @@ def salir():
 		# Borrando todos los archivos CSV en carpeta resultados:
 		import sys, os
 
-		directorio = RUTA + "resultados/"
+		directorio = RUTA + "csv/resultados/"
 		todos_archivos = os.listdir(directorio)
 
 		for archivo in todos_archivos:

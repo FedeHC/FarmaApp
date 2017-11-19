@@ -10,11 +10,12 @@
 		{# SI hubo errores durante la validación del CSV... #}
 
 		{% if error: %}
-		<h1 class="titulo">Hubo un problema:</h1>
 		<h4><span class="label label-danger">{{ error }}</span></h4>
-		<br><br>
-		<p>Mostrando mensajes de error*:</p>
+		<h1 class="titulo">Opss.</h1>
+		<p>Va a ser necesario corregir estos errores si se quiere continuar con las consultas</p>
+		<p>(los links a éstas mismas estarán presentes pero desactivados).</p>
 		<br>
+		<p><i>Mostrando mensajes de <b>error.log</b></i>:</p>
 
 		<div class="table-responsive">
 		<table class="table table-hover table-striped">
@@ -34,7 +35,6 @@
 		</table>
 		</div>
 		<br>
-		<p><i>* Todos estos mensajes se encuentran registrados en el log.</i></p>
 
 		{% else: %}
 		{# Si en cambio la validación del CSV fue correcta... #}

@@ -47,10 +47,10 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li><a {% if usuario %} class="active" {% endif %} href="/usuario" active><strong>Inicio</strong></a></li>
-				<li><a {% if busqueda_pxc %} class="active" {% endif %} href="/clientes">Productos <strong>por cliente</strong></a></li>
-				<li><a {% if busqueda_cxp %} class="active" {% endif %} href="/productos">Clientes <strong>por productos</strong></a></li>
-				<li><a {% if traer_pmv %} class="active" {% endif %} href="/masvendidos">Productos <strong>más vendidos</strong></a></li>
-				<li><a {% if traer_cmg %} class="active" {% endif %} href="/masgastaron">Clientes que <strong>más gastaron</strong></a></li>
+				<li><a {% if busqueda_pxc %} class="active" {% endif %} {% if not session["error_csv"] %} href="/clientes" {% endif %}>Productos <strong>por cliente</strong></a></li>
+				<li><a {% if busqueda_cxp %} class="active" {% endif %} {% if not session["error_csv"] %} href="/productos" {% endif %}>Clientes <strong>por productos</strong></a></li>
+				<li><a {% if traer_pmv %} class="active" {% endif %} {% if not session["error_csv"] %} href="/masvendidos" {% endif %}>Productos <strong>más vendidos</strong></a></li>
+				<li><a {% if traer_cmg %} class="active" {% endif %} {% if not session["error_csv"] %} href="/masgastaron" {% endif %}>Clientes que <strong>más gastaron</strong></a></li>
 			</ul>
 
 			<ul class="nav navbar-right navbar-nav">

@@ -21,8 +21,8 @@ class Exportar():
 		# Variable de estado:
 		self.ok = None
 
-		# Le añadimos la carpeta 'resultados' a la ruta recibida como parámetro:
-		self.ruta = ruta + "resultados/"
+		# Le añadimos la carpeta 'csv/resultados' a la ruta recibida como parámetro:
+		self.ruta = ruta + "csv/resultados/"
 
 		# Generando ruta y nombre de archivo con fecha y hora actual:
 		self.nombre_archivo = "resultados_" + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + ".csv" 

@@ -91,9 +91,8 @@ En caso de que el CSV vengan con campos vacíos o con valores que no corresponda
 
 * **[usuario_clave.csv](https://github.com/FedeHC/FarmaApp/blob/master/csv/usuario_clave.csv):** El ya mencionado archivo en donde se guardan los pares usuario/clave correspondientes.
 
-#### [En carpeta resultados]
 
-En esta carpeta solo se guardan temporalmente los archivos CSV originados por las consultas descargadas. Su contenido se borrará por completo cuando el usuario se desloguee del sistema.
+* **[Carpeta resultados](https://github.com/FedeHC/FarmaApp/blob/master/csv/resultados):** En esta carpeta solo se guardan temporalmente los archivos CSV originados por las consultas descargadas. Su contenido se borrará por completo cuando el usuario se desloguee del sistema.
 
 #### [En carpeta templates]
 

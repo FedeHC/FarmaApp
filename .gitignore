@@ -104,4 +104,5 @@ ENV/
 __pycache__
 correr
 error.log
-FarmaApp.sublime-project
+*.sublime-project
+*.sublime-workspace

@@ -2,8 +2,8 @@
 
 Aplicación web realizada como trabajo de final para las materias de [Paradigmas de Programación](http://leo.bitson.com.ar/ifts/par/) y [Estructura de datos](http://leo.bitson.com.ar/ifts/edd/), ambas materias de 1° año de la *[Tec. Sup. de Analista de Sistemas](http://www.ifts18.edu.ar/plan-de-estudios)* del [IFTS N°18](http://www.ifts18.edu.ar/).
 
-* *Alumno: **Federico H. Cacace**.*
-* *Profesor: **Leandro E. Colombo Viña**.*
+* *Alumno: **Federico H. C.**.*
+* *Profesor: **Leandro C. V.**.*
 
 ![Imagen](https://raw.githubusercontent.com/FedeHC/fedehc.github.io/master/images/web3.jpg)
 

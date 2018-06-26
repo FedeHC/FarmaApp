@@ -27,10 +27,10 @@ TEMP = "csv/resultados/"
 
 
 # App.config:
-app.config["SECRET_KEY"] = "UnaClaveSecreta"			# Clave random para formularios de Flask-WTF.
-app.config["BOOTSTRAP_SERVE_LOCAL"] = True 				# Para activar versión local de Bootstrap.
+app.config["SECRET_KEY"] = "UnaClaveSecreta"					# Clave random para formularios de Flask-WTF.
+app.config["BOOTSTRAP_SERVE_LOCAL"] = True 						# Para activar versión local de Bootstrap.
 app.config["BOOTSTRAP_QUERYSTRING_REVVING"] = False		# Para quitar el "?bootstrap=..." cuando se
-														# buscan los archivos de bootstrap locales.
+																											# buscan los archivos de bootstrap locales.
 
 # App.extensions:
 app.extensions['bootstrap']['cdns']['jquery'] = StaticCDN()	# Para poder usar archivo jQuery local.

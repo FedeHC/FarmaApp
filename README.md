@@ -5,7 +5,7 @@ Aplicación web realizada como trabajo de final para las materias de [Paradigmas
 * *Alumno: **Federico H. C.***
 * *Profesor: **Leandro C. V.***
 
-![Imagen](https://raw.githubusercontent.com/FedeHC/fedehc.github.io/master/images/web3.jpg)
+![Imagen](https://i.imgur.com/iqwjMnf.jpg)
 
 ## Informe
 
